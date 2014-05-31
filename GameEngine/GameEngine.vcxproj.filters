@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Math">
+      <UniqueIdentifier>{84ce0a53-953f-4b10-9729-69b042cf5195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{928f0d4a-05f5-42c0-80da-d617f123ccb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{e1c8270e-5aec-4c6f-a8e9-f6d3669e62ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{8facf2a6-3515-4e4b-a189-e68dce25625b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{75f6e871-d7b3-480f-9065-f603f5067c48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{22cc5d6f-bc80-4e6c-b6c5-17002e16086d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{ff42a9a7-0e32-4e00-967f-ebd1b8e90cd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{1029fdab-b0c4-4dd7-a3d8-320154415b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{a85bcef3-7a84-4e12-9582-37c27d67e140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DX11">
+      <UniqueIdentifier>{ec2a302e-65e4-4982-99c1-e46ac42a580a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DX11\Other">
+      <UniqueIdentifier>{37494efa-d3ae-413a-8470-e3ff81073a4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DX11\Resources">
+      <UniqueIdentifier>{e60fc66e-7481-44ae-be20-7f0fbf0b91ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DX11\Stages">
+      <UniqueIdentifier>{ab128384-2f9c-44a1-b9dd-7a97ef4ba928}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DX11\States">
+      <UniqueIdentifier>{a53ded63-3b64-4fb3-94e9-2ec7c82fde04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Geometry">
+      <UniqueIdentifier>{ff423ae4-ac9c-49ae-b15a-c0df137264f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Entities">
+      <UniqueIdentifier>{674de918-9f2e-4af9-978b-61fffb3d62a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Representations">
+      <UniqueIdentifier>{077aeea8-7b1a-4ed6-ae18-f1cb2e65c8e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Cameras">
+      <UniqueIdentifier>{f95e12b5-0873-4d71-9489-d1fa53b2cb5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Lights">
+      <UniqueIdentifier>{e4337371-0228-4b8b-b3c4-0b33e779e9ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Meshes">
+      <UniqueIdentifier>{5dae4ef8-6a5b-4f57-ae58-f96922abbe78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Other">
+      <UniqueIdentifier>{f9398903-9510-474e-bbc5-f6f1f6c2af51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Shaders">
+      <UniqueIdentifier>{9a4272b3-11f3-4c62-9137-3a4dbb971f42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DX11\Resources\Views">
+      <UniqueIdentifier>{63fd5f56-928b-4ebe-82aa-d0cbebd25001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameStateMachine">
+      <UniqueIdentifier>{b53fdb49-eca5-4a71-943a-4873faf011d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager">
+      <UniqueIdentifier>{b07a363e-d1b1-459f-8a55-c385fb500aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\Windows">
+      <UniqueIdentifier>{e2e43117-cbae-4a93-9fc9-bf4b425913b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DX11\Stages\Shaders">
+      <UniqueIdentifier>{fcdb78d1-887f-4b89-9d5f-189a98ff66b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DX11\Stages\Fixed">
+      <UniqueIdentifier>{511f2a49-f4a8-4054-ac42-023d232fc0e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Help">
+      <UniqueIdentifier>{b02d2244-7db8-4f90-802b-3fa3df93a9b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Help\Strings">
+      <UniqueIdentifier>{91c689a3-e2e3-4422-a81e-2b0b30778359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileStream">
+      <UniqueIdentifier>{e912939b-4fb5-46d2-a3d8-a0d8fbe3fb02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Messenger">
+      <UniqueIdentifier>{30e34baa-5d1c-4586-bf39-f071291e7003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileStream\XML">
+      <UniqueIdentifier>{1c838c36-8189-4275-87f4-1eb41b5cadb9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Math\float3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Vector.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Matrix.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\App.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Quaternion.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Math.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\DualNumbers.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\IGame.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Timer.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\TiledRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Geometry\Frustum.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Geometry\Plane.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\PhysicsInterfaces.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\NullPhysics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\General.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\DX11\Other\Viewport.h">
+      <Filter>Graphics\DX11\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core.h" />
+    <ClInclude Include="Source\Game\Entities\Entity.h">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Representation.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Root.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Cameras\Camera.h">
+      <Filter>Renderer\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Lights\Light.h">
+      <Filter>Renderer\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Meshes\Mesh.h">
+      <Filter>Renderer\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Views\RenderTargetView.h">
+      <Filter>Graphics\DX11\Resources\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Views\UnorderedAccessView.h">
+      <Filter>Graphics\DX11\Resources\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Views\DepthStencilView.h">
+      <Filter>Graphics\DX11\Resources\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Views\ShaderResourceView.h">
+      <Filter>Graphics\DX11\Resources\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager\Resource.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager\ResourceCache.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager\ResourceLoader.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager\ResourceFile.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager\Windows\ResourceDirectory.h">
+      <Filter>ResourceManager\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Stages\Fixed\InputAssembler.h">
+      <Filter>Graphics\DX11\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Devices.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Controllers.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\DynamicRepresentation.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Help\Strings\Strings.h">
+      <Filter>Help\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\RenderQueue.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Entities\EntityResource.h">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Application\App.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Timer.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\TiledRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\Geometry\Frustum.cpp">
+      <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\Geometry\Plane.cpp">
+      <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\General.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core.cpp" />
+    <ClCompile Include="Source\Game\Entities\Entity.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Representation.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Root.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Cameras\Camera.cpp">
+      <Filter>Renderer\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager\Resource.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager\ResourceCache.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager\Windows\ResourceDirectory.cpp">
+      <Filter>ResourceManager\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\DynamicRepresentation.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Help\Strings\Strings.cpp">
+      <Filter>Help\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\RenderQueue.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

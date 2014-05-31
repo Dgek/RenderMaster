@@ -1,0 +1,70 @@
+#pragma once
+
+class DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
+{
+public:
+	__forceinline DepthStencilViewParams() = default;
+
+	__forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
+
+	__forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
+};
+
+__forceinline void DepthStencilViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
+{
+	Format = format;
+	Texture2D.MipSlice = mipslice;
+
+	ViewDimension = multiSampled ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+}
+
+__forceinline void DepthStencilViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
+{
+	Format = format;
+
+	if (multiSampled)
+	{
+		ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
+		Texture2DMSArray.ArraySize = arraySize;
+		Texture2DMSArray.MipSlice = mipslice;
+		Texture2DMSArray.FirstArraySlice = firstArraySlice;
+	}
+	else
+	{
+		ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
+		Texture2DArray.ArraySize = arraySize;
+		Texture2DArray.MipSlice = mipslice;
+		Texture2DArray.FirstArraySlice = firstArraySlice;
+	}
+}
+
+
+class DepthStencilView
+{
+private:
+	ID3D11DepthStencilView* m_pView;
+
+public:
+
+	__forceinline DepthStencilView();
+
+	__forceinline ~DepthStencilView();
+
+
+	/*** Getters ***/
+	__forceinline ID3D11DepthStencilView const ** GetView() const;
+};
+
+__forceinline DepthStencilView::DepthStencilView()
+	: m_pView{ nullptr }
+{}
+
+__forceinline DepthStencilView::~DepthStencilView()
+{
+	SAFE_RELEASE(m_pView);
+}
+
+__forceinline ID3D11DepthStencilView const ** DepthStencilView::GetView() const
+{
+	return &m_pView;
+}
