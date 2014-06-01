@@ -103,6 +103,9 @@
     <Filter Include="FileStream\XML">
       <UniqueIdentifier>{1c838c36-8189-4275-87f4-1eb41b5cadb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\DX11\Resources\Buffers">
+      <UniqueIdentifier>{6b882d1e-6343-4243-b4bd-8abd1eab4959}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Math\float3.h">
@@ -125,9 +128,6 @@
     </ClInclude>
     <ClInclude Include="Math\DualNumbers.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\IGame.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Application\Timer.h">
       <Filter>Application</Filter>
@@ -202,9 +202,6 @@
     <ClInclude Include="Source\ResourceManager\Windows\ResourceDirectory.h">
       <Filter>ResourceManager\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Stages\Fixed\InputAssembler.h">
-      <Filter>Graphics\DX11\States</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene\Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -220,14 +217,89 @@
     <ClInclude Include="Source\Help\Strings\Strings.h">
       <Filter>Help\Strings</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Game.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Renderer\RenderQueue.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Entities\EntityResource.h">
       <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FileStream\XML\tinystr.h">
+      <Filter>FileStream\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FileStream\XML\tinyxml.h">
+      <Filter>FileStream\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameStateMachine\StateMachine.h">
+      <Filter>Game\GameStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameStateMachine\State.h">
+      <Filter>Game\GameStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameStateMachine\StateFactory.h">
+      <Filter>Game\GameStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\System.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Views.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Widget.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\BlendState.h">
+      <Filter>Graphics\DX11\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\DepthStencilState.h">
+      <Filter>Graphics\DX11\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\RasterizerState.h">
+      <Filter>Graphics\DX11\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\SamplerState.h">
+      <Filter>Graphics\DX11\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Stages\Fixed\InputAssembler.h">
+      <Filter>Graphics\DX11\Stages\Fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Buffers\Buffers.h">
+      <Filter>Graphics\DX11\Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Buffers\ConstantBuffer.h">
+      <Filter>Graphics\DX11\Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Buffers\IndexBuffer.h">
+      <Filter>Graphics\DX11\Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Buffers\VertexBuffer.h">
+      <Filter>Graphics\DX11\Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Buffers\StructuredBuffer.h">
+      <Filter>Graphics\DX11\Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\Shaders\VertexShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\Shaders\HullShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\Shaders\DomainShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\Shaders\GeometryShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\Shaders\PixelShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\States\Shaders\ComputeShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Entities\EntityManager.h">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Game.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -289,5 +361,42 @@
     <ClCompile Include="Source\Renderer\RenderQueue.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Source\FileStream\XML\tinystr.cpp">
+      <Filter>FileStream\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FileStream\XML\tinyxml.cpp">
+      <Filter>FileStream\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FileStream\XML\tinyxmlerror.cpp">
+      <Filter>FileStream\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FileStream\XML\tinyxmlparser.cpp">
+      <Filter>FileStream\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Entities\EntityManager.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Source\Renderer\Shaders\LightCulling.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Renderer\Shaders\tiled_shading_vs.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Renderer\Shaders\tiled_shading_ps.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Renderer\Shaders\prepass_vs.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Renderer\Shaders\prepass_ps.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Renderer\Shaders\ShadingParams.hlsli">
+      <Filter>Renderer\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

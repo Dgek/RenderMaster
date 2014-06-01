@@ -80,6 +80,11 @@
   <ItemGroup>
     <ClCompile Include="Source\winmain.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Game\RenderingDemo.h" />
+    <ClInclude Include="Source\Game\States\TestState.h" />
+    <ClInclude Include="Source\RenderDemo.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

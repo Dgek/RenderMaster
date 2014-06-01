@@ -5,6 +5,7 @@
 //#include <D3DX10.h>
 
 #include <assert.h>
+#include <basetsd.h>
 #include <memory>
 #include <string>
 #include <wchar.h>
@@ -12,8 +13,10 @@
 
 #include <winerror.h>
 #include <Windows.h>
+#include <windowsx.h>
 
 #include <vector>
+#include <queue>
 #include <map>
 
 using namespace std;
@@ -25,11 +28,6 @@ using namespace std;
 #define SAMPLES_QUALITY 1
 
 #define INPUT_LAYOUT D3D11_INPUT_ELEMENT_DESC
-
-typedef unsigned int EntityId;
-typedef unsigned int EntityRepresentationId;
-typedef unsigned char Key;
-typedef map<string, int> ContentMap;
 
 /////////////////////////////////////////////////////
 //Bitwise macroses
@@ -73,3 +71,21 @@ typedef map<string, int> ContentMap;
 
 #define MEGABYTE (1024 * 1024)
 #define SIXTY_HERTZ (16.66f)
+
+typedef unsigned int EntityId;
+typedef unsigned int EntityRepresentationId;
+typedef unsigned char Key;
+typedef unsigned int StateId;
+typedef map<string, int> ContentMap;
+
+enum SystemMessageType
+{
+	SMT_Quit,
+	SMT_KeyDown,
+	SMT_KeyUp,
+	SMT_LMouseDown,
+	SMT_LMouseUp,
+	SMT_RMouseDown,
+	SMT_RMouseUp,
+	SMT_MouseMove,
+};

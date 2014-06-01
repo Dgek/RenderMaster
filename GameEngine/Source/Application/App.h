@@ -1,11 +1,10 @@
 #pragma once
 
-#include <memory>
-#include <Windows.h>
+#include "System.h"
 
 using namespace std;
 
-class IGame;
+class Game;
 class IPhysics;
 class IMessenger;
 class Renderer;
@@ -14,7 +13,7 @@ class Timer;
 class App
 {
 public:
-	unique_ptr<IGame> m_pGame;
+	unique_ptr<Game> m_pGame;
 	unique_ptr<Timer> m_pTimer;
 
 	unique_ptr<IPhysics> m_pPhysics;
@@ -26,14 +25,21 @@ private:
 	*/
 	HWND m_hWnd;
 	HINSTANCE m_hInstance;
+	LPCTSTR m_windowClassName;
 	bool m_bWindowed;
 	int m_width;
 	int m_height;
+
+	/* Timing */
+	double m_lastUpdate;
+	double m_timeStep;
 
 	/** 
 	Other data
 	*/
 	bool m_bQuitting;
+
+	queue<SystemMessage> m_messageQueue;
 
 public:
 	App();
@@ -44,13 +50,27 @@ public:
 	void InitializeComponents(unique_ptr<Renderer> pRenderer, unique_ptr<IPhysics> pPhysics, unique_ptr<IMessenger> pMessenger, unique_ptr<ResourceCache> pCache);
 
 	void InitializeWindow(HINSTANCE hInstance, int showWnd, bool isWindowed);
-	void InitializeGame(unique_ptr<IGame> pGame);
+	void InitializeGame(unique_ptr<Game> pGame);
+
+	bool MsgProc(const SystemMessage & msg);
 
 	void Update(double totaltime, double elapsedtime);
 	void Render(double totaltime, double elapsedtime);
 
+	/*============================================
+	//Application main loop
+	=============================================*/
+	int Run();
+
+	/*============================================
+	//Application Shut Down
+	=============================================*/
+	void Close();
+
 	__forceinline double GetTimeStep() const;
 	__forceinline double GetGameTime() const;
+
+	static LRESULT CALLBACK WndProc(HWND hWnd, unsigned int msg, WPARAM wParam, LPARAM lParam);
 };
 
 __forceinline double App::GetTimeStep() const

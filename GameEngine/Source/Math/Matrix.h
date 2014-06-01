@@ -38,7 +38,7 @@ __forceinline Mat4x4 & Mat4x4::operator*=(const Mat4x4 & other)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; i < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			m[i][j] *= other.m[i][j];
 		}
@@ -51,7 +51,7 @@ __forceinline Mat4x4 & Mat4x4::operator+=(const Mat4x4 & other)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; i < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			m[i][j] += other.m[i][j];
 		}
@@ -64,7 +64,7 @@ __forceinline Mat4x4 & Mat4x4::operator-=(const Mat4x4 & other)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; i < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			m[i][j] -= other.m[i][j];
 		}
@@ -77,7 +77,7 @@ __forceinline Mat4x4 & Mat4x4::operator*=(float other)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; i < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			m[i][j] *= other;
 		}
@@ -114,7 +114,7 @@ __forceinline bool Mat4x4::operator==(const Mat4x4 & other) const
 {
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; i < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			if (m[i][j] != other.m[i][j])
 			{
@@ -130,7 +130,7 @@ __forceinline bool Mat4x4::operator!=(const Mat4x4 & other) const
 {
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; i < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			if (m[i][j] != other.m[i][j])
 			{

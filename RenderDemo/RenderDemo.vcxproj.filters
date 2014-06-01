@@ -3,4 +3,24 @@
   <ItemGroup>
     <ClCompile Include="Source\winmain.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\RenderDemo.h" />
+    <ClInclude Include="Source\Game\RenderingDemo.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\States\TestState.h">
+      <Filter>Game\States</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Game">
+      <UniqueIdentifier>{046783fc-4d80-4f39-89fc-49dc87de80d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\States">
+      <UniqueIdentifier>{84ee5d38-a0d1-4bf5-b0fe-6a9278b1238d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{f91b4b8e-4d28-46de-bec7-892eb36ae740}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>

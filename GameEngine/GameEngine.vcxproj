@@ -80,19 +80,42 @@
   <ItemGroup>
     <ClInclude Include="Math\DualNumbers.h" />
     <ClInclude Include="Source\Application\App.h" />
+    <ClInclude Include="Source\Application\System.h" />
     <ClInclude Include="Source\Application\Timer.h" />
     <ClInclude Include="Source\Core.h" />
+    <ClInclude Include="Source\FileStream\XML\tinystr.h" />
+    <ClInclude Include="Source\FileStream\XML\tinyxml.h" />
     <ClInclude Include="Source\Game\Entities\Entity.h" />
+    <ClInclude Include="Source\Game\Entities\EntityManager.h" />
     <ClInclude Include="Source\Game\Entities\EntityResource.h" />
+    <ClInclude Include="Source\Game\GameStateMachine\State.h" />
+    <ClInclude Include="Source\Game\GameStateMachine\StateFactory.h" />
+    <ClInclude Include="Source\Game\GameStateMachine\StateMachine.h" />
     <ClInclude Include="Source\Game\Game.h" />
-    <ClInclude Include="Source\Game\IGame.h" />
+    <ClInclude Include="Source\Game\Views.h" />
+    <ClInclude Include="Source\Game\Widget.h" />
     <ClInclude Include="Source\Graphics\DX11\Other\Viewport.h" />
     <ClInclude Include="Source\Graphics\General.h" />
+    <ClInclude Include="Source\Graphics\Resources\Buffers\Buffers.h" />
+    <ClInclude Include="Source\Graphics\Resources\Buffers\ConstantBuffer.h" />
+    <ClInclude Include="Source\Graphics\Resources\Buffers\IndexBuffer.h" />
+    <ClInclude Include="Source\Graphics\Resources\Buffers\StructuredBuffer.h" />
+    <ClInclude Include="Source\Graphics\Resources\Buffers\VertexBuffer.h" />
     <ClInclude Include="Source\Graphics\Resources\Views\DepthStencilView.h" />
     <ClInclude Include="Source\Graphics\Resources\Views\RenderTargetView.h" />
     <ClInclude Include="Source\Graphics\Resources\Views\ShaderResourceView.h" />
     <ClInclude Include="Source\Graphics\Resources\Views\UnorderedAccessView.h" />
     <ClInclude Include="Source\Graphics\Stages\Fixed\InputAssembler.h" />
+    <ClInclude Include="Source\Graphics\States\BlendState.h" />
+    <ClInclude Include="Source\Graphics\States\DepthStencilState.h" />
+    <ClInclude Include="Source\Graphics\States\RasterizerState.h" />
+    <ClInclude Include="Source\Graphics\States\SamplerState.h" />
+    <ClInclude Include="Source\Graphics\States\Shaders\ComputeShader.h" />
+    <ClInclude Include="Source\Graphics\States\Shaders\DomainShader.h" />
+    <ClInclude Include="Source\Graphics\States\Shaders\GeometryShader.h" />
+    <ClInclude Include="Source\Graphics\States\Shaders\HullShader.h" />
+    <ClInclude Include="Source\Graphics\States\Shaders\PixelShader.h" />
+    <ClInclude Include="Source\Graphics\States\Shaders\VertexShader.h" />
     <ClInclude Include="Source\Help\Strings\Strings.h" />
     <ClInclude Include="Source\Input\Controllers.h" />
     <ClInclude Include="Source\Input\Devices.h" />
@@ -127,7 +150,12 @@
     <ClCompile Include="Source\Core.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\FileStream\XML\tinystr.cpp" />
+    <ClCompile Include="Source\FileStream\XML\tinyxml.cpp" />
+    <ClCompile Include="Source\FileStream\XML\tinyxmlerror.cpp" />
+    <ClCompile Include="Source\FileStream\XML\tinyxmlparser.cpp" />
     <ClCompile Include="Source\Game\Entities\Entity.cpp" />
+    <ClCompile Include="Source\Game\Entities\EntityManager.cpp" />
     <ClCompile Include="Source\Game\Game.cpp" />
     <ClCompile Include="Source\Graphics\General.cpp" />
     <ClCompile Include="Source\Help\Strings\Strings.cpp" />
@@ -144,6 +172,37 @@
     <ClCompile Include="Source\Scene\Representation.cpp" />
     <ClCompile Include="Source\Scene\Root.cpp" />
     <ClCompile Include="Source\Scene\Scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Source\Renderer\Shaders\LightCulling.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">light_culling_cs</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">light_culling_cs</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Source\Renderer\Shaders\prepass_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\Renderer\Shaders\prepass_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\Renderer\Shaders\tiled_shading_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Source\Renderer\Shaders\tiled_shading_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Renderer\Shaders\ShadingParams.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
