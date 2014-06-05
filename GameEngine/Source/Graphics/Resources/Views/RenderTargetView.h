@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../General.h"
+
 class RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
 {
 public:

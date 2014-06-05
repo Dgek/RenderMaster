@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../General.h"
+
 class ShaderResourceViewParams : public D3D11_SHADER_RESOURCE_VIEW_DESC
 {
 public:
@@ -26,7 +28,7 @@ __forceinline void ShaderResourceViewParams::InitForTexture2DArray(int arraySize
 {
 	Format = format;
 
-	if (multisampled)
+	if (multiSampled)
 	{
 		ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMSARRAY;
 		Texture2DMSArray.ArraySize = arraySize;
@@ -49,7 +51,7 @@ __forceinline void ShaderResourceViewParams::InitForCubeTexture(DXGI_FORMAT form
 }
 __forceinline void ShaderResourceViewParams::InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int elementWidth)
 {
-	Format = format
+	Format = format;
 	Buffer.FirstElement = 0;
 	Buffer.NumElements = elementWidth;
 	ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
@@ -101,19 +103,19 @@ __forceinline void ShaderResourceView::Bind(int slot, ShaderType type) const
 	switch (type)
 	{
 	case ST_Vertex:
-		D3D11DeviceContext()->VSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->VSSetShaderResources(slot, m_numViews, m_ppViews);
 		break;
 	case ST_Domain:
-		D3D11DeviceContext()->DSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->DSSetShaderResources(slot, m_numViews, m_ppViews);
 		break;
 	case ST_Geometry:
-		D3D11DeviceContext()->GSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->GSSetShaderResources(slot, m_numViews, m_ppViews);
 		break;
 	case ST_Pixel:
-		D3D11DeviceContext()->PSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->PSSetShaderResources(slot, m_numViews, m_ppViews);
 		break;
 	case ST_Compute:
-		D3D11DeviceContext()->CSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->CSSetShaderResources(slot, m_numViews, m_ppViews);
 	default:
 		break;
 	};
@@ -123,19 +125,19 @@ __forceinline void ShaderResourceView::BindView(int index, int slot, ShaderType 
 	switch (type)
 	{
 	case ST_Vertex:
-		D3D11DeviceContext()->VSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->VSSetShaderResources(slot, m_numViews, m_ppViews);
 		break;
 	case ST_Domain:
-		D3D11DeviceContext()->DSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->DSSetShaderResources(slot, m_numViews, m_ppViews);
 		break;
 	case ST_Geometry:
-		D3D11DeviceContext()->GSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->GSSetShaderResources(slot, m_numViews, m_ppViews);
 		break;
 	case ST_Pixel:
-		D3D11DeviceContext()->PSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->PSSetShaderResources(slot, m_numViews, m_ppViews);
 		break;
 	case ST_Compute:
-		D3D11DeviceContext()->CSSetShaderResources(slot, m_numViews, m_ppViews);
+		DX11API::D3D11DeviceContext()->CSSetShaderResources(slot, m_numViews, m_ppViews);
 	default:
 		break;
 	};

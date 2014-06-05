@@ -1,4 +1,7 @@
+#include "RenderDemo_pch.h"
+
 #include "App.h"
+#include "ResourceManager\ResourceCache.h"
 
 ////////////////////////////////////
 //Entry point for the application

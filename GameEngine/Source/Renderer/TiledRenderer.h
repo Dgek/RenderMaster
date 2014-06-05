@@ -12,8 +12,6 @@ protected:
 	void FinalShading();
 	void NullLightCounter();
 
-	/*** Voxelized Global Illumination Zone ***/
-
 public:
 
 	TiledRenderer();

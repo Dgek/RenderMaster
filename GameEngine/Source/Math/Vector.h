@@ -8,6 +8,14 @@ public:
 	//coordinates
 	float x, y, z, w;
 
+	static const Vec g_up4;
+	static const Vec g_right4;
+	static const Vec g_left4;
+	static const Vec g_forward4;
+	static const Vec g_back4;
+
+	__forceinline static Vec Normalize(const Vec & v);
+
 public:
 	/*
 	*Default Constructor
@@ -59,12 +67,25 @@ public:
 
 	bool operator!=(const Vec & v) const;
 
-	__forceinline Vec Normalize() const;
+	__forceinline const Vec & Normalize();
 
 	__forceinline float Length() const;
 
 	__forceinline Vec Reflect(const Vec & normal) const;
 };
+
+const Vec g_up4 = Vec{ 0.0f, 1.0f, 0.0f, 0.0f };
+const Vec g_right4 = Vec{ 1.0f, 0.0f, 0.0f, 0.0f };
+const Vec g_left4 = Vec{ -1.0f, 0.0f, 0.0f, 0.0f };
+const Vec g_forward4 = Vec{ 0.0f, 0.0f, 1.0f, 0.0f };
+const Vec g_back4 = Vec{ 0.0f, 0.0f, -1.0f, 0.0f };
+
+__forceinline Vec Vec::Normalize(const Vec & v)
+{
+	const float scale = Math::InvSqrt(v.x*v.x + v.y*v.y + v.z*v.z);
+
+	return Vec{ v.x * scale, v.y * scale, v.z * scale, v.w * scale };
+}
 
 __forceinline Vec::Vec(float inX, float inY, float inZ, float inW)
 	: x{ inX }, y{ inY }, z{ inZ }, w{ inW }
@@ -169,10 +190,16 @@ bool Vec::operator!=(const Vec & v) const
 	return ((x != v.x) || (y != v.y) || (z != v.z) || (w != v.w));
 }
 
-__forceinline Vec Vec::Normalize() const
+__forceinline const Vec & Vec::Normalize()
 {
 	const float scale = Math::InvSqrt(x*x + y*y + z*z);
-	return Vec{ x * scale, y * scale, z * scale, w * scale };
+
+	x *= scale;
+	y *= scale;
+	z *= scale;
+	w *= scale;
+
+	return *this;
 }
 
 __forceinline float Vec::Length() const

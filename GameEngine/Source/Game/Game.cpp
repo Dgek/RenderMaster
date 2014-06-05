@@ -69,7 +69,7 @@ void Game::SetStateFactory(StateFactory * pStateFactory)
 	m_pStateFactory = pStateFactory;
 }
 
-void Game::SetNextState(int i32StateId, INT_PTR uptrData)
+void Game::SetNextState(int i32StateId, UINT_PTR uptrData)
 {
 	m_ngsState.m_i32Id = i32StateId;
 	m_ngsState.m_uptrData = uptrData;

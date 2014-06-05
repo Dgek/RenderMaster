@@ -1,5 +1,13 @@
 #pragma once
 
+class ShaderResourceViewParams;
+class UnorderedAccessViewParams;
+class DepthStencilViewParams;
+class RenderTargetViewParams;
+class ShaderResourceView;
+class UnorderedAccessView;
+class DepthStencilView;
+class RenderTargetView;
 class ITexture
 {
 public:

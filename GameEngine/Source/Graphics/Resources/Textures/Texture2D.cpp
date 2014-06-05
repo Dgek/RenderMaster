@@ -2,73 +2,79 @@
 
 #include "Texture2D.h"
 
-ABOOL Anubis::Texture2D::CreateShaderResourceView(ShaderResourceViewDX11 & view,
-	const ShaderResourceViewParamsDX11 * params)	const
+#include "../Views/ShaderResourceView.h"
+#include "../Views/UnorderedAccessView.h"
+#include "../Views/DepthStencilView.h"
+#include "../Views/RenderTargetView.h"
+
+bool Texture2D::CreateShaderResourceView(ShaderResourceView & view,
+	const ShaderResourceViewParams & params) const
 {
-	HRESULT hr = D3D11Device()->CreateShaderResourceView(m_pTexture, params, &view.m_pView);
+	HRESULT hr = DX11API::D3D11Device()->CreateShaderResourceView(m_pTexture, &params, view.GetView(0));
 
 	VALID(hr);
 }
-ABOOL Anubis::Texture2D::CreateShaderResourceView(ID3D11ShaderResourceView** ppView,
-	const ShaderResourceViewParamsDX11 * params)	const
+bool Texture2D::CreateShaderResourceView(ID3D11ShaderResourceView** ppView,
+	const ShaderResourceViewParams & params) const
 {
-	HRESULT hr = D3D11Device()->CreateShaderResourceView(m_pTexture, params, ppView);
-
-	VALID(hr);
-}
-
-
-ABOOL Texture2D::CreateUnorderedAccessView(UnorderedAccessViewDX11 & view,
-	const UnorderedAccessViewParamsDX11 * params)	const
-{
-	HRESULT hr = D3D11Device()->CreateUnorderedAccessView(m_pTexture, params, &view.m_pView);
-
-	VALID(hr);
-}
-ABOOL Texture2D::CreateUnorderedAccessView(ID3D11UnorderedAccessView** ppView,
-	const UnorderedAccessViewParamsDX11 * params)	const
-{
-	HRESULT hr = D3D11Device()->CreateUnorderedAccessView(m_pTexture, params, ppView);
+	HRESULT hr = DX11API::D3D11Device()->CreateShaderResourceView(m_pTexture, &params, ppView);
 
 	VALID(hr);
 }
 
 
-ABOOL Texture2D::CreateRenderTargetView(RenderTargetViewDX11 & view,
-	const RenderTargetViewParamsDX11 * params)		const
+bool Texture2D::CreateUnorderedAccessView(UnorderedAccessView & view,
+	const UnorderedAccessViewParams & params) const
 {
-	HRESULT hr = D3D11Device()->CreateRenderTargetView(m_pTexture, params, &view.m_pView);
+	HRESULT hr = DX11API::D3D11Device()->CreateUnorderedAccessView(m_pTexture, &params, view.GetView(0));
+
+	VALID(hr);
+}
+bool Texture2D::CreateUnorderedAccessView(ID3D11UnorderedAccessView** ppView,
+	const UnorderedAccessViewParams & params) const
+{
+	HRESULT hr = DX11API::D3D11Device()->CreateUnorderedAccessView(m_pTexture, &params, ppView);
 
 	VALID(hr);
 }
 
-ABOOL Texture2D::CreateRenderTargetView(ID3D11RenderTargetView** ppView,
-	const RenderTargetViewParamsDX11 * params)		const
+
+bool Texture2D::CreateRenderTargetView(RenderTargetView & view,
+	const RenderTargetViewParams & params) const
 {
-	HRESULT hr = D3D11Device()->CreateRenderTargetView(m_pTexture, params, ppView);
+	HRESULT hr = DX11API::D3D11Device()->CreateRenderTargetView(m_pTexture, &params, view.GetView(0));
 
 	VALID(hr);
 }
 
-ABOOL Texture2D::CreateDepthStencilView(DepthStencilViewDX11 & view,
-	const DepthStencilViewParamsDX11 * params)		const
+bool Texture2D::CreateRenderTargetView(ID3D11RenderTargetView** ppView,
+	const RenderTargetViewParams & params) const
 {
-	HRESULT hr = D3D11Device()->CreateDepthStencilView(m_pTexture, params, &view.m_pView);
+	HRESULT hr = DX11API::D3D11Device()->CreateRenderTargetView(m_pTexture, &params, ppView);
 
 	VALID(hr);
 }
 
-ABOOL Texture2D::CreateDepthStencilView(ID3D11DepthStencilView** ppView,
-	const DepthStencilViewParamsDX11 * params)		const
+bool Texture2D::CreateDepthStencilView(DepthStencilView & view,
+	const DepthStencilViewParams & params) const
 {
-	HRESULT hr = D3D11Device()->CreateDepthStencilView(m_pTexture, params, ppView);
+	HRESULT hr = DX11API::D3D11Device()->CreateDepthStencilView(m_pTexture, &params,
+		const_cast<ID3D11DepthStencilView**>(view.GetView()));
 
 	VALID(hr);
 }
 
-ABOOL Texture2D::Create(const D3D11_TEXTURE2D_DESC* pParams)
+bool Texture2D::CreateDepthStencilView(ID3D11DepthStencilView** ppView,
+	const DepthStencilViewParams & params) const
 {
-	HRESULT hr = D3D11Device()->CreateTexture2D(pParams, NULL, &m_pTexture);
+	HRESULT hr = DX11API::D3D11Device()->CreateDepthStencilView(m_pTexture, &params, ppView);
+
+	VALID(hr);
+}
+
+bool Texture2D::Create(const D3D11_TEXTURE2D_DESC & params)
+{
+	HRESULT hr = DX11API::D3D11Device()->CreateTexture2D(&params, nullptr, &m_pTexture);
 
 	VALID(hr);
 }

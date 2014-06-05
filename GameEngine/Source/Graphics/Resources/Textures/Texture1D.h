@@ -6,6 +6,9 @@ class Texture1D : public ITexture
 {
 public:
 
+	bool Create(const D3D11_TEXTURE1D_DESC & params);
+
+
 	virtual bool CreateShaderResourceView(ShaderResourceView & view,
 		const ShaderResourceViewParams & params) const override;
 

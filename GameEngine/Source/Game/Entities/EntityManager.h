@@ -59,6 +59,6 @@ public:
 	virtual void VUpdateEntity(EntityId id, const Mat4x4 & transform, double currentTime) override;
 };
 
-_forceinline EntityManager::EntityManager()
+__forceinline EntityManager::EntityManager()
 	: m_count{ 0 }
 {}

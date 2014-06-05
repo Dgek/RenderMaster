@@ -1,43 +1,35 @@
 #pragma once
 
-class UnorderedAccessViewParams : public D3D11_UNORDERED_ACCESS_VIEW_DESC
+#include "../../General.h"
+
+struct UnorderedAccessViewParams : public D3D11_UNORDERED_ACCESS_VIEW_DESC
 {
 public:
 	__forceinline UnorderedAccessViewParams() = default;
 
-	__forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
+	__forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice);
 
-	__forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
+	__forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice);
 
 	__forceinline void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int numElements, D3D11_BUFFER_UAV_FLAG flag);
 };
 
-__forceinline void UnorderedAccessViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
+__forceinline void UnorderedAccessViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice)
 {
 	Format = format;
 	Texture2D.MipSlice = mipslice;
 
-	ViewDimension = multiSampled ? D3D11_UAV_DIMENSION_TEXTURE2DMS : D3D11_UAV_DIMENSION_TEXTURE2D;
+	ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
 }
 
-__forceinline void UnorderedAccessViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
+__forceinline void UnorderedAccessViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice)
 {
 	Format = format;
 
-	if (multiSampled)
-	{
-		ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2DMSARRAY;
-		Texture2DMSArray.ArraySize = arraySize;
-		Texture2DMSArray.MipSlice = mipslice;
-		Texture2DMSArray.FirstArraySlice = firstArraySlice;
-	}
-	else
-	{
-		ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2DARRAY;
-		Texture2DArray.ArraySize = arraySize;
-		Texture2DArray.MipSlice = mipslice;
-		Texture2DArray.FirstArraySlice = firstArraySlice;
-	}
+	ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2DARRAY;
+	Texture2DArray.ArraySize = arraySize;
+	Texture2DArray.MipSlice = mipslice;
+	Texture2DArray.FirstArraySlice = firstArraySlice;
 }
 
 __forceinline void UnorderedAccessViewParams::InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int numElements, D3D11_BUFFER_UAV_FLAG flag)

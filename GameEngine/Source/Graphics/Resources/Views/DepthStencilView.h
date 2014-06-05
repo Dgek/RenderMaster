@@ -26,7 +26,6 @@ __forceinline void DepthStencilViewParams::InitForTexture2DArray(int arraySize, 
 	{
 		ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
 		Texture2DMSArray.ArraySize = arraySize;
-		Texture2DMSArray.MipSlice = mipslice;
 		Texture2DMSArray.FirstArraySlice = firstArraySlice;
 	}
 	else
@@ -52,7 +51,7 @@ public:
 
 
 	/*** Getters ***/
-	__forceinline ID3D11DepthStencilView const ** GetView() const;
+	__forceinline ID3D11DepthStencilView * const * GetView() const;
 };
 
 __forceinline DepthStencilView::DepthStencilView()
@@ -64,7 +63,7 @@ __forceinline DepthStencilView::~DepthStencilView()
 	SAFE_RELEASE(m_pView);
 }
 
-__forceinline ID3D11DepthStencilView const ** DepthStencilView::GetView() const
+__forceinline ID3D11DepthStencilView * const * DepthStencilView::GetView() const
 {
 	return &m_pView;
 }

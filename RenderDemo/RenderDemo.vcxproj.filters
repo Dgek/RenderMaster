@@ -2,6 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Source\winmain.cpp" />
+    <ClCompile Include="Source\Game\DemoStateFactory.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderDemo_pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\RenderDemo.h" />
@@ -11,6 +15,10 @@
     <ClInclude Include="Source\Game\States\TestState.h">
       <Filter>Game\States</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\DemoStateFactory.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderDemo_pch.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Game">

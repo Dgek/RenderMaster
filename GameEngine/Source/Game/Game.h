@@ -3,12 +3,12 @@
 #include "GameStateMachine\StateFactory.h"
 #include "GameStateMachine\StateMachine.h"
 
+#include "Entities\EntityManager.h"
+
 class Entity;
 class IView;
-class View;
 class PlayerView;
-class EntityManager;
-class SystemMessage;
+struct SystemMessage;
 class Mat4x4;
 class Game
 {
@@ -66,7 +66,7 @@ public:
 	/*==
 	//Rendering methods
 	==*/
-	virtual void VRender(double totaltime, double elapsedtime) = 0;
+	virtual void VRender(Renderer* pRenderer, double totaltime, double elapsedtime) = 0;
 	virtual void VRenderDebug();
 
 	///////////////////////////////////////////////////////////////////////////////////////////
@@ -101,8 +101,8 @@ public:
 __forceinline Game::Game()
 	: m_lastEntityId{ 0 }
 {
-	m_pStateMachine = new StateMachine();
-	m_pEntityManager = new EntityManager();
+	m_pStateMachine = new StateMachine{};
+	m_pEntityManager = make_unique<EntityManager>();
 }
 
 __forceinline EntityId Game::GetNewEntityId() 

@@ -106,6 +106,9 @@
     <Filter Include="Graphics\DX11\Resources\Buffers">
       <UniqueIdentifier>{6b882d1e-6343-4243-b4bd-8abd1eab4959}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\DX11\Resources\Textures">
+      <UniqueIdentifier>{1b75f779-4829-4fda-ab4f-d50fddadca89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Math\float3.h">
@@ -152,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="Source\Graphics\General.h">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\DX11\Other\Viewport.h">
-      <Filter>Graphics\DX11\Other</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core.h" />
     <ClInclude Include="Source\Game\Entities\Entity.h">
@@ -277,29 +277,53 @@
     <ClInclude Include="Source\Graphics\Resources\Buffers\StructuredBuffer.h">
       <Filter>Graphics\DX11\Resources\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\States\Shaders\VertexShader.h">
-      <Filter>Graphics\DX11\Stages\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\States\Shaders\HullShader.h">
-      <Filter>Graphics\DX11\Stages\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\States\Shaders\DomainShader.h">
-      <Filter>Graphics\DX11\Stages\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\States\Shaders\GeometryShader.h">
-      <Filter>Graphics\DX11\Stages\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\States\Shaders\PixelShader.h">
-      <Filter>Graphics\DX11\Stages\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\States\Shaders\ComputeShader.h">
-      <Filter>Graphics\DX11\Stages\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Entities\EntityManager.h">
       <Filter>Game\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Game.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\GraphicsResource.h">
+      <Filter>Graphics\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Textures\Texture.h">
+      <Filter>Graphics\DX11\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Textures\Texture1D.h">
+      <Filter>Graphics\DX11\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Textures\Texture2D.h">
+      <Filter>Graphics\DX11\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Textures\Texture3D.h">
+      <Filter>Graphics\DX11\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Textures\TextureCube.h">
+      <Filter>Graphics\DX11\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Stages\Shaders\ComputeShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Stages\Shaders\DomainShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Stages\Shaders\GeometryShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Stages\Shaders\HullShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Stages\Shaders\PixelShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Stages\Shaders\VertexShader.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Other\Blob.h">
+      <Filter>Graphics\DX11\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Other\Viewport.h">
+      <Filter>Graphics\DX11\Other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +399,27 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Entities\EntityManager.cpp">
       <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Resources\Textures\Texture1D.cpp">
+      <Filter>Graphics\DX11\Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Resources\Textures\Texture2D.cpp">
+      <Filter>Graphics\DX11\Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Stages\Shaders\ComputeShader.cpp">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Stages\Shaders\VertexShader.cpp">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Stages\Shaders\PixelShader.cpp">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Stages\Shaders\GeometryShader.cpp">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Other\Blob.cpp">
+      <Filter>Graphics\DX11\Other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

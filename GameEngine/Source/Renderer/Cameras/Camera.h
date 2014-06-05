@@ -1,5 +1,11 @@
 #pragma once
 
+#include "../../Math/Vector.h"
+#include "../../Math/Matrix.h"
+#include "../../Math/Geometry/Frustum.h"
+
+#include "../../Graphics/Other/Viewport.h"
+
 class Entity;
 class Camera
 {
@@ -10,10 +16,10 @@ protected:
 	Mat4x4 m_view;
 	Mat4x4 m_prevView;
 	Mat4x4 m_projection;
-	Mat4x4 m_prevProjection;
+	Mat4x4 m_prevProj;
 
 	Mat4x4 m_viewProj;
-	Mat4x4 m_othoProj;
+	Mat4x4 m_orthoProj;
 	bool m_bVPRecalc;
 	bool m_bOrthoRecalc;
 
@@ -57,7 +63,8 @@ protected:
 public:
 
 	//Constructor and destructor
-	Camera(const Frustum & frustum, Vec & position, Vec & dir, Vec & up, Viewport & viewport);
+	Camera(const Frustum & frustum, const Vec & position, const Vec & dir, 
+		const Vec & up, const Viewport & viewport);
 
 	/*==
 	Mutators
@@ -83,16 +90,16 @@ public:
 
 	__forceinline const Frustum &GetFrustum();
 
-	__forceinline Mat4x4 GetProjection() const;
-	__forceinline Mat4x4 GetView() const;
-	__forceinline Mat4x4& GetViewProjection() const;
-	__forceinline Mat4x4 GetPrevView() const;
-	__forceinline Mat4x4 GetPrevProjection() const;
+	__forceinline const Mat4x4 & GetProjection() const;
+	__forceinline const Mat4x4 & GetView() const;
+	__forceinline const Mat4x4 & GetViewProjection();
+	__forceinline const Mat4x4 & GetPrevView() const;
+	__forceinline const Mat4x4 & GetPrevProjection() const;
 
-	__forceinline Mat4x4 GetOrthoProjection() const;
+	__forceinline const Mat4x4 & GetOrthoProjection();
 
 	__forceinline Vec GetPosition() const;
-	__forceinline VecGetLookAt() const;
+	__forceinline Vec GetLookAt() const;
 	__forceinline Vec GetDir() const;
 
 	__forceinline float	GetRoll() const;
@@ -102,8 +109,8 @@ public:
 	__forceinline float	GetNearZ() const;
 	__forceinline float	GetFarZ() const;
 
-	__forceinline int GetViewportWidth() const;
-	__forceinline int GetViewportHeight() const;
+	__forceinline float GetViewportWidth() const;
+	__forceinline float GetViewportHeight() const;
 
 	__forceinline shared_ptr<Entity> GetTarget() const;
 	__forceinline bool HasTarget() const;
@@ -174,17 +181,17 @@ __forceinline const Frustum & Camera::GetFrustum()
 	return m_frustum;
 }
 
-__forceinline Mat4x4 Camera::GetProjection() const
+__forceinline const Mat4x4 & Camera::GetProjection() const
 {
 	return m_projection;
 }
 
-__forceinline Mat4x4 Camera::GetView() const
+__forceinline const Mat4x4 & Camera::GetView() const
 {
 	return m_view;
 }
 
-__forceinline Mat4x4& Camera::GetViewProjection() const
+__forceinline const Mat4x4 & Camera::GetViewProjection()
 {
 	if (!m_bVPRecalc)
 	{
@@ -195,22 +202,21 @@ __forceinline Mat4x4& Camera::GetViewProjection() const
 	return m_viewProj;
 }
 
-__forceinline Mat4x4 Camera::GetPrevView() const
+__forceinline const Mat4x4 & Camera::GetPrevView() const
 {
 	return m_prevView;
 }
 
-__forceinline Mat4x4 Camera::GetPrevProjection() const
+__forceinline const Mat4x4 & Camera::GetPrevProjection() const
 {
 	return m_prevProj;
 }
 
-__forceinline Mat4x4 Camera::GetOrthoProjection() const
+__forceinline const Mat4x4 & Camera::GetOrthoProjection()
 {
 	if (!m_bOrthoRecalc)
 	{
-		m_orthoProj = CreateOrthoProjectionLH(SCREEN_WIDTH, SCREEN_HEIGHT,
-			m_frustum.GetNearZ(), m_frustum.GetFarZ());
+		m_orthoProj = Mat4x4::CreateOrthoProjectionLH(SCREEN_WIDTH, SCREEN_HEIGHT, m_frustum.GetNearZ(), m_frustum.GetFarZ());
 		m_bOrthoRecalc = true;
 	}
 
@@ -257,11 +263,12 @@ __forceinline float	Camera::GetFarZ() const
 	return m_frustum.GetFarZ();
 }
 
-__forceinline int Camera::GetViewportWidth() const
+__forceinline float Camera::GetViewportWidth() const
 {
 	return m_viewport.Width;
 }
-__forceinline int Camera::GetViewportHeight() const
+
+__forceinline float Camera::GetViewportHeight() const
 {
 	return m_viewport.Height;
 }

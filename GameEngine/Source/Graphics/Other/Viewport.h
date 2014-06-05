@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../General.h"
+
 struct Viewport : public D3D11_VIEWPORT
 {
 	/*
