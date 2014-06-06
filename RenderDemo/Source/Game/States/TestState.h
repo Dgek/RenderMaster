@@ -1,12 +1,23 @@
 #pragma once
 
-#include "GameStateMachine\State.h"
+#include "Game\GameStateMachine\State.h"
 
-class BoxTestState : public State
+class TestState : public State
 {
 protected:
 
 public:
 
-	BoxTestState();
+	__forceinline TestState();
+
+	virtual void VInitialize(Game * pGame, UINT_PTR uptrData = 0) override;
+
+	virtual void VUpdate(Game * pGame, double time, double elapsedTime) override;
+
+	virtual void VRender(Game * pGame, Renderer * pRenderer, double r64Time, double r64ElapsedTime) override;
+
 };
+
+__forceinline TestState::TestState()
+	: State{}
+{}

@@ -4,6 +4,12 @@
 #include "Views.h"
 #include "Entities\EntityManager.h"
 
+Game::~Game()
+{
+	m_pStateMachine->Release(this);
+	m_pStateMachine = nullptr;
+}
+
 LRESULT	Game::VMsgProc(const SystemMessage & msg)
 {
 	for (auto iter = begin(m_views); iter != end(m_views); ++iter)
@@ -64,9 +70,9 @@ void Game::VUpdateEntity(EntityId id, Mat4x4 const & transform, double r64Curren
 /********************************
 ** States management
 *********************************/
-void Game::SetStateFactory(StateFactory * pStateFactory)
+void Game::SetStateFactory(unique_ptr<StateFactory> pStateFactory)
 {
-	m_pStateFactory = pStateFactory;
+	m_pStateFactory = move(pStateFactory);
 }
 
 void Game::SetNextState(int i32StateId, UINT_PTR uptrData)

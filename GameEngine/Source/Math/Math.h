@@ -1,7 +1,5 @@
 #pragma once
 
-#include <math.h>
-
 struct Math
 {
 	static __forceinline float Sin(float value) { return sinf(value); }

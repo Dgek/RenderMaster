@@ -2,16 +2,17 @@
 
 #include "App.h"
 
-#include "System.h"
-#include "Timer.h"
 #include "../Game/Game.h"
 #include "../Physics/PhysicsInterfaces.h"
 #include "../Graphics/General.h"
+#include "../Renderer/Renderer.h"
+#include "../ResourceManager/ResourceCache.h"
+#include "../Messenger/Messenger.h"
 
 App::App()
-: m_bQuitting{ false }, m_pTimer{ make_unique<Timer>() }
+: m_lastUpdate{ 0 }, m_timeStep{ 0.0333 }, m_bQuitting{ false }, m_pTimer{ make_unique<Timer>() }
 {
-	//m_pTimer = make_shared<Timer>();
+	m_windowClassName = L"window";
 }
 
 void App::InitializeWindow(HINSTANCE hInstance, int showWnd, bool isWindowed)
@@ -95,7 +96,16 @@ void App::InitializeGame(unique_ptr<Game> pGame)
 	m_pGame = move(pGame);
 }
 
-bool App::MsgProc(const SystemMessage & msg)
+void App::InitializeComponents(unique_ptr<Renderer> pRenderer, unique_ptr<IPhysics> pPhysics, unique_ptr<IMessenger> pMessenger, unique_ptr<ResourceCache> pCache)
+{
+	m_pRenderer = move(pRenderer);
+	m_pRenderer->VInitialize(m_hWnd, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	m_pPhysics = move(pPhysics);
+	m_pCache = move(pCache);
+}
+
+LRESULT App::MsgProc(const SystemMessage & msg)
 {
 	switch (msg.m_type)
 	{
@@ -111,6 +121,8 @@ bool App::MsgProc(const SystemMessage & msg)
 		}
 		break;
 	}
+
+	return 0;
 };
 
 void App::Update(double totaltime, double elapsedtime)

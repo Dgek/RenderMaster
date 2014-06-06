@@ -2,6 +2,9 @@
 
 #include "Scene.h"
 
+void Scene::VUpdate(double time, double elapsedTime)
+{}
+
 void Scene::VRender(Renderer* pRenderer, double currentTime)
 {
 	//TODOfor_each(auto object : m_staticObjects)

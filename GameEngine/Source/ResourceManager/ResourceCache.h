@@ -1,5 +1,10 @@
 #pragma once
 
+#include "ResourceFile.h"
+#include "ResourceLoader.h"
+
+class Resource;
+class IResourceLoader;
 class ResourceCache
 {
 	friend class ResHandle;
@@ -54,4 +59,19 @@ __forceinline ResourceCache::ResourceCache(unsigned int sizeInMb, unique_ptr<IRe
 	m_uAllocated = 0;
 
 	m_pFile = move(pFile);
+}
+
+__forceinline ResourceCache::~ResourceCache()
+{}
+
+__forceinline bool ResourceCache::Init()
+{
+	bool bResult = false;
+	if (m_pFile->VOpen())
+	{
+		RegisterLoader(make_shared<DefaultResourceLoader>());
+		bResult = true;
+	}
+
+	return bResult;
 }

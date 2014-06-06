@@ -7,7 +7,7 @@ class NullPhysics : public IPhysics
 public:
 
 	//Initialize physics
-	__forceinline bool VInit() override {}
+	__forceinline bool VInit() override { return true; }
 
 	//sychronize with engine
 	__forceinline void VSyncData(double currentTime) override {}
@@ -35,9 +35,9 @@ public:
 
 	/////////////////////////////////////
 	//getters
-	__forceinline Vec VGetVelocity(EntityId entityId) override {}
-	__forceinline Vec VGetAngularVelocity(EntityId entityId) override {}
-	__forceinline Mat4x4 VGetTransform(EntityId entityId) override {}
+	__forceinline Vec VGetVelocity(EntityId entityId) override { return Vec{ 0.0f, 0.0f, 0.0f, 0.0f }; }
+	__forceinline Vec VGetAngularVelocity(EntityId entityId) override { return Vec{ 0.0f, 0.0f, 0.0f, 0.0f }; }
+	__forceinline Mat4x4 VGetTransform(EntityId entityId) override { return Mat4x4{}; }
 
 	/////////////////////////////////////
 	//setters

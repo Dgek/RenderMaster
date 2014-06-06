@@ -53,12 +53,12 @@ bool DX11API::InitializeGraphics(HWND hWnd)
 
 	//assert(hr == S_OK && "Error creating render target");
 
-	g_pBackBufferRTV = make_unique<RenderTargetView>(pRTV);
+	//g_pBackBufferRTV = make_unique<RenderTargetView>(pRTV);
 	g_d3d11DeviceContext->OMSetRenderTargets(1, &pRTV, nullptr);
 
 	/* Initialize and set viewport */
-	g_pViewport = make_unique<Viewport>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);
-	g_pViewport->Bind();
+	//g_pViewport = make_unique<Viewport>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);
+	//g_pViewport->Bind();
 
 	return true;
 }

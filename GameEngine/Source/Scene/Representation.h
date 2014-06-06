@@ -62,3 +62,23 @@ protected:
 	//undo any changes made to the scene
 	virtual void VPullParameters(Scene * pScene);
 };
+
+__forceinline EntityRepresentation::EntityRepresentation(EntityRepresentationId id)
+	: m_size{ 0.0f, 0.0f, 0.0f, 0.0f }
+{}
+
+__forceinline EntityRepresentation::EntityRepresentation(EntityRepresentationId id, const Vec & size)
+	: m_size{ 0.0f, 0.0f, 0.0f, 0.0f }, m_id(id), m_lastUpdate{ 0.0 }
+{}
+
+__forceinline EntityRepresentationId EntityRepresentation::GetId() const
+{
+	return m_id;
+}
+
+__forceinline void EntityRepresentation::SetSize(float sizex, float sizey, float sizez)
+{
+	m_size.x = sizex;
+	m_size.y = sizey;
+	m_size.z = sizez;
+}

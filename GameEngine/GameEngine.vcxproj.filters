@@ -109,6 +109,12 @@
     <Filter Include="Graphics\DX11\Resources\Textures">
       <UniqueIdentifier>{1b75f779-4829-4fda-ab4f-d50fddadca89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceManager\Loaders">
+      <UniqueIdentifier>{3331bf37-bf46-4716-9f5d-a5685466d7a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Objects">
+      <UniqueIdentifier>{77f2f30b-2c0e-40c6-910b-117ace96e2a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Math\float3.h">
@@ -325,6 +331,15 @@
     <ClInclude Include="Source\Graphics\Other\Viewport.h">
       <Filter>Graphics\DX11\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ResourceManager\Loaders\MeshLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Messenger\Messenger.h">
+      <Filter>Messenger</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Objects\IMovable.h">
+      <Filter>Renderer\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">
@@ -420,6 +435,21 @@
     </ClCompile>
     <ClCompile Include="Source\Graphics\Other\Blob.cpp">
       <Filter>Graphics\DX11\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameStateMachine\StateMachine.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Lights\Light.cpp">
+      <Filter>Renderer\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Meshes\Mesh.cpp">
+      <Filter>Renderer\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameStateMachine\StateFactory.cpp">
+      <Filter>Game\GameStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager\ResourceFile.cpp">
+      <Filter>ResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

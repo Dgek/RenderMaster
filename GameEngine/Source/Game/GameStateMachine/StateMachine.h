@@ -11,7 +11,7 @@ class StateMachine
 public:
 
 	//Constructor
-	StateMachine();
+	__forceinline StateMachine();
 
 	void Release(Game * pGame);
 
@@ -32,3 +32,7 @@ private:
 	//Current State
 	State *	m_pCurrentState;
 };
+
+__forceinline StateMachine::StateMachine()
+	: m_pCurrentState{ nullptr }
+{}

@@ -19,13 +19,10 @@ protected:
 
 public:
 	//constructor
-	RootRepresentation();
+	__forceinline RootRepresentation();
 
-	virtual void VAttachChild(shared_ptr<EntityRepresentation> pRep, RenderPass pass, EntityRepresentationId parentId);
+	virtual void VAddChild(shared_ptr<EntityRepresentation> pRep, RenderPass pass, EntityRepresentationId parentId);
 	virtual void VRemoveChild(EntityRepresentation* pRep) override;
-
-	virtual void VAddMesh(shared_ptr<Mesh> pMesh) override;
-	virtual void VAddLight(shared_ptr<Light> pLight) override;
 
 	virtual shared_ptr<EntityRepresentation> VFindChild(EntityRepresentationId id) override;
 	EntityRepresentation* FindChild(EntityRepresentationId id, RenderPass pass);
@@ -33,3 +30,7 @@ public:
 	virtual void VRender(Scene * pScene, Renderer * pRenderer, double currentTime) override;
 
 };
+
+__forceinline RootRepresentation::RootRepresentation()
+	: EntityRepresentation{ 0 }
+{}

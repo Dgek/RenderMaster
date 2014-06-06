@@ -76,7 +76,10 @@ __forceinline RenderTargetView::RenderTargetView(int numViews)
 	: m_ppViews{ nullptr }, m_numViews{ numViews }
 {}
 
-//__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * View);
+__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
+{
+	m_ppViews = &pView;
+}
 
 __forceinline RenderTargetView::~RenderTargetView()
 {

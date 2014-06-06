@@ -1,10 +1,11 @@
 #pragma once
 
+class ResHandle;
 class IResourceLoader
 {
 public:
  
-	__forceinline IResourceLoader();
+	__forceinline IResourceLoader() =default;
 
 	virtual string VGetPattern() = 0;
 	virtual bool VUseRawFile() = 0;
@@ -23,27 +24,27 @@ public:
 	__forceinline virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, std::shared_ptr<ResHandle> pHandle) override;
 };
 
-__forceinline virtual string DefaultResourceLoader::VGetPattern() override
+__forceinline string DefaultResourceLoader::VGetPattern()
 {
 	return "*";
 }
 
-__forceinline virtual bool DefaultResourceLoader::VUseRawFile() override
+__forceinline bool DefaultResourceLoader::VUseRawFile()
 {
 	return true;
 }
 
-__forceinline virtual bool DefaultResourceLoader::VNeedFile() override
+__forceinline bool DefaultResourceLoader::VNeedFile()
 {
 	return false;
 }
 
-__forceinline virtual int DefaultResourceLoader::VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override
+__forceinline int DefaultResourceLoader::VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize)
 {
 	return uRawSize;
 }
 
-__forceinline virtual bool DefaultResourceLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, std::shared_ptr<ResHandle> pHandle) override
+__forceinline bool DefaultResourceLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, std::shared_ptr<ResHandle> pHandle)
 {
 	return true;
 }

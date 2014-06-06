@@ -5,8 +5,15 @@ class Light;
 class Camera;
 class Renderer
 {
+protected:
+
+	vector<shared_ptr<Camera>> m_cameras;
+
 public:
 	Renderer();
+
+	/***	Initialize	  ***/
+	virtual bool VInitialize(HWND hWnd, unsigned int width, unsigned int height);
 
 	/***	Put something to render	***/
 	virtual void VPushMesh(shared_ptr<Mesh> pMesh) = 0;

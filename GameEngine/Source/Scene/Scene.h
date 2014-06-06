@@ -57,7 +57,7 @@ __forceinline shared_ptr<EntityRepresentation> Scene::GetRepresentation(EntityRe
 
 __forceinline void Scene::AddRepresentation(shared_ptr<EntityRepresentation> pRepresentation, RenderPass pass, EntityRepresentationId parentId)
 {
-	m_pRoot->VAttachChild(pRepresentation, pass, parentId);
+	m_pRoot->VAddChild(pRepresentation, pass, parentId);
 }
 
 __forceinline void Scene::AddStaticObject(shared_ptr<EntityRepresentation> pStatic)

@@ -63,9 +63,9 @@ public:
 	__forceinline Vec operator/(float scale) const;
 
 
-	bool operator==(const Vec & v) const;
+	__forceinline bool operator==(const Vec & v) const;
 
-	bool operator!=(const Vec & v) const;
+	__forceinline bool operator!=(const Vec & v) const;
 
 	__forceinline const Vec & Normalize();
 
@@ -179,13 +179,12 @@ __forceinline Vec Vec::operator/(float scale) const
 	return Vec{ x * scale, y * scale, z * scale, w * scale };
 }
 
-
-bool Vec::operator==(const Vec & v) const
+__forceinline bool Vec::operator==(const Vec & v) const
 {
 	return ((x == v.x) && (y == v.y) && (z == v.z) && (w == v.w));
 }
 
-bool Vec::operator!=(const Vec & v) const
+__forceinline bool Vec::operator!=(const Vec & v) const
 {
 	return ((x != v.x) || (y != v.y) || (z != v.z) || (w != v.w));
 }

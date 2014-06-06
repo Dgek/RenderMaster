@@ -1,6 +1,7 @@
 #pragma once
 
 #include "System.h"
+#include "Timer.h"
 
 using namespace std;
 
@@ -9,14 +10,15 @@ class IPhysics;
 class IMessenger;
 class Renderer;
 class ResourceCache;
-class Timer;
 class App
 {
 public:
 	unique_ptr<Game> m_pGame;
 	unique_ptr<Timer> m_pTimer;
 
+	unique_ptr<Renderer> m_pRenderer;
 	unique_ptr<IPhysics> m_pPhysics;
+	unique_ptr<ResourceCache> m_pCache;
 
 private:
 
@@ -52,7 +54,7 @@ public:
 	void InitializeWindow(HINSTANCE hInstance, int showWnd, bool isWindowed);
 	void InitializeGame(unique_ptr<Game> pGame);
 
-	bool MsgProc(const SystemMessage & msg);
+	LRESULT MsgProc(const SystemMessage & msg);
 
 	void Update(double totaltime, double elapsedtime);
 	void Render(double totaltime, double elapsedtime);

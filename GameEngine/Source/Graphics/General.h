@@ -11,9 +11,9 @@ private:
 	static ID3D11DeviceContext* g_d3d11DeviceContext;
 	static IDXGISwapChain* g_pSwapChain;
 
-	static unique_ptr<RenderTargetView> g_pBackBufferRTV;
+	//static unique_ptr<RenderTargetView> g_pBackBufferRTV;
 	static unique_ptr<DepthStencilView> g_pDepthStencilView;
-	static unique_ptr<Viewport> g_pViewport;
+	//static unique_ptr<Viewport> g_pViewport;
 
 public:
 	/** Initialize graphics API

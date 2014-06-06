@@ -6,6 +6,9 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\RenderDemo_pch.cpp" />
+    <ClCompile Include="Source\Game\States\TestState.cpp">
+      <Filter>Game\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\RenderDemo.h" />

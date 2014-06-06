@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <basetsd.h>
 #include <memory>
+#include <math.h>
 #include <string>
 #include <wchar.h>
 #include <tchar.h>

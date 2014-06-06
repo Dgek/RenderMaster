@@ -5,5 +5,5 @@ class StateFactory
 {
 public:
 
-	virtual State* VCreateState(StateId id) const = 0;
+	virtual State* VCreateState(StateId id) const;
 };

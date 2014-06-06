@@ -8,7 +8,7 @@ shared_ptr<Mesh> RenderQueue::Next()
 		return nullptr;
 
 	shared_ptr<Mesh> pMesh = (*m_currMesh);
-	m_currMesh++;
+	++m_currMesh;
 
 	return pMesh;
 }

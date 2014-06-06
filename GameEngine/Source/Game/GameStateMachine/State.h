@@ -16,7 +16,7 @@ protected:
 	__int64	m_time;
 
 	//Unique id
-	int	m_i32Id;
+	int	m_id;
 
 	//Scene
 	shared_ptr<Scene> m_pScene;

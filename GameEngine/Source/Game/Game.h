@@ -22,7 +22,7 @@ protected:
 	/** -------------------
 	States
 	----------------------- **/
-	StateFactory* m_pStateFactory;
+	unique_ptr<StateFactory> m_pStateFactory;
 	StateMachine* m_pStateMachine;
 
 	//keep data about the next game state
@@ -50,7 +50,7 @@ public:
 	virtual ~Game();
 
 	//game states
-	void SetStateFactory(StateFactory * pStateFactory);
+	void SetStateFactory(unique_ptr<StateFactory> pStateFactory);
 	void SetNextState(int i32StateId, UINT_PTR uptrData = 0);
 
 	/*==
@@ -61,12 +61,12 @@ public:
 	/*==
 	//Updating methods
 	==*/
-	virtual void VUpdate(double totaltime, double elapsedtime) = 0;
+	virtual void VUpdate(double totaltime, double elapsedtime);
 
 	/*==
 	//Rendering methods
 	==*/
-	virtual void VRender(Renderer* pRenderer, double totaltime, double elapsedtime) = 0;
+	virtual void VRender(Renderer* pRenderer, double totaltime, double elapsedtime);
 	virtual void VRenderDebug();
 
 	///////////////////////////////////////////////////////////////////////////////////////////

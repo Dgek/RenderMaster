@@ -54,6 +54,9 @@ __forceinline void RenderQueue::VAdd(shared_ptr<Mesh> pMesh)
 	m_numMeshes++;
 }
 
+__forceinline void RenderQueue::VSort()
+{}
+
 __forceinline void RenderQueue::Reset()
 {
 	m_currMesh = begin(m_queue);
