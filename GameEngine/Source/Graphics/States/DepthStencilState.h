@@ -9,7 +9,7 @@ public:
 	__forceinline DepthStencilState();
 	__forceinline  ~DepthStencilState();
 
-	__forceinline  ABOOL Create(const D3D11_DEPTH_STENCIL_DESC * params);
+	__forceinline  bool Create(const D3D11_DEPTH_STENCIL_DESC * params);
 
 	__forceinline  AVOID Set(unsigned int stencilRef) const;
 };

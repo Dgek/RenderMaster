@@ -10,5 +10,14 @@ public:
 
 __forceinline GraphicsBox::GraphicsBox(unsigned int left, unsigned int top, unsigned int front,
 	unsigned int right, unsigned int bottom, unsigned int back)
-	: D3D11_BOX{ left, top, front, right, bottom, back }
-{}
+{
+	this->left = left;
+	this->top = top;
+	this->front = front;
+	this->right = right;
+	this->bottom = bottom;
+	this->back = back;
+}
+
+struct SubresourceData : public D3D11_SUBRESOURCE_DATA
+{};

@@ -39,6 +39,8 @@ public:
 	shared_ptr<Mesh> NextWithDeletion();
 
 	__forceinline void Reset();
+
+	__forceinline void Clear();
 };
 
 __forceinline RenderQueue::RenderQueue()
@@ -60,4 +62,12 @@ __forceinline void RenderQueue::VSort()
 __forceinline void RenderQueue::Reset()
 {
 	m_currMesh = begin(m_queue);
+}
+
+__forceinline void RenderQueue::Clear()
+{
+	while (!m_queue.empty())
+	{
+		m_queue.pop_back();
+	}
 }

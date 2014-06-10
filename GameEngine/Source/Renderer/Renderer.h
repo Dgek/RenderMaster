@@ -3,14 +3,60 @@
 class Mesh;
 class Light;
 class Camera;
+class ConstantBuffer;
+class SamplerState;
+class RasterizerState;
+class BlendState;
+class DepthStencilState;
 class Renderer
 {
 protected:
-
 	vector<shared_ptr<Camera>> m_cameras;
+
+	/** ================================
+	Constant Buffers
+	================================
+	*/
+	unique_ptr<ConstantBuffer> m_pcb16Bytes;
+	unique_ptr<ConstantBuffer> m_pcb64Bytes;
+	unique_ptr<ConstantBuffer> m_pcb128Bytes;
+	unique_ptr<ConstantBuffer> m_pcb256Bytes;
+
+	/** ================================
+	Sampler States
+	================================
+	*/
+	unique_ptr<SamplerState> m_pLinearTiledSampler;
+	unique_ptr<SamplerState> m_pAnisotropySampler16;
+	unique_ptr<SamplerState> m_pPointClampSampler;
+	unique_ptr<SamplerState> m_pLinearLessEqualSampler;
+
+	/** ================================
+	Rasterizer States
+	================================
+	*/
+	unique_ptr<RasterizerState> m_pAllEnabledBackCulling;
+	unique_ptr<RasterizerState> m_pNoCullingStandard;
+	unique_ptr<RasterizerState> m_pAllDisabledBackCulling;
+
+	/** ================================
+	Blend States
+	================================
+	*/
+	unique_ptr<BlendState> m_pNoBlending;
+	unique_ptr<BlendState> m_pBlendAddStandard;
+	unique_ptr<BlendState> m_pBlendLightPass;
+
+	/** ================================
+	Depth Stencil States
+	================================
+	**/
+	unique_ptr<DepthStencilState> m_pDepthEnableStencilDisableStandard;
+	unique_ptr<DepthStencilState> m_pDepthDisableStencilDisable;
 
 public:
 	Renderer();
+	virtual ~Renderer();
 
 	/***	Initialize	  ***/
 	virtual bool VInitialize(HWND hWnd, unsigned int width, unsigned int height);

@@ -97,6 +97,7 @@
     <ClInclude Include="Source\Graphics\General.h" />
     <ClInclude Include="Source\Graphics\Other\Blob.h" />
     <ClInclude Include="Source\Graphics\Other\Viewport.h" />
+    <ClInclude Include="Source\Graphics\Resources\Buffers\BufferParams.h" />
     <ClInclude Include="Source\Graphics\Resources\Buffers\Buffers.h" />
     <ClInclude Include="Source\Graphics\Resources\Buffers\ConstantBuffer.h" />
     <ClInclude Include="Source\Graphics\Resources\Buffers\IndexBuffer.h" />
@@ -171,6 +172,8 @@
     <ClCompile Include="Source\Game\GameStateMachine\StateMachine.cpp" />
     <ClCompile Include="Source\Graphics\General.cpp" />
     <ClCompile Include="Source\Graphics\Other\Blob.cpp" />
+    <ClCompile Include="Source\Graphics\Resources\Buffers\Buffers.cpp" />
+    <ClCompile Include="Source\Graphics\Resources\Buffers\ConstantBuffer.cpp" />
     <ClCompile Include="Source\Graphics\Resources\Textures\Texture1D.cpp" />
     <ClCompile Include="Source\Graphics\Resources\Textures\Texture2D.cpp" />
     <ClCompile Include="Source\Graphics\Stages\Shaders\ComputeShader.cpp" />

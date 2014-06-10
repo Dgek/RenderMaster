@@ -5,10 +5,13 @@
 class ConstantBuffer : public Buffer
 {
 public:
-	__forceinline Bind(unsigned int slot, ShaderType type);
+
+	virtual ~ConstantBuffer();
+
+	__forceinline void Bind(unsigned int slot, ShaderType type);
 };
 
-__forceinline ConstantBuffer::Bind(unsigned int slot, ShaderType type)
+__forceinline void ConstantBuffer::Bind(unsigned int slot, ShaderType type)
 {
 	switch (type)
 	{

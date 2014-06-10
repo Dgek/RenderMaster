@@ -340,6 +340,9 @@
     <ClInclude Include="Source\Renderer\Objects\IMovable.h">
       <Filter>Renderer\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Graphics\Resources\Buffers\BufferParams.h">
+      <Filter>Graphics\DX11\Resources\Buffers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">
@@ -450,6 +453,12 @@
     </ClCompile>
     <ClCompile Include="Source\ResourceManager\ResourceFile.cpp">
       <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Resources\Buffers\Buffers.cpp">
+      <Filter>Graphics\DX11\Resources\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Resources\Buffers\ConstantBuffer.cpp">
+      <Filter>Graphics\DX11\Resources\Buffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
