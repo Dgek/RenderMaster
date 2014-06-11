@@ -8,10 +8,27 @@ class SamplerState;
 class RasterizerState;
 class BlendState;
 class DepthStencilState;
+class Texture2D;
+class DepthStencilView;
+class RenderTargetView;
+class ShaderResourceView;
+class UnorderedAccessView;
 class Renderer
 {
 protected:
 	vector<shared_ptr<Camera>> m_cameras;
+
+	/*** =========================
+	Rendering resources
+	========================= ***/
+	unique_ptr<Texture2D> m_pDepthTexture;
+	unique_ptr<DepthStencilView> m_pDepthDSV;
+
+	/*** =========================
+	Rendering Parameteres
+	========================= ***/
+	bool m_bTexturingOn;
+	bool m_bLightningOn;
 
 	/** ================================
 	Constant Buffers
@@ -35,9 +52,9 @@ protected:
 	Rasterizer States
 	================================
 	*/
-	unique_ptr<RasterizerState> m_pAllEnabledBackCulling;
-	unique_ptr<RasterizerState> m_pNoCullingStandard;
-	unique_ptr<RasterizerState> m_pAllDisabledBackCulling;
+	unique_ptr<RasterizerState> m_pAllEnabledBackCullingRasterizer;
+	unique_ptr<RasterizerState> m_pNoCullingStandardRasterizer;
+	unique_ptr<RasterizerState> m_pAllDisabledBackCullingRasterizer;
 
 	/** ================================
 	Blend States

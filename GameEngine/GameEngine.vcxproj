@@ -119,6 +119,7 @@
     <ClInclude Include="Source\Graphics\Stages\Shaders\GeometryShader.h" />
     <ClInclude Include="Source\Graphics\Stages\Shaders\HullShader.h" />
     <ClInclude Include="Source\Graphics\Stages\Shaders\PixelShader.h" />
+    <ClInclude Include="Source\Graphics\Stages\Shaders\ShaderBunch.h" />
     <ClInclude Include="Source\Graphics\Stages\Shaders\VertexShader.h" />
     <ClInclude Include="Source\Graphics\States\BlendState.h" />
     <ClInclude Include="Source\Graphics\States\DepthStencilState.h" />

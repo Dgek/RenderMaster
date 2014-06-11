@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../General.h"
+
 class RasterizerState
 {
 protected:
@@ -10,7 +12,7 @@ public:
 	__forceinline ~RasterizerState();
 
 	__forceinline bool Create(const D3D11_RASTERIZER_DESC * pParams);
-	__forceinline void Set();
+	__forceinline void Bind();
 };
 
 __forceinline RasterizerState::RasterizerState() 
@@ -24,12 +26,12 @@ __forceinline RasterizerState::~RasterizerState()
 
 __forceinline bool RasterizerState::Create(const D3D11_RASTERIZER_DESC * pParams)
 {
-	HRESULT hr = DX11API::D3D11Device()->CreateRasterizerState(params, &m_pState);
+	HRESULT hr = DX11API::D3D11Device()->CreateRasterizerState(pParams, &m_pState);
 
 	VALID(hr);
 }
 
-__forceinline void RasterizerState::Set()
+__forceinline void RasterizerState::Bind()
 {
 	DX11API::D3D11DeviceContext()->RSSetState(m_pState);
 }

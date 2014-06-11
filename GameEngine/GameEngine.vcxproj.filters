@@ -343,6 +343,9 @@
     <ClInclude Include="Source\Graphics\Resources\Buffers\BufferParams.h">
       <Filter>Graphics\DX11\Resources\Buffers</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Graphics\Stages\Shaders\ShaderBunch.h">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">

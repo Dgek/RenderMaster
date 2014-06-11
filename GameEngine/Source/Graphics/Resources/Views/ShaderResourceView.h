@@ -2,7 +2,7 @@
 
 #include "../../General.h"
 
-class ShaderResourceViewParams : public D3D11_SHADER_RESOURCE_VIEW_DESC
+struct ShaderResourceViewParams : public D3D11_SHADER_RESOURCE_VIEW_DESC
 {
 public:
 	__forceinline ShaderResourceViewParams() = default;

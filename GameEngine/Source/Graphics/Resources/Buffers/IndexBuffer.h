@@ -19,12 +19,12 @@ public:
 	__forceinline unsigned int Count() const;
 };
 
-__forceinline IndexBuffer::Bind(unsigned int offset) const
+__forceinline void IndexBuffer::Bind(unsigned int offset) const
 {
 	DX11API::D3D11DeviceContext()->IASetIndexBuffer(m_pBuffer, m_format, offset);
 }
 
-__forceinline IndexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
+__forceinline bool IndexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
 	unsigned int numElements, unsigned int elementSize)
 {
 	m_indexCount = numElements;

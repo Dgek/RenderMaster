@@ -1,9 +1,9 @@
 #pragma once
 
-class ShaderResourceViewParams;
-class UnorderedAccessViewParams;
-class DepthStencilViewParams;
-class RenderTargetViewParams;
+struct ShaderResourceViewParams;
+struct UnorderedAccessViewParams;
+struct DepthStencilViewParams;
+struct RenderTargetViewParams;
 class ShaderResourceView;
 class UnorderedAccessView;
 class DepthStencilView;

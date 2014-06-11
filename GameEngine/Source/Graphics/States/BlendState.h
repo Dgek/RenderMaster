@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../General.h"
+
 class BlendState
 {
 protected:
@@ -10,7 +12,7 @@ public:
 	__forceinline ~BlendState();
 
 	__forceinline bool Create(const D3D11_BLEND_DESC * pParams);
-	__forceinline void Set(float blendFactor[4], unsigned int sampleMask = 0xffffffff);
+	__forceinline void Bind(float blendFactor[4], unsigned int sampleMask = 0xffffffff);
 };
 
 __forceinline BlendState::BlendState() 
@@ -29,7 +31,7 @@ __forceinline bool BlendState::Create(const D3D11_BLEND_DESC * pParams)
 	VALID(hr);
 }
 
-__forceinline void BlendState::Set(float blendFactor[4], unsigned int sampleMask)
+__forceinline void BlendState::Bind(float blendFactor[4], unsigned int sampleMask)
 {
 	DX11API::D3D11DeviceContext()->OMSetBlendState(m_pState, blendFactor, sampleMask);
 }

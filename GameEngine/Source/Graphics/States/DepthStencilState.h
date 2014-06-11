@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../General.h"
+
 class DepthStencilState
 {
 protected:
@@ -7,11 +9,11 @@ protected:
 
 public:
 	__forceinline DepthStencilState();
-	__forceinline  ~DepthStencilState();
+	__forceinline ~DepthStencilState();
 
-	__forceinline  bool Create(const D3D11_DEPTH_STENCIL_DESC * params);
+	__forceinline bool Create(const D3D11_DEPTH_STENCIL_DESC * params);
 
-	__forceinline  AVOID Set(unsigned int stencilRef) const;
+	__forceinline void Bind(unsigned int stencilRef) const;
 };
 
 __forceinline DepthStencilState::DepthStencilState() 
@@ -30,7 +32,7 @@ __forceinline bool DepthStencilState::Create(const D3D11_DEPTH_STENCIL_DESC * pa
 	VALID(hr);
 }
 
-__forceinline void DepthStencilState::Set(unsigned int stencilRef) const
+__forceinline void DepthStencilState::Bind(unsigned int stencilRef) const
 {
 	DX11API::D3D11DeviceContext()->OMSetDepthStencilState(m_pState, stencilRef);
 }

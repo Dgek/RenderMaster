@@ -2,7 +2,9 @@
 
 #include "../../General.h"
 
-class RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
+#include "DepthStencilView.h"
+
+struct RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
 {
 public:
 	__forceinline RenderTargetViewParams() =default;
@@ -59,9 +61,12 @@ public:
 	__forceinline ID3D11RenderTargetView** GetView(int index) const;
 
 	/* ==
-	Bind Shader Resource Views to the pipeline
+	Bind Render Target Views to the pipeline
 	== */
 	//void Set(DepthStencilViewDX11 * pView) const;
+	//__forceinline void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum)
+	__forceinline void Bind(const DepthStencilView & depthview) const;
+	__forceinline void Bind() const;
 	__forceinline void BindOneView(int index);
 
 	__forceinline void Clear(float bgColor[4]);
@@ -99,6 +104,15 @@ __forceinline ID3D11RenderTargetView** RenderTargetView::GetView(int index) cons
 __forceinline void RenderTargetView::BindOneView(int index)
 {
 	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews + index, nullptr);
+}
+
+__forceinline void RenderTargetView::Bind(const DepthStencilView & depthview) const
+{
+	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews, *depthview.GetView());
+}
+__forceinline void RenderTargetView::Bind() const
+{
+	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews, nullptr);
 }
 
 __forceinline void RenderTargetView::Clear(float bgColor[4])

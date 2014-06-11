@@ -9,13 +9,13 @@ protected:
 	unsigned int m_vertexCount;
 
 public:
-	__forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceDataDX11 * pData, unsigned int numElements, unsigned int elementSize);
+	__forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize);
 	__forceinline void Bind(unsigned int startSlot, unsigned int offset) const;
 	__forceinline void Bind(unsigned int startSlot, unsigned int offset, unsigned int vertexSize) const;
 	__forceinline unsigned int Count() const;
 };
 
-__forceinline bool VertexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceDataDX11 * pData, unsigned int numElements, unsigned int elementSize)
+__forceinline bool VertexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize)
 {
 	m_vertexCount = numElements;
 	m_vertexSize = elementSize;

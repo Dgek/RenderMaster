@@ -10,6 +10,9 @@
 #include "../Graphics/States/RasterizerState.h"
 #include "../Graphics/States/SamplerState.h"
 
+#include "../Graphics/Resources/Textures/Texture2D.h"
+#include "../Graphics/Resources/Views/DepthStencilView.h"
+
 Renderer::Renderer()
 {
 	m_pcb16Bytes = make_unique<ConstantBuffer>();

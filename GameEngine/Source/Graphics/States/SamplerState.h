@@ -25,7 +25,7 @@ __forceinline SamplerState::~SamplerState()
 
 __forceinline bool SamplerState::Create(const D3D11_SAMPLER_DESC * pParams)
 {
-	HRESULT hr = DX11API::D3D11Device()->CreateSamplerState(params, &m_pState);
+	HRESULT hr = DX11API::D3D11Device()->CreateSamplerState(pParams, &m_pState);
 
 	VALID(hr);
 }

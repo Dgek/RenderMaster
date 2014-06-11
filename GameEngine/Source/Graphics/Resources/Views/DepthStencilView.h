@@ -1,6 +1,6 @@
 #pragma once
 
-class DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
+struct DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
 {
 public:
 	__forceinline DepthStencilViewParams() = default;
@@ -51,7 +51,7 @@ public:
 
 
 	/*** Getters ***/
-	__forceinline ID3D11DepthStencilView * const * GetView() const;
+	__forceinline ID3D11DepthStencilView * const *GetView() const;
 };
 
 __forceinline DepthStencilView::DepthStencilView()
@@ -63,7 +63,7 @@ __forceinline DepthStencilView::~DepthStencilView()
 	SAFE_RELEASE(m_pView);
 }
 
-__forceinline ID3D11DepthStencilView * const * DepthStencilView::GetView() const
+__forceinline ID3D11DepthStencilView * const *DepthStencilView::GetView() const
 {
 	return &m_pView;
 }
