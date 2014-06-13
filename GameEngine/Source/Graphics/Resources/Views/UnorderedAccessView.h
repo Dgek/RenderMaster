@@ -59,7 +59,7 @@ public:
 
 
 	/*** Getters ***/
-	__forceinline ID3D11UnorderedAccessView** GetView(int index) const;
+	__forceinline ID3D11UnorderedAccessView** GetView(int index = 0) const;
 
 	/* ==
 	Bind Unordered Access Views to the pipeline

@@ -58,7 +58,7 @@ public:
 
 
 	/*** Getters ***/
-	__forceinline ID3D11RenderTargetView** GetView(int index) const;
+	__forceinline ID3D11RenderTargetView** GetView(int index = 0) const;
 
 	/* ==
 	Bind Render Target Views to the pipeline
@@ -68,6 +68,8 @@ public:
 	__forceinline void Bind(const DepthStencilView & depthview) const;
 	__forceinline void Bind() const;
 	__forceinline void BindOneView(int index);
+	__forceinline void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
+		ID3D11UnorderedAccessView * const *, const unsigned int *);
 
 	__forceinline void Clear(float bgColor[4]);
 	__forceinline void Clear();
@@ -113,6 +115,13 @@ __forceinline void RenderTargetView::Bind(const DepthStencilView & depthview) co
 __forceinline void RenderTargetView::Bind() const
 {
 	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews, nullptr);
+}
+
+__forceinline void RenderTargetView::BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
+	ID3D11UnorderedAccessView * const * ppUnorderedAccessViews, const unsigned int * pUAVInitialCounts)
+{
+	DX11API::D3D11DeviceContext()->OMSetRenderTargetsAndUnorderedAccessViews(1, m_ppViews, nullptr, uavStartSlot, uavNum, ppUnorderedAccessViews, pUAVInitialCounts);
+
 }
 
 __forceinline void RenderTargetView::Clear(float bgColor[4])

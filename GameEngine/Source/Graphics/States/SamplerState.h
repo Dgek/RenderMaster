@@ -10,7 +10,7 @@ public:
 	__forceinline ~SamplerState();
 
 	__forceinline bool Create(const D3D11_SAMPLER_DESC * pParams);
-	__forceinline void Set(unsigned int slot, ShaderType type) const;
+	__forceinline void Bind(unsigned int slot, ShaderType type) const;
 };
 
 __forceinline SamplerState::SamplerState() 
@@ -30,7 +30,7 @@ __forceinline bool SamplerState::Create(const D3D11_SAMPLER_DESC * pParams)
 	VALID(hr);
 }
 
-__forceinline void SamplerState::Set(unsigned int slot, ShaderType type) const
+__forceinline void SamplerState::Bind(unsigned int slot, ShaderType type) const
 {
 	switch (type)
 	{

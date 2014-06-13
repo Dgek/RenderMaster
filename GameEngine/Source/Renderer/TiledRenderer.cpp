@@ -2,11 +2,16 @@
 
 #include "TiledRenderer.h"
 
+#include "Cameras/Camera.h"
+#include "Lights/Light.h"
+#include "Meshes/Mesh.h"
+
 #include "../Graphics/States/BlendState.h"
 #include "../Graphics/States/DepthStencilState.h"
 #include "../Graphics/States/RasterizerState.h"
 #include "../Graphics/States/SamplerState.h"
 
+#include "../Graphics/Resources/Buffers/ConstantBuffer.h"
 #include "../Graphics/Resources/Buffers/StructuredBuffer.h"
 #include "../Graphics/Resources/Buffers/VertexBuffer.h"
 #include "../Graphics/Resources/Buffers/IndexBuffer.h"
@@ -19,6 +24,8 @@
 
 #include "../Graphics/Stages/Shaders/ShaderBunch.h"
 #include "../Graphics/Stages/Shaders/ComputeShader.h"
+
+unsigned int TiledRenderer::m_iNumLights = 256;
 
 TiledRenderer::TiledRenderer()
 	: Renderer{}, m_pCurrentCamera{ nullptr }
@@ -48,6 +55,12 @@ bool TiledRenderer::VInitialize(HWND hWnd, unsigned int width, unsigned int heig
 
 	RenderTargetViewParams rtvParams;
 	rtvParams.InitForTexture2D(texParams.Format, 0, true);
+
+	/////////////////////////////////////////////////////
+	//Initialize data for light culling
+	/////////////////////////////////////////////////////
+	m_pLightGeoemtryData = make_unique<LightGeometry[]>(m_iNumLights);
+	m_pLightParams = make_unique<LightParams[]>(m_iNumLights);
 
 	return true;
 }
@@ -169,6 +182,42 @@ void TiledRenderer::FinishZPrepass()
 
 void TiledRenderer::PrepareForShadingPass()
 {
+	DX11API::ClearDepthStencilView(true, false, 1.0f, 0xFF, m_pDepthDSV.get());
+	m_pDepthEnableStencilDisableStandard->Bind(0xFF);
+	//m_pDepthDisableStencilDisable->Set(0);
+	//SetDepthStencilView(m_pDepthDSV);
+	//AllEnabledBackCullingRasterizer()->Set();
+	m_pAllDisabledBackCullingRasterizer->Bind();
+	//NoCullingStandardRasterizer()->Set();
+
+	//SetRenderTargetView();
+	DX11API::BindGlobalRenderTargetView(m_pDepthDSV.get());
+	m_pFinalShadingShaders->VBind();
+
+	m_pLightsSRV->Bind(0, ST_Pixel);
+	m_pLightIdxSRV->Bind(1, ST_Pixel);
+	m_pLowerBoundSRV->Bind(2, ST_Pixel);
+	m_pHigherBoundSRV->Bind(3, ST_Pixel);
+	m_pLightCounterSRV->Bind(4, ST_Pixel);
+
+	m_pSunShadowSRV->Bind(10, ST_Pixel);
+
+	m_pLinearTiledSampler->Bind(0, ST_Pixel);
+
+	m_pcb16Bytes->UpdateSubresource(0, nullptr, &m_pCurrentCamera->GetPosition(), 0, 0);
+	m_pcb16Bytes->Bind(0, ST_Pixel);
+
+	for (auto lit = begin(m_lights); lit != end(m_lights); ++lit)
+	{
+		Light* pLight = (*lit).get();
+		Mat4x4 shadowViewProj = pLight->GetShadowViewProj();
+		shadowViewProj.Transpose();
+
+		m_pcb64Bytes->UpdateSubresource(0, nullptr, &shadowViewProj, 0, 0);
+		m_pcb64Bytes->Bind(1, ST_Pixel);
+	}
+
+	m_viewport.Bind();
 }
 
 void TiledRenderer::UpdateLightBuffers()
@@ -184,18 +233,18 @@ void TiledRenderer::UpdateLightBuffers()
 	ZeroMemory(&paramsSubresource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
 	unsigned int index = 0;
-	for (auto lit = begin(m_lights); lit != end(m_lights); +lit)
+	for (auto lit = begin(m_lights); lit != end(m_lights); ++lit)
 	{
 		Light* pLight = (*lit).get();
-		Vec pos = pLight->GetData()->m_pos * pLight->GetWorldTransform();
-		m_pLightGeometryData[index].posANDrang = pos;
-		m_pLightGeometryData[index].posANDrang.w = pLight->GetRange();
+		Vec pos = pLight->GetPos() * pLight->GetWorldTransform();
+		m_pLightGeometryData[index].m_posAndRange = pos;
+		m_pLightGeometryData[index].m_posAndRange.w = pLight->GetRange();
 
-		m_pLightParams[index].color = pLight->GetData()->m_color;
-		m_pLightParams[index].dirANDrange = pLight->GetData()->m_dir;
-		m_pLightParams[index].dirANDrange.w = pLight->GetRange();
-		m_pLightParams[index].pos = pos;
-		m_pLightParams[index].spotAngles = Vector(0.8, 1.2, 0.0f, 0.0f);
+		m_pLightParams[index].m_color = pLight->GetColor();
+		m_pLightParams[index].m_dirAndRange = pLight->GetDir();
+		m_pLightParams[index].m_dirAndRange.w = pLight->GetRange();
+		m_pLightParams[index].m_pos = pos;
+		m_pLightParams[index].m_spotAngles = Vec(0.8f, 1.2f, 0.0f, 0.0f);
 
 		index++;
 	}
@@ -203,8 +252,8 @@ void TiledRenderer::UpdateLightBuffers()
 	DX11API::D3D11DeviceContext()->Map(m_psbLightGeometry->GetResourcePointer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &geometrySubresource);
 	DX11API::D3D11DeviceContext()->Map(m_psbLights->GetResourcePointer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &paramsSubresource);
 
-	memcpy(geometrySubresource.pData, m_pLightGeometryData, sizeof(LightGeometry)*m_iNumLights);
-	memcpy(paramsSubresource.pData, m_pLightParams, sizeof(LightParams)*m_iNumLights);
+	memcpy(geometrySubresource.pData, m_pLightGeometryData.get(), sizeof(LightGeometry)*m_iNumLights);
+	memcpy(paramsSubresource.pData, m_pLightParams.get(), sizeof(LightParams)*m_iNumLights);
 
 	DX11API::D3D11DeviceContext()->Unmap(m_psbLightGeometry->GetResourcePointer(), 0);
 	DX11API::D3D11DeviceContext()->Unmap(m_psbLights->GetResourcePointer(), 0);
@@ -218,16 +267,173 @@ void TiledRenderer::VFinishPass()
 }
 
 void TiledRenderer::Voxelize()
-{}
+{
+	m_voxelizationShaders->VBind();
+	this->m_pDepthDisableStencilDisable->Bind(0);
+	m_pNoCullingStandardRasterizer->Bind();
+	m_pPointClampSampler->Bind(0, ST_Pixel);
+
+	struct ThreeMatrices
+	{
+		Mat4x4 orthos[3];
+	} buffer;
+
+	Mat4x4 world;
+
+	float orthosize = 3200.0f;
+	buffer.orthos[0] = Mat4x4::CreateViewMatrixLH(Vec(-5000, 500, 0, 1.0f), Vec(1.0f, 0.0f, 0.0f, 0.0f), Vec(0.0f, 1.0f, 0.0f, 0.0f)) *
+		Mat4x4::CreateOrthoProjectionLH(orthosize, orthosize, 0.1f, 10000.0f);
+	buffer.orthos[0].Transpose();
+
+	buffer.orthos[1] = Mat4x4::CreateViewMatrixLH(Vec(0, -5000, 0, 1.0f), Vec(0.0f, 1.0f, 0.0f, 0.0f), Vec(0.0f, 0.0f, -1.0f, 0.0f)) *
+		Mat4x4::CreateOrthoProjectionLH(orthosize, orthosize, 0.1f, 10000.0f);
+	buffer.orthos[1].Transpose();
+
+	buffer.orthos[2] = Mat4x4::CreateViewMatrixLH(Vec(0, 500, -5000, 1.0f), Vec(0.0f, 0.0f, 1.0f, 0.0f), Vec(0.0f, 1.0f, 0.0f, 0.0f)) *
+		Mat4x4::CreateOrthoProjectionLH(orthosize, orthosize, 0.1f, 10000.0f);
+	buffer.orthos[2].Transpose();
+
+	m_pcb192Bytes->UpdateSubresource(0, nullptr, &buffer, 0, 0);
+
+	m_pcb192Bytes->Bind(0, ST_Geometry);
+
+	this->m_pNoCullingStandardRasterizer->Bind();
+
+	m_voxelTextureRTV->BindWithUAV(1, 1, m_voxelGridUAV->GetView(), nullptr);
+	m_voxelViewport.Bind();
+
+	Mesh * pMesh;
+	m_queue.Reset();
+
+	while (pMesh = m_queue.Next().get())
+	{
+		pMesh->VVoxelize(this, viewproj);
+	};
+
+	DX11API::UnbindGeometryShader();
+	DX11API::UnbindUnorderedAccessViews(1, 1);
+	DX11API::UnbindRenderTargetViews(1);
+	DX11API::UnbindShaderResourceViews(0, 1, ST_Pixel);
+}
 
 void TiledRenderer::InjectVPLs()
-{}
+{
+	m_pDepthDisableStencilDisable->Bind(0);
+	m_pNoCullingStandardRasterizer->Bind();
+	m_dirLightGridShaders->VBind();
+
+	m_pVoxelVB->Bind(0, 0);
+	m_voxelGridSRV->Bind(0, ST_Pixel);
+	m_pSunShadowSRV->Bind(1, ST_Pixel);
+	m_voxelSHRTVs->Bind(nullptr);
+
+	m_gridViewport.Bind();
+
+	for (auto lit = begin(m_lights); lit != end(m_lights); ++lit)
+	{
+		Light* pLight = (*lit).get();
+		Mat4x4 shadowViewProj = pLight->GetShadowViewProj();
+		shadowViewProj.Transpose();
+
+		m_pcb64Bytes->UpdateSubresource(0, nullptr, &shadowViewProj, 0, 0);
+		m_pcb64Bytes->Bind(1, ST_Pixel);
+
+		DX11API::D3D11DeviceContext()->DrawInstanced(m_pVoxelVB->Count(), 64, 0, 0);
+	}
+
+	DX11API::UnbindShaderResourceViews(0, 2, ST_Pixel);
+	DX11API::UnbindRenderTargetViews(3);
+	DX11API::UnbindGeometryShader();
+}
 
 void TiledRenderer::PropagateVPLs(unsigned int index)
-{}
+{
+	if ((index % 2) == 0)
+	{
+		m_voxelSHSRVs->Bind(0, ST_Compute);
+		m_voxelGridSRV->Bind(3, ST_Compute);
+		m_voxelPropagateSHUAVs->Bind(0, ST_Compute);
+
+		if (index == 0)
+			m_propagateCS->Bind();
+		else
+			m_pPropagateOcclusionCS->Bind();
+	}
+	else
+	{
+		m_voxelPropagateSHSRVs->Bind(0, ST_Compute);
+		m_voxelGridSRV->Bind(3, ST_Compute);
+		m_voxelSHUAVs->Bind(0, ST_Compute);
+		m_pPropagateOcclusionCS->Bind();
+	}
+
+	DX11API::D3D11DeviceContext()->Dispatch(8, 8, 8);
+
+	DX11API::UnbindShaderResourceViews(0, 4, ST_Compute);
+	DX11API::UnbindUnorderedAccessViews(0, 3);
+}
 
 void TiledRenderer::ApplyGlobalIllumination()
-{}
+{
+	m_pGlobalIllumShaders->VBind();
+
+	//set constant buffers
+	struct {
+		Vec frustumRays[4];
+	} rays;
+
+	Mat4x4 rot;
+	rot = rot.CreateRollPitchYaw(m_pCurrentCamera->GetRoll(), m_pCurrentCamera->GetPitch(), m_pCurrentCamera->GetYaw());
+
+	Vec lowerleft = m_pCurrentCamera->GetFrustum().GetLowerLeftRay();
+	lowerleft = lowerleft * rot;
+	lowerleft = Normalize(lowerleft);
+
+	Vec lowerright = m_pCurrentCamera->GetFrustum().GetLowerRightRay();
+	lowerright = lowerright * rot;
+	lowerright = Normalize(lowerright);
+
+	Vec upperleft = m_pCurrentCamera->GetFrustum().GetUpperLeftRay();
+	upperleft = upperleft * rot;
+	upperleft = Normalize(upperleft);
+
+	Vec upperright = m_pCurrentCamera->GetFrustum().GetUpperRightRay();
+	upperright = upperright * rot;
+	upperright = Normalize(upperright);
+
+	rays.frustumRays[0] = lowerleft;
+	rays.frustumRays[1] = lowerright;
+	rays.frustumRays[2] = upperleft;
+	rays.frustumRays[3] = upperright;
+
+	m_pcb64Bytes->UpdateSubresource(0, nullptr, &rays, 0, 0);
+	m_pcb64Bytes->Bind(0, ST_Geometry);
+
+	Vec cameraPos = pCamera->GetPosition();
+	m_pcb16Bytes->UpdateSubresource(0, nullptr, &cameraPos, 0, 0);
+	m_pcb16Bytes->Bind(0, ST_Pixel);
+
+	m_pNoCullingStandardRasterizer->Bind();
+	//BlendAddStandard()->Set(0, 0);
+	m_pGlobalIllumBlendState->Bind(0, 0xffffffff);
+
+	//m_pVoxelVB->Set(0, 0);
+	m_pGlobalIllumVB->Bind(0, 0);
+	m_pPrepassSRVs->Bind(0, ST_Pixel);
+	m_voxelPropagateSHSRVs->Bind(3, ST_Pixel);
+	m_pLinearTiledSampler->Bind(0, ST_Pixel);
+
+	DX11API::BindGlobalRenderTargetView();
+
+	m_viewport.Bind();
+
+	DX11API::D3D11DeviceContext()->Draw(m_pVoxelVB->Count(), 0);
+
+	m_pNoBlending->Bind(nullptr, 0xffffffff);
+	DX11API::UnbindShaderResourceViews(0, 6, ST_Pixel);
+	DX11API::UnbindRenderTargetViews(1);
+	DX11API::UnbindGeometryShader();
+}
 
 void TiledRenderer::LightCulling()
 {}

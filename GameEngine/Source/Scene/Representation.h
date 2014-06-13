@@ -24,8 +24,8 @@ protected:
 	Representations m_children;
 
 	// ======= Visualization ======= //
-	Meshes	m_meshes;
-	Lights	m_lights;
+	vector<shared_ptr<Mesh>> m_meshes;
+	vector<shared_ptr<Light>> m_lights;
 
 public:
 

@@ -38,6 +38,10 @@ public:
 
 	__forceinline void SetIdentity();
 
+	__forceinline Mat4x4 GetTransposed() const;
+
+	__forceinline void Transpose();
+
 	__forceinline Mat4x4 & operator*=(const Mat4x4 & other);
 
 	__forceinline Mat4x4 & operator*=(float other);
@@ -272,6 +276,39 @@ __forceinline Mat4x4 Mat4x4::CreateScaling(float x, float y, float z)
 __forceinline Mat4x4 Mat4x4::CreateRollPitchYaw(float rollInRadians, float pitchInRadians, float yawInRadians)
 {
 	return CreateRotationZ(rollInRadians) * CreateRotationX(pitchInRadians) * CreateRotationY(yawInRadians);
+}
+
+__forceinline Mat4x4 Mat4x4::GetTransposed() const
+{
+	Mat4x4 mat;
+
+	mat.m[0][0] = m[0][0];
+	mat.m[0][1] = m[1][0];
+	mat.m[0][2] = m[2][0];
+	mat.m[0][3] = m[3][0];
+
+	mat.m[1][0] = m[0][1];
+	mat.m[1][1] = m[1][1];
+	mat.m[1][2] = m[2][1];
+	mat.m[1][3] = m[3][1];
+
+	mat.m[2][0] = m[0][2];
+	mat.m[2][1] = m[1][2];
+	mat.m[2][2] = m[2][2];
+	mat.m[2][3] = m[3][2];
+
+	mat.m[3][0] = m[0][3];
+	mat.m[3][1] = m[1][3];
+	mat.m[3][2] = m[2][3];
+	mat.m[3][3] = m[3][3];
+
+	return mat;
+}
+
+__forceinline void Mat4x4::Transpose()
+{
+	Mat4x4 temp = GetTransposed();
+	*this = temp;
 }
 
 __forceinline Vec operator*(const Vec & v, const Mat4x4 & M)

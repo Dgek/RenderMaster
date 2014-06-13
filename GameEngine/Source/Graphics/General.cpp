@@ -53,12 +53,12 @@ bool DX11API::InitializeGraphics(HWND hWnd)
 
 	//assert(hr == S_OK && "Error creating render target");
 
-	//g_pBackBufferRTV = make_unique<RenderTargetView>(pRTV);
+	g_pBackBufferRTV = make_unique<RenderTargetView>(pRTV);
 	g_d3d11DeviceContext->OMSetRenderTargets(1, &pRTV, nullptr);
 
 	/* Initialize and set viewport */
-	//g_pViewport = make_unique<Viewport>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);
-	//g_pViewport->Bind();
+	g_pViewport = make_unique<Viewport>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);
+	g_pViewport->Bind();
 
 	return true;
 }
@@ -91,4 +91,90 @@ ID3D11DeviceContext* DX11API::D3D11DeviceContext()
 void DX11API::PresentBackBuffer()
 {
 	g_pSwapChain->Present(0, 0);
+}
+
+void DX11API::BindGlobalRenderTargetView()
+{
+	g_d3d11DeviceContext->OMSetRenderTargets(1, g_pBackBufferRTV->GetView(), nullptr);
+}
+
+void DX11API::BindGlobalRenderTargetView(DepthStencilView* pDepthStencilView)
+{
+	g_d3d11DeviceContext->OMSetRenderTargets(1, g_pBackBufferRTV->GetView(), *pDepthStencilView->GetView());
+}
+
+void DX11API::BindGlobalDepthStencilView(DepthStencilView * pDepthStencilView)
+{
+	g_d3d11DeviceContext->OMSetRenderTargets(0, nullptr, *pDepthStencilView->GetView());
+}
+
+void DX11API::BindGlobalViewport()
+{
+	g_pViewport->Bind();
+}
+
+void DX11API::ClearDepthStencilView(bool depth, bool stencil, float depthValue,
+	unsigned int stencilValue, DepthStencilView * pView)
+{
+	if (!pView) return;
+
+	if (depth && stencil)
+		DX11API::D3D11DeviceContext()->ClearDepthStencilView(*pView->GetView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depthValue, stencilValue);
+	else if (depth && !stencil)
+		DX11API::D3D11DeviceContext()->ClearDepthStencilView(*pView->GetView(), D3D11_CLEAR_DEPTH, depthValue, stencilValue);
+	else if (!depth && stencil)
+		DX11API::D3D11DeviceContext()->ClearDepthStencilView(*pView->GetView(), D3D11_CLEAR_STENCIL, depthValue, stencilValue);
+}
+
+void DX11API::UnbindShaderResourceViews(unsigned int slot, unsigned int numviews, ShaderType shadertype)
+{
+	ID3D11ShaderResourceView* pNullSRV = nullptr;
+
+	switch (shadertype)
+	{
+	case ST_Vertex:
+		for (auto i = 0; i < numviews; i++)
+			DX11API::D3D11DeviceContext()->VSSetShaderResources(slot + i, 1, &pNullSRV);
+		break;
+	case ST_Domain:
+		for (auto i = 0; i < numviews; i++)
+			DX11API::D3D11DeviceContext()->DSSetShaderResources(slot + i, 1, &pNullSRV);
+		break;
+	case ST_Geometry:
+		for (auto i = 0; i < numviews; i++)
+			DX11API::D3D11DeviceContext()->GSSetShaderResources(slot + i, 1, &pNullSRV);
+		break;
+	case ST_Pixel:
+		for (auto i = 0; i < numviews; i++)
+			DX11API::D3D11DeviceContext()->PSSetShaderResources(slot + i, 1, &pNullSRV);
+		break;
+	case ST_Compute:
+		for (auto i = 0; i < numviews; i++)
+			DX11API::D3D11DeviceContext()->CSSetShaderResources(slot + i, 1, &pNullSRV);
+	default:
+		assert(0);
+		break;
+	};
+}
+
+void DX11API::UnbindUnorderedAccessViews(unsigned int slot, unsigned int numviews)
+{
+	ID3D11UnorderedAccessView* pNullUAV = nullptr;
+
+	for (int i = 0; i < numviews; i++)
+		DX11API::D3D11DeviceContext()->CSSetUnorderedAccessViews(slot + i, 1, &pNullUAV, nullptr);
+}
+
+void DX11API::UnbindRenderTargetViews(unsigned int numviews)
+{
+
+	ID3D11RenderTargetView* pNullRTV = nullptr;
+	for (int i = 0; i < numviews; i++)
+		DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, &pNullRTV, NULL);
+}
+
+void DX11API::UnbindGeometryShader()
+{
+	ID3D11GeometryShader* pNullShader = nullptr;
+	DX11API::D3D11DeviceContext()->GSSetShader(pNullShader, nullptr, 0);
 }

@@ -43,6 +43,9 @@ bool Renderer::VInitialize(HWND hWnd, unsigned int width, unsigned int height)
 	params.FillConstantBufferParams(128, true, false, false);
 	if (!m_pcb128Bytes->Create(params, nullptr)) return false;
 
+	params.FillConstantBufferParams(192, true, false, false);
+	if (!m_pcb192Bytes->Create(params, nullptr)) return false;
+
 	params.FillConstantBufferParams(256, true, false, false);
 	if (!m_pcb256Bytes->Create(params, nullptr)) return false;
 	

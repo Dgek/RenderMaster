@@ -3,7 +3,29 @@
 #include "Renderer.h"
 #include "RenderQueue.h"
 
+
+#include "../Math/Vector.h"
 #include "../Graphics/Other/Viewport.h"
+
+struct LightData
+{
+	Vec m_color;
+	Vec m_pos;
+	Vec m_dir;
+};
+
+struct LightParams
+{
+	Vec m_color;
+	Vec m_pos;
+	Vec m_dirAndRange;
+	Vec m_spotAngles;
+};
+
+struct LightGeometry
+{
+	Vec m_posAndRange;
+};
 
 class Light;
 class Texture2D;
@@ -15,6 +37,10 @@ class ComputeShader;
 class VertexBuffer;
 class TiledRenderer : public Renderer
 {
+private:
+
+	static unsigned int m_iNumLights;
+
 protected:
 
 	RenderQueue m_queue;
@@ -52,6 +78,15 @@ protected:
 
 	unique_ptr<StructuredBuffer> m_psbLights;
 	unique_ptr<ShaderResourceView> m_pLightsSRV;
+
+	unique_ptr<LightGeometry[]> m_pLightGeometryData;
+	unique_ptr<LightParams[]> m_pLightParams;
+
+	////////////////////////////////////
+	//Shadowing
+	unique_ptr<Texture2D> m_pSunShadowTexture;
+	unique_ptr<ShaderResourceView> m_pSunShadowSRV;
+	unique_ptr<RenderTargetView> m_pSunShadowRTV;
 
 	////////////////////////////////////
 	//Voxelized global illumination
@@ -129,6 +164,5 @@ public:
 	void VPostRenderMesh(Mesh* pMesh);
 
 	void PrepareForShadingPass();
-	void UpdateLightBuffers();
 	void VFinishPass();
 };

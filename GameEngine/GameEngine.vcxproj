@@ -140,11 +140,16 @@
     <ClInclude Include="Source\Physics\PhysicsInterfaces.h" />
     <ClInclude Include="Source\Renderer\Cameras\Camera.h" />
     <ClInclude Include="Source\Renderer\Lights\Light.h" />
+    <ClInclude Include="Source\Renderer\Materials\Material.h" />
+    <ClInclude Include="Source\Renderer\Meshes\BoxMesh.h" />
+    <ClInclude Include="Source\Renderer\Meshes\IndexedMesh.h" />
     <ClInclude Include="Source\Renderer\Meshes\Mesh.h" />
+    <ClInclude Include="Source\Renderer\Meshes\PlaneMesh.h" />
     <ClInclude Include="Source\Renderer\Objects\IMovable.h" />
     <ClInclude Include="Source\Renderer\Renderer.h" />
     <ClInclude Include="Source\Renderer\RenderQueue.h" />
     <ClInclude Include="Source\Renderer\TiledRenderer.h" />
+    <ClInclude Include="Source\ResourceManager\Loaders\MeshLoader.cpp" />
     <ClInclude Include="Source\ResourceManager\Loaders\MeshLoader.h" />
     <ClInclude Include="Source\ResourceManager\Resource.h" />
     <ClInclude Include="Source\ResourceManager\ResourceCache.h" />
@@ -186,6 +191,7 @@
     <ClCompile Include="Source\Math\Geometry\Plane.cpp" />
     <ClCompile Include="Source\Renderer\Cameras\Camera.cpp" />
     <ClCompile Include="Source\Renderer\Lights\Light.cpp" />
+    <ClCompile Include="Source\Renderer\Materials\Material.cpp" />
     <ClCompile Include="Source\Renderer\Meshes\Mesh.cpp" />
     <ClCompile Include="Source\Renderer\Renderer.cpp" />
     <ClCompile Include="Source\Renderer\RenderQueue.cpp" />

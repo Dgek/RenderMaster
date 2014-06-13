@@ -115,6 +115,9 @@
     <Filter Include="Renderer\Objects">
       <UniqueIdentifier>{77f2f30b-2c0e-40c6-910b-117ace96e2a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renderer\Materials">
+      <UniqueIdentifier>{9fd83022-f199-449a-865c-96ec75f20d6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Math\float3.h">
@@ -346,6 +349,21 @@
     <ClInclude Include="Source\Graphics\Stages\Shaders\ShaderBunch.h">
       <Filter>Graphics\DX11\Stages\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Renderer\Meshes\IndexedMesh.h">
+      <Filter>Renderer\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Meshes\BoxMesh.h">
+      <Filter>Renderer\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Meshes\PlaneMesh.h">
+      <Filter>Renderer\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager\Loaders\MeshLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Materials\Material.h">
+      <Filter>Renderer\Materials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">
@@ -462,6 +480,9 @@
     </ClCompile>
     <ClCompile Include="Source\Graphics\Resources\Buffers\ConstantBuffer.cpp">
       <Filter>Graphics\DX11\Resources\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Materials\Material.cpp">
+      <Filter>Renderer\Materials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

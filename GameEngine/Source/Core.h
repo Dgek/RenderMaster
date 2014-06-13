@@ -165,6 +165,7 @@ typedef unsigned int EntityId;
 typedef unsigned int EntityRepresentationId;
 typedef unsigned char Key;
 typedef unsigned int StateId;
+typedef unsigned int MaterialId;
 typedef map<string, int> ContentMap;
 
 enum SystemMessageType
@@ -187,4 +188,11 @@ enum ShaderType
 	ST_Geometry,
 	ST_Pixel,
 	ST_Compute
+};
+
+enum LightType
+{
+	LT_Point = 1,
+	LT_Spot = 2,
+	LT_Directional = 3,
 };

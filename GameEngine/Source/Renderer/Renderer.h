@@ -37,6 +37,7 @@ protected:
 	unique_ptr<ConstantBuffer> m_pcb16Bytes;
 	unique_ptr<ConstantBuffer> m_pcb64Bytes;
 	unique_ptr<ConstantBuffer> m_pcb128Bytes;
+	unique_ptr<ConstantBuffer> m_pcb192Bytes;
 	unique_ptr<ConstantBuffer> m_pcb256Bytes;
 
 	/** ================================
