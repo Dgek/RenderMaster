@@ -17,3 +17,19 @@ public:
 
 	__forceinline void BindInputLayoutAndTopology() const;
 };
+
+__forceinline InputAssemblerState::InputAssemblerState()
+	: m_pLayout{ nullptr }, m_pDesc{ nullptr }, m_num{ 0 }
+{}
+
+__forceinline InputAssemblerState::~InputAssemblerState()
+{
+	SAFE_DELETE_ARRAY(m_pDesc);
+	SAFE_RELEASE(m_pLayout);
+}
+
+__forceinline void InputAssemblerState::BindInputLayoutAndTopology() const
+{
+	DX11API::D3D11DeviceContext()->IASetInputLayout(m_pLayout);
+	DX11API::D3D11DeviceContext()->IASetPrimitiveTopology(m_topology);
+}

@@ -1,7 +1,8 @@
 #pragma once
 
+#include "../Graphics/Resources/Views/RenderTargetView.h"
+
 struct Viewport;
-class RenderTargetView;
 class DepthStencilView;
 class DX11API
 {
@@ -11,9 +12,9 @@ private:
 	static ID3D11DeviceContext* g_d3d11DeviceContext;
 	static IDXGISwapChain* g_pSwapChain;
 
-	static unique_ptr<RenderTargetView> g_pBackBufferRTV;
-	static unique_ptr<DepthStencilView> g_pDepthStencilView;
-	static unique_ptr<Viewport> g_pViewport;
+	static RenderTargetView* g_pBackBufferRTV;
+	static DepthStencilView* g_pDepthStencilView;
+	static Viewport* g_pViewport;
 
 public:
 	/** Initialize graphics API

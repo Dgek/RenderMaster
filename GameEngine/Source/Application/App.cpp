@@ -15,6 +15,9 @@ App::App()
 	m_windowClassName = L"window";
 }
 
+App::~App()
+{}
+
 void App::InitializeWindow(HINSTANCE hInstance, int showWnd, bool isWindowed)
 {
 	//assign variables

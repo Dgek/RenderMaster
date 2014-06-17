@@ -45,6 +45,7 @@ private:
 
 public:
 	App();
+	~App();
 
 	/*============================================
 	//Engine Initialization
@@ -70,7 +71,9 @@ public:
 	void Close();
 
 	__forceinline double GetTimeStep() const;
-	__forceinline double GetGameTime() const;
+	__forceinline double GetGameTimeInSeconds() const;
+
+	__forceinline IPhysics* GetPhysics() const;
 
 	static LRESULT CALLBACK WndProc(HWND hWnd, unsigned int msg, WPARAM wParam, LPARAM lParam);
 };
@@ -80,7 +83,14 @@ __forceinline double App::GetTimeStep() const
 	return 0.0;
 }
 
-__forceinline double App::GetGameTime() const
+__forceinline double App::GetGameTimeInSeconds() const
 {
 	return 0.0f;
 }
+
+__forceinline IPhysics* App::GetPhysics() const
+{
+	return m_pPhysics.get();
+}
+
+extern unique_ptr<App> g_pEngine;

@@ -364,6 +364,18 @@
     <ClInclude Include="Source\Renderer\Materials\Material.h">
       <Filter>Renderer\Materials</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Renderer\Meshes\Sprite.h">
+      <Filter>Renderer\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Lights\SpotLight.h">
+      <Filter>Renderer\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Lights\DirectionalLight.h">
+      <Filter>Renderer\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Lights\PointLight.h">
+      <Filter>Renderer\Lights</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">
@@ -483,6 +495,24 @@
     </ClCompile>
     <ClCompile Include="Source\Renderer\Materials\Material.cpp">
       <Filter>Renderer\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Other\Viewport.cpp">
+      <Filter>Graphics\DX11\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Resources\Views\RenderTargetView.cpp">
+      <Filter>Graphics\DX11\Resources\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Entities\EntityResource.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Lights\DirectionalLight.cpp">
+      <Filter>Renderer\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Lights\PointLight.cpp">
+      <Filter>Renderer\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Lights\SpotLight.cpp">
+      <Filter>Renderer\Lights</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

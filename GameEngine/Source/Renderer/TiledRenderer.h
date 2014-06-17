@@ -82,6 +82,9 @@ protected:
 	unique_ptr<LightGeometry[]> m_pLightGeometryData;
 	unique_ptr<LightParams[]> m_pLightParams;
 
+	//shading pass
+	unique_ptr<ShaderBunch> m_pFinalShadingShaders;
+
 	////////////////////////////////////
 	//Shadowing
 	unique_ptr<Texture2D> m_pSunShadowTexture;

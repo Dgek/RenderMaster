@@ -1,5 +1,8 @@
 #pragma once
 
+#include "../../Math/Vector.h"
+#include "../../Math/Quaternion.h"
+
 struct EntityComponent
 {
 	__forceinline virtual string VGetType() const =0 { return "Component"; }
@@ -10,7 +13,7 @@ struct EntityComponent
 ///////////////////////////////////////////////////////////
 struct GraphicsComponent : public EntityComponent
 {
-	wstring m_material;
+	string m_material;
 };
 
 struct GraphicsPlaneComponent : public GraphicsComponent
@@ -32,7 +35,7 @@ struct GraphicsSpriteComponent : public GraphicsComponent
 
 struct GraphicsBoxComponent : public GraphicsComponent
 {
-	string VGetType() const override { return "Box"; }
+	virtual string VGetType() const override { return "Box"; }
 
 	float m_fXHalfExtent;
 	float m_fYHalfExtent;
@@ -41,14 +44,14 @@ struct GraphicsBoxComponent : public GraphicsComponent
 
 struct GraphicsSphereComponent : public GraphicsComponent
 {
-	string VGetType() const override { return "Sphere"; }
+	virtual string VGetType() const override { return "Sphere"; }
 
 	float m_fRadius;
 };
 
 struct GraphicsMeshComponent : public GraphicsComponent
 {
-	string VGetType() const override { return "Mesh"; }
+	virtual string VGetType() const override { return "Mesh"; }
 
 	string m_filename;
 };
@@ -60,7 +63,7 @@ struct GraphicsLightComponent : public GraphicsComponent
 
 struct GraphicsPointLightComponent : public GraphicsLightComponent
 {
-	string VGetType() const override { return "PointLight"; }
+	virtual string VGetType() const override { return "PointLight"; }
 
 	Vec m_position;
 	float m_range;
@@ -68,14 +71,14 @@ struct GraphicsPointLightComponent : public GraphicsLightComponent
 
 struct GraphicsDirectionalLightComponent : public GraphicsLightComponent
 {
-	string VGetType() const override { return "DirectionalLight"; }
+	virtual string VGetType() const override { return "DirectionalLight"; }
 
 	Vec m_direction;
 };
 
 struct GraphicsSpotLightComponent : public GraphicsLightComponent
 {
-	string VGetType() const override { return "SpotLight"; }
+	virtual string VGetType() const override { return "SpotLight"; }
 
 	Vec m_direction;
 	Vec m_position;
@@ -110,7 +113,7 @@ struct PhysicsPlaneComponent : public PhysicsComponent
 
 struct PhysicsBoxComponent : public PhysicsComponent
 {
-	string VGetType() const override{ return "Box"; }
+	virtual string VGetType() const override{ return "Box"; }
 
 	float m_fXHalfExtent;
 	float m_fYHalfExtent;
@@ -119,21 +122,21 @@ struct PhysicsBoxComponent : public PhysicsComponent
 
 struct PhysicsSphereComponent : public PhysicsComponent
 {
-	string VGetType() const override{ return "Sphere"; }
+	virtual string VGetType() const override{ return "Sphere"; }
 
 	float m_fRadius;
 };
 
 struct PhysicsMeshComponent : public PhysicsComponent
 {
-	string VGetType() const override{ return "Mesh"; }
+	virtual string VGetType() const override{ return "Mesh"; }
 
 	string m_filename;
 };
 
 struct PhysicsCharacterComponent : public PhysicsComponent
 {
-	string VGetType() const override{ return "Character"; }
+	virtual string VGetType() const override{ return "Character"; }
 
 	float m_height;
 	float m_width;
@@ -143,6 +146,11 @@ struct PhysicsCharacterComponent : public PhysicsComponent
 	float m_maxSlopeInRadians;
 };
 
+class IPhysics;
+class TiXmlElement;
+class Entity;
+class Game;
+class Scene;
 struct EntityResource
 {
 	Vec m_vPos;

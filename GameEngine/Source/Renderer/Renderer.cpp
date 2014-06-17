@@ -18,6 +18,7 @@ Renderer::Renderer()
 	m_pcb16Bytes = make_unique<ConstantBuffer>();
 	m_pcb64Bytes = make_unique<ConstantBuffer>();
 	m_pcb128Bytes = make_unique<ConstantBuffer>();
+	m_pcb192Bytes = make_unique<ConstantBuffer>();
 	m_pcb256Bytes = make_unique<ConstantBuffer>();
 }
 

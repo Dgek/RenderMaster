@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../General.h"
-
 #include "DepthStencilView.h"
 
 struct RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
@@ -48,45 +46,32 @@ private:
 	int m_numViews;
 
 public:
-	__forceinline RenderTargetView();
+	RenderTargetView();
 
-	__forceinline explicit RenderTargetView(int numViews);
+	explicit RenderTargetView(int numViews);
 
-	__forceinline explicit RenderTargetView(ID3D11RenderTargetView * View);
+	explicit RenderTargetView(ID3D11RenderTargetView * View);
 
 	__forceinline ~RenderTargetView();
 
 
 	/*** Getters ***/
-	__forceinline ID3D11RenderTargetView** GetView(int index = 0) const;
+	ID3D11RenderTargetView** GetView(int index = 0) const;
 
 	/* ==
 	Bind Render Target Views to the pipeline
 	== */
 	//void Set(DepthStencilViewDX11 * pView) const;
 	//__forceinline void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum)
-	__forceinline void Bind(const DepthStencilView & depthview) const;
-	__forceinline void Bind() const;
-	__forceinline void BindOneView(int index);
-	__forceinline void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
+	void Bind(const DepthStencilView & depthview) const;
+	void Bind() const;
+	void BindOneView(int index);
+	void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
 		ID3D11UnorderedAccessView * const *, const unsigned int *);
 
-	__forceinline void Clear(float bgColor[4]);
-	__forceinline void Clear();
+	void Clear(float bgColor[4]);
+	void Clear();
 };
-
-__forceinline RenderTargetView::RenderTargetView()
-	: m_ppViews{ nullptr }, m_numViews{ 1 }
-{}
-
-__forceinline RenderTargetView::RenderTargetView(int numViews)
-	: m_ppViews{ nullptr }, m_numViews{ numViews }
-{}
-
-__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
-{
-	m_ppViews = &pView;
-}
 
 __forceinline RenderTargetView::~RenderTargetView()
 {
@@ -95,45 +80,4 @@ __forceinline RenderTargetView::~RenderTargetView()
 		SAFE_RELEASE(m_ppViews[i]);
 
 	SAFE_DELETE_ARRAY(m_ppViews);
-}
-
-__forceinline ID3D11RenderTargetView** RenderTargetView::GetView(int index) const
-{
-	return &m_ppViews[index];
-}
-
-//void Set(DepthStencilViewDX11 * pView) const;
-__forceinline void RenderTargetView::BindOneView(int index)
-{
-	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews + index, nullptr);
-}
-
-__forceinline void RenderTargetView::Bind(const DepthStencilView & depthview) const
-{
-	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews, *depthview.GetView());
-}
-__forceinline void RenderTargetView::Bind() const
-{
-	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews, nullptr);
-}
-
-__forceinline void RenderTargetView::BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
-	ID3D11UnorderedAccessView * const * ppUnorderedAccessViews, const unsigned int * pUAVInitialCounts)
-{
-	DX11API::D3D11DeviceContext()->OMSetRenderTargetsAndUnorderedAccessViews(1, m_ppViews, nullptr, uavStartSlot, uavNum, ppUnorderedAccessViews, pUAVInitialCounts);
-
-}
-
-__forceinline void RenderTargetView::Clear(float bgColor[4])
-{
-	for (auto i = 0; i < m_numViews; i++)
-		DX11API::D3D11DeviceContext()->ClearRenderTargetView(m_ppViews[i], bgColor);
-}
-
-__forceinline void RenderTargetView::Clear()
-{
-	float color[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-
-	for (auto i = 0; i < m_numViews; i++)
-		DX11API::D3D11DeviceContext()->ClearRenderTargetView(m_ppViews[i], color);
 }

@@ -6,6 +6,8 @@
 #include "Lights/Light.h"
 #include "Meshes/Mesh.h"
 
+#include "../Graphics/Other/Viewport.h"
+
 #include "../Graphics/States/BlendState.h"
 #include "../Graphics/States/DepthStencilState.h"
 #include "../Graphics/States/RasterizerState.h"
@@ -59,7 +61,7 @@ bool TiledRenderer::VInitialize(HWND hWnd, unsigned int width, unsigned int heig
 	/////////////////////////////////////////////////////
 	//Initialize data for light culling
 	/////////////////////////////////////////////////////
-	m_pLightGeoemtryData = make_unique<LightGeometry[]>(m_iNumLights);
+	m_pLightGeometryData = make_unique<LightGeometry[]>(m_iNumLights);
 	m_pLightParams = make_unique<LightParams[]>(m_iNumLights);
 
 	return true;
@@ -217,15 +219,16 @@ void TiledRenderer::PrepareForShadingPass()
 		m_pcb64Bytes->Bind(1, ST_Pixel);
 	}
 
-	m_viewport.Bind();
+	//m_viewport.Bind();
+	DX11API::BindGlobalViewport();
 }
 
 void TiledRenderer::UpdateLightBuffers()
 {
 	m_iNumLights = m_lights.size();
 
-	ZeroMemory(m_pLightGeometryData, sizeof(LightGeometry)* m_iNumLights);
-	ZeroMemory(m_pLightParams, sizeof(LightParams)* m_iNumLights);
+	ZeroMemory(m_pLightGeometryData.get(), sizeof(LightGeometry)* m_iNumLights);
+	ZeroMemory(m_pLightParams.get(), sizeof(LightParams)* m_iNumLights);
 
 	D3D11_MAPPED_SUBRESOURCE geometrySubresource;
 	D3D11_MAPPED_SUBRESOURCE paramsSubresource;
@@ -307,7 +310,7 @@ void TiledRenderer::Voxelize()
 
 	while (pMesh = m_queue.Next().get())
 	{
-		pMesh->VVoxelize(this, viewproj);
+		//pMesh->VVoxelize(this, viewproj);
 	};
 
 	DX11API::UnbindGeometryShader();
@@ -325,7 +328,8 @@ void TiledRenderer::InjectVPLs()
 	m_pVoxelVB->Bind(0, 0);
 	m_voxelGridSRV->Bind(0, ST_Pixel);
 	m_pSunShadowSRV->Bind(1, ST_Pixel);
-	m_voxelSHRTVs->Bind(nullptr);
+	//m_voxelSHRTVs->Bind(nullptr);
+	m_voxelSHRTVs->Bind();
 
 	m_gridViewport.Bind();
 
@@ -387,19 +391,19 @@ void TiledRenderer::ApplyGlobalIllumination()
 
 	Vec lowerleft = m_pCurrentCamera->GetFrustum().GetLowerLeftRay();
 	lowerleft = lowerleft * rot;
-	lowerleft = Normalize(lowerleft);
+	lowerleft = Vec::Normalize(lowerleft);
 
 	Vec lowerright = m_pCurrentCamera->GetFrustum().GetLowerRightRay();
 	lowerright = lowerright * rot;
-	lowerright = Normalize(lowerright);
+	lowerright = Vec::Normalize(lowerright);
 
 	Vec upperleft = m_pCurrentCamera->GetFrustum().GetUpperLeftRay();
 	upperleft = upperleft * rot;
-	upperleft = Normalize(upperleft);
+	upperleft = Vec::Normalize(upperleft);
 
 	Vec upperright = m_pCurrentCamera->GetFrustum().GetUpperRightRay();
 	upperright = upperright * rot;
-	upperright = Normalize(upperright);
+	upperright = Vec::Normalize(upperright);
 
 	rays.frustumRays[0] = lowerleft;
 	rays.frustumRays[1] = lowerright;
@@ -409,7 +413,7 @@ void TiledRenderer::ApplyGlobalIllumination()
 	m_pcb64Bytes->UpdateSubresource(0, nullptr, &rays, 0, 0);
 	m_pcb64Bytes->Bind(0, ST_Geometry);
 
-	Vec cameraPos = pCamera->GetPosition();
+	Vec cameraPos = m_pCurrentCamera->GetPosition();
 	m_pcb16Bytes->UpdateSubresource(0, nullptr, &cameraPos, 0, 0);
 	m_pcb16Bytes->Bind(0, ST_Pixel);
 
@@ -425,7 +429,8 @@ void TiledRenderer::ApplyGlobalIllumination()
 
 	DX11API::BindGlobalRenderTargetView();
 
-	m_viewport.Bind();
+	//m_viewport.Bind();
+	DX11API::BindGlobalViewport();
 
 	DX11API::D3D11DeviceContext()->Draw(m_pVoxelVB->Count(), 0);
 

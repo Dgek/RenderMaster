@@ -80,6 +80,18 @@ using namespace std;
 
 #define DebugBrake() __asm { int 3 }
 
+/******
+Other useful macroses
+******/
+#define MAX(a, b) ((a) >= (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+/******
+Operations with angles
+******/
+#define RADIANS_TO_DEGREES(x) ((x) * 180.0f / PI)
+#define DEGREES_TO_RADIANS(x) ((x) * PI / 180.0f)
+
 #ifdef ASSERTIONS_ENABLED
 #define ASSERT(expr) \
 if (expr)	\

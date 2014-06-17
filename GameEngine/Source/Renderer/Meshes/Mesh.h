@@ -30,6 +30,9 @@ public:
 	virtual void SetWorldTransform(const Mat4x4 & transform) override;
 };
 
+__forceinline Mesh::Mesh()
+{}
+
 __forceinline void Mesh::SetMaterial(const string & materialName)
 {
 	m_pMaterial->VBind(0);

@@ -3,11 +3,14 @@
 #include "General.h"
 
 #include "../Graphics/Other/Viewport.h"
-#include "../Graphics/Resources/Views/RenderTargetView.h"
+
 
 ID3D11Device* DX11API::g_d3d11Device = nullptr;
 ID3D11DeviceContext* DX11API::g_d3d11DeviceContext = nullptr;
 IDXGISwapChain* DX11API::g_pSwapChain = nullptr;
+
+RenderTargetView* DX11API::g_pBackBufferRTV = nullptr;
+Viewport* DX11API::g_pViewport = nullptr;
 
 bool DX11API::InitializeGraphics(HWND hWnd)
 {
@@ -53,11 +56,13 @@ bool DX11API::InitializeGraphics(HWND hWnd)
 
 	//assert(hr == S_OK && "Error creating render target");
 
-	g_pBackBufferRTV = make_unique<RenderTargetView>(pRTV);
+	//g_pBackBufferRTV = make_unique<RenderTargetView>(pRTV);
+	g_pBackBufferRTV = new RenderTargetView(pRTV);
 	g_d3d11DeviceContext->OMSetRenderTargets(1, &pRTV, nullptr);
 
 	/* Initialize and set viewport */
-	g_pViewport = make_unique<Viewport>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);
+	//g_pViewport = make_unique<Viewport>(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);
+	g_pViewport = new Viewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);
 	g_pViewport->Bind();
 
 	return true;
@@ -161,7 +166,7 @@ void DX11API::UnbindUnorderedAccessViews(unsigned int slot, unsigned int numview
 {
 	ID3D11UnorderedAccessView* pNullUAV = nullptr;
 
-	for (int i = 0; i < numviews; i++)
+	for (auto i = 0; i < numviews; i++)
 		DX11API::D3D11DeviceContext()->CSSetUnorderedAccessViews(slot + i, 1, &pNullUAV, nullptr);
 }
 
@@ -169,7 +174,7 @@ void DX11API::UnbindRenderTargetViews(unsigned int numviews)
 {
 
 	ID3D11RenderTargetView* pNullRTV = nullptr;
-	for (int i = 0; i < numviews; i++)
+	for (auto i = 0; i < numviews; i++)
 		DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, &pNullRTV, NULL);
 }
 

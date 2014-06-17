@@ -2,8 +2,15 @@
 
 #include "TestState.h"
 
+#include "Game\Game.h"
+#include "Game\Entities\EntityResource.h"
+
 void TestState::VInitialize(Game * pGame, UINT_PTR uptrData)
 {
+	EntityResource & projector_resource = EntityResource("SunLight.xml");
+	shared_ptr<Entity> pProjector = pGame->VAddEntity(projector_resource.VCreateEntity(pGame));
+	projector_resource.VCreateRepresentation(m_pScene.get(), pProjector);
+	projector_resource.VCreatePhysicalBody(g_pEngine->GetPhysics(), pProjector);
 }
 
 void TestState::VUpdate(Game * pGame, double time, double elapsedTime)

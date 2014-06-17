@@ -13,6 +13,8 @@
 #include "Game\RenderingDemo.h"
 #include "Game\DemoStateFactory.h"
 
+unique_ptr<App> g_pEngine = make_unique<App>();
+
 ////////////////////////////////////
 //Entry point for the application
 ////////////////////////////////////

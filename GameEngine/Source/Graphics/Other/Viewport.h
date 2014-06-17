@@ -27,6 +27,8 @@ struct Viewport : public D3D11_VIEWPORT
 	*/
 	__forceinline Viewport(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth);
 	
+	~Viewport();
+
 	__forceinline void Set(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth);
 	
 	__forceinline void Bind();

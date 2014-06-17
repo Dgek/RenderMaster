@@ -2,6 +2,11 @@
 
 #include "MeshLoader.h"
 
+string MeshResourceExtraData::VToString()
+{
+	return "MeshResourceExtraData";
+}
+
 string MeshLoader::VGetPattern()
 {}
 
