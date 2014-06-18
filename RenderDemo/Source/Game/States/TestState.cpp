@@ -11,6 +11,11 @@ void TestState::VInitialize(Game * pGame, UINT_PTR uptrData)
 	shared_ptr<Entity> pProjector = pGame->VAddEntity(projector_resource.VCreateEntity(pGame));
 	projector_resource.VCreateRepresentation(m_pScene.get(), pProjector);
 	projector_resource.VCreatePhysicalBody(g_pEngine->GetPhysics(), pProjector);
+
+	EntityResource & sponza_resource = EntityResource("Sponza.xml");
+	shared_ptr<Entity> pSponza = pGame->VAddEntity(sponza_resource.VCreateEntity(pGame));
+	sponza_resource.VCreateRepresentation(m_pScene.get(), pSponza);
+	sponza_resource.VCreatePhysicalBody(g_pEngine->GetPhysics(), pSponza);
 }
 
 void TestState::VUpdate(Game * pGame, double time, double elapsedTime)

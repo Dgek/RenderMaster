@@ -2,6 +2,25 @@
 
 #include "ResourceCache.h"
 
+#include "Resource.h"
+#include "../Help/Strings/Strings.h"
+
+static shared_ptr<ResourceCache> g_pCache;
+
+ResourceCache::ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile)
+{
+	m_uCacheSize = sizeInMb * 1024 * 1024;
+	m_uAllocated = 0;
+
+	m_pFile = move(pFile);
+	g_pCache = shared_ptr<ResourceCache>(this);
+}
+
+ResourceCache * const ResourceCache::Get()
+{
+	return g_pCache.get();
+}
+
 std::shared_ptr<ResHandle> ResourceCache::SafeGetHandle(Resource *pResource)
 {
 	assert(ResourceCache::Get());
@@ -24,19 +43,6 @@ shared_ptr<ResHandle> ResourceCache::GetHandle(Resource *pResource)
 	return pHandle;
 }
 
-bool ResourceCache::Init()
-{
-	auto bResult = false;
-	if (m_pFile->VOpen())
-	{
-		//RegisterLoader(shared_ptr<IResourceLoader>(new DefaultResourceLoader()));
-		RegisterLoader(static_pointer_cast<IResourceLoader>(make_shared<DefaultResourceLoader>()));
-		bResult = true;
-	}
-
-	return bResult;
-}
-
 shared_ptr<ResHandle> ResourceCache::Load(Resource *pResource)
 {
 	shared_ptr<IResourceLoader> pLoader;
@@ -45,7 +51,7 @@ shared_ptr<ResHandle> ResourceCache::Load(Resource *pResource)
 	for (auto it = m_resourceLoaders.begin(); it != m_resourceLoaders.end(); ++it)
 	{
 		shared_ptr<IResourceLoader> pCurLoader = (*it);
-		if (WildcardMatch(pCurLoader->VGetPattern().c_str(), pResource->m_name.c_str()))
+		if (StringHelper::WildcardMatch(pCurLoader->VGetPattern().c_str(), pResource->m_name.c_str()))
 		{
 			pLoader = pCurLoader;
 			break;
@@ -91,7 +97,7 @@ shared_ptr<ResHandle> ResourceCache::Load(Resource *pResource)
 		if (pLoader->VNeedFile())
 		{
 			auto dir = m_pFile->VGetDirectory();
-			bSuccess = pLoader->VLoadResource(const_cast<char*>((ws2s(dir) + pResource->m_name).c_str()), uRawSize, pHandle);
+			bSuccess = pLoader->VLoadResource(const_cast<char*>((StringHelper::ws2s(dir) + pResource->m_name).c_str()), uRawSize, pHandle);
 		}
 		else
 		{
@@ -163,7 +169,7 @@ void ResourceCache::MemoryHasBeenFreed(unsigned int uSize)
 	m_uAllocated -= uSize;
 }
 
-int ResourceCache::Preload(const ASTRING pattern, void(*progressCallback)(int, bool &))
+int ResourceCache::Preload(const string & pattern, void(*progressCallback)(int, bool &))
 {
 	if (m_pFile == NULL)
 		return 0;
@@ -176,7 +182,7 @@ int ResourceCache::Preload(const ASTRING pattern, void(*progressCallback)(int, b
 	{
 		Resource resource(m_pFile->VGetResourceName(i));
 
-		if (WildcardMatch(pattern.c_str(), resource.m_name.c_str()))
+		if (StringHelper::WildcardMatch(pattern.c_str(), resource.m_name.c_str()))
 		{
 			shared_ptr<ResHandle> pHandle = GetHandle(&resource);
 			++iNumLoaded;
@@ -184,7 +190,7 @@ int ResourceCache::Preload(const ASTRING pattern, void(*progressCallback)(int, b
 
 		if (progressCallback)
 		{
-			progressCallback(i* 100.0f / static_cast<float>(iNumFiles), bCancel);
+			progressCallback(static_cast<int>(i* 100.0f / static_cast<float>(iNumFiles)), bCancel);
 		}
 	}
 

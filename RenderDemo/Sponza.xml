@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Actor>
+  <Transform>
+    <Position x="0" y="0" z="0" />
+    <Orientation axisx="0" axisy="0" axisz="1" degrees="0.0" />
+    <Scale x="1" y="1" z="1" />
+  </Transform>
+  <PhysicsComponent>
+	<SphereComponent radius="1" mass="10" >
+		<Density>water</Density>
+		<Material>Bouncy</Material>
+		<Type>Static</Type>
+	</SphereComponent>
+  </PhysicsComponent>
+  <GraphicsComponent>
+    <MeshComponent file="meshes\sponza.mesh">
+	</MeshComponent>
+  </GraphicsComponent>
+</Actor>

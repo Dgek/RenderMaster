@@ -18,7 +18,7 @@ public:
 
 	unique_ptr<Renderer> m_pRenderer;
 	unique_ptr<IPhysics> m_pPhysics;
-	unique_ptr<ResourceCache> m_pCache;
+	shared_ptr<ResourceCache> m_pCache;
 
 private:
 
@@ -50,7 +50,7 @@ public:
 	/*============================================
 	//Engine Initialization
 	=============================================*/
-	void InitializeComponents(unique_ptr<Renderer> pRenderer, unique_ptr<IPhysics> pPhysics, unique_ptr<IMessenger> pMessenger, unique_ptr<ResourceCache> pCache);
+	void InitializeComponents(unique_ptr<Renderer> pRenderer, unique_ptr<IPhysics> pPhysics, unique_ptr<IMessenger> pMessenger, shared_ptr<ResourceCache> pCache);
 
 	void InitializeWindow(HINSTANCE hInstance, int showWnd, bool isWindowed);
 	void InitializeGame(unique_ptr<Game> pGame);

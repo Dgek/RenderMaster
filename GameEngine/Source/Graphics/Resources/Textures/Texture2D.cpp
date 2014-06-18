@@ -7,6 +7,14 @@
 #include "../Views/DepthStencilView.h"
 #include "../Views/RenderTargetView.h"
 
+#include "../../../Help/Strings/Strings.h"
+
+void Texture2D::CreateFromFile(const char * filepath)
+{
+	ID3D11Resource* pRes = static_cast<ID3D11Resource*>(m_pTexture);
+	D3DX11CreateTextureFromFile(DX11API::D3D11Device(), StringHelper::s2ws(filepath).c_str(), nullptr, nullptr, &pRes, nullptr);
+}
+
 bool Texture2D::CreateShaderResourceView(ShaderResourceView & view,
 	const ShaderResourceViewParams & params) const
 {

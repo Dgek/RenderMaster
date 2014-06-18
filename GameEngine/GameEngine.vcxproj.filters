@@ -358,9 +358,6 @@
     <ClInclude Include="Source\Renderer\Meshes\PlaneMesh.h">
       <Filter>Renderer\Meshes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ResourceManager\Loaders\MeshLoader.cpp">
-      <Filter>ResourceManager\Loaders</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Renderer\Materials\Material.h">
       <Filter>Renderer\Materials</Filter>
     </ClInclude>
@@ -375,6 +372,15 @@
     </ClInclude>
     <ClInclude Include="Source\Renderer\Lights\PointLight.h">
       <Filter>Renderer\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\float2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager\Loaders\MaterialLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager\Loaders\TextureLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -513,6 +519,15 @@
     </ClCompile>
     <ClCompile Include="Source\Renderer\Lights\SpotLight.cpp">
       <Filter>Renderer\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager\Loaders\MeshLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager\Loaders\MaterialLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager\Loaders\TextureLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,4 +12,6 @@ public:
 
 	static string ws2s(const wstring & s);
 	static wstring s2ws(const string &s);
+
+	static bool WildcardMatch(const char * pat, const char * str);
 };

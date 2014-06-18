@@ -19,7 +19,8 @@ public:
 	virtual string VToString() = 0;
 };
 
-class ResourceCache;
+#include "ResourceCache.h"
+
 class ResHandle
 {
 	friend class ResourceCache;
@@ -33,8 +34,8 @@ protected:
 	ResourceCache* m_pCache;
 
 public:
-	ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache);
-	~ResHandle();
+	__forceinline ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache);
+	__forceinline ~ResHandle();
 
 	__forceinline const string & GetName() const;
 	__forceinline unsigned int Size() const;
@@ -43,6 +44,16 @@ public:
 	__forceinline shared_ptr<IResourceExtraData> GetExtra() const;
 	__forceinline void SetExtra(shared_ptr<IResourceExtraData> pExtra);
 };
+
+__forceinline ResHandle::ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache)
+	: m_resource{ resource }, m_pBuffer{ pbuffer }, m_size{ uSize }, m_pCache{ pCache }
+{}
+
+__forceinline ResHandle::~ResHandle()
+{
+	SAFE_DELETE_ARRAY(m_pBuffer);
+	m_pCache->MemoryHasBeenFreed(m_size);
+}
 
 __forceinline const string & ResHandle::GetName() const
 {

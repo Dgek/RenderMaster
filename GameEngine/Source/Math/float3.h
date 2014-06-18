@@ -53,6 +53,16 @@ public:
 	__forceinline static float dot(const float3 & v1, const float3 & v2);
 };
 
+__forceinline float3 operator^(float3 v1, const float3 & v2)
+{
+	return float3
+	{
+	v1.y * v2.z - v1.z * v2.y,
+	v1.z * v2.x - v1.x * v2.z,
+	v1.x * v2.y - v1.y * v2.x,
+};
+}
+
 __forceinline float3::float3()
 {}
 
@@ -69,7 +79,7 @@ __forceinline float3 float3::cross(const float3 & v1, const float3 & v2)
 	return v1 ^ v2;
 }
 
-__forceinline float float3::dot(const float3 & v1, const float3 & v2)
+/*__forceinline float float3::dot(const float3 & v1, const float3 & v2)
 {
 	return v1 | v2;
-}
+} */

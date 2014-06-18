@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Actor>
+  <Transform>
+    <Position x="0" y="1500" z="0" />
+    <Orientation axisx="0" axisy="1" axisz="0" degrees="0" />
+  </Transform>
+  <GraphicsComponent>
+    	<DirectionalLightComponent range="5000" >
+		<Color r="1.0" g="1.0" b="1.0" />
+		<Direction x="0.2403" y="-0.926800013" z="0.288599998" />
+	</DirectionalLightComponent> 
+  </GraphicsComponent>
+</Actor>

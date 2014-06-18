@@ -102,6 +102,7 @@ public:
 
 	virtual bool Create(const D3D11_TEXTURE2D_DESC & pParams);
 
+	void CreateFromFile(const char * filepath);
 
 	virtual bool CreateShaderResourceView(ShaderResourceView & view,
 		const ShaderResourceViewParams & params)	const;

@@ -128,6 +128,7 @@
     <ClInclude Include="Source\Help\Strings\Strings.h" />
     <ClInclude Include="Source\Input\Controllers.h" />
     <ClInclude Include="Source\Input\Devices.h" />
+    <ClInclude Include="Source\Math\float2.h" />
     <ClInclude Include="Source\Math\float3.h" />
     <ClInclude Include="Source\Math\Geometry\Frustum.h" />
     <ClInclude Include="Source\Math\Geometry\Plane.h" />
@@ -153,8 +154,9 @@
     <ClInclude Include="Source\Renderer\Renderer.h" />
     <ClInclude Include="Source\Renderer\RenderQueue.h" />
     <ClInclude Include="Source\Renderer\TiledRenderer.h" />
-    <ClInclude Include="Source\ResourceManager\Loaders\MeshLoader.cpp" />
+    <ClInclude Include="Source\ResourceManager\Loaders\MaterialLoader.h" />
     <ClInclude Include="Source\ResourceManager\Loaders\MeshLoader.h" />
+    <ClInclude Include="Source\ResourceManager\Loaders\TextureLoader.h" />
     <ClInclude Include="Source\ResourceManager\Resource.h" />
     <ClInclude Include="Source\ResourceManager\ResourceCache.h" />
     <ClInclude Include="Source\ResourceManager\ResourceFile.h" />
@@ -206,6 +208,9 @@
     <ClCompile Include="Source\Renderer\Renderer.cpp" />
     <ClCompile Include="Source\Renderer\RenderQueue.cpp" />
     <ClCompile Include="Source\Renderer\TiledRenderer.cpp" />
+    <ClCompile Include="Source\ResourceManager\Loaders\MaterialLoader.cpp" />
+    <ClCompile Include="Source\ResourceManager\Loaders\MeshLoader.cpp" />
+    <ClCompile Include="Source\ResourceManager\Loaders\TextureLoader.cpp" />
     <ClCompile Include="Source\ResourceManager\Resource.cpp" />
     <ClCompile Include="Source\ResourceManager\ResourceCache.cpp" />
     <ClCompile Include="Source\ResourceManager\ResourceFile.cpp" />

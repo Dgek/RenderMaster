@@ -9,8 +9,16 @@ protected:
 
 public:
 
+	int m_firstIndex;
+	int m_numIndices;
+
+public:
+
 	__forceinline IndexedMesh();
-	virtual ~IndexedMesh();
 
 	__forceinline void SetIndexedBuffer();
 };
+
+__forceinline IndexedMesh::IndexedMesh()
+	: m_firstIndex{ 0 }, m_numIndices{ 0 }
+{}

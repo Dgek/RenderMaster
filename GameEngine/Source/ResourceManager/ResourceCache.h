@@ -11,8 +11,6 @@ class ResourceCache
 
 protected:
 
-	static unique_ptr<ResourceCache> g_pCache;
-
 	unique_ptr<IResourceFile> m_pFile;
 
 	typedef std::list< std::shared_ptr<ResHandle>> ResHandleList;
@@ -30,7 +28,7 @@ protected:
 
 	shared_ptr<ResHandle> Find(Resource* pResource);
 	void Update(shared_ptr<ResHandle> pHandle);
-	shared_ptr<ResHandle> Load(Resource *pResource);
+	shared_ptr<ResHandle> Load(Resource *pResource); 
 	void Free(shared_ptr<ResHandle>  pFreeMe);
 
 	bool MakeRoom(unsigned int uSize);
@@ -40,12 +38,12 @@ protected:
 
 public:
 
-	__forceinline static ResourceCache * const Get();
+	static ResourceCache * const Get();
 
 	//Global resource cache methods
 	static shared_ptr<ResHandle> SafeGetHandle(Resource *pResource);
 
-	__forceinline ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
+	ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
 	__forceinline ~ResourceCache();
 
 	__forceinline bool Init();
@@ -55,14 +53,6 @@ public:
 	int Preload(const string & pattern, void(*progressCallback)(int, bool &));
 	void Flush();
 };
-
-__forceinline ResourceCache::ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile)
-{
-	m_uCacheSize = sizeInMb * 1024 * 1024;
-	m_uAllocated = 0;
-
-	m_pFile = move(pFile);
-}
 
 __forceinline ResourceCache::~ResourceCache()
 {}
@@ -77,9 +67,4 @@ __forceinline bool ResourceCache::Init()
 	}
 
 	return bResult;
-}
-
-__forceinline ResourceCache * const ResourceCache::Get()
-{
-	return ResourceCache::g_pCache.get();
 }

@@ -99,13 +99,13 @@ void App::InitializeGame(unique_ptr<Game> pGame)
 	m_pGame = move(pGame);
 }
 
-void App::InitializeComponents(unique_ptr<Renderer> pRenderer, unique_ptr<IPhysics> pPhysics, unique_ptr<IMessenger> pMessenger, unique_ptr<ResourceCache> pCache)
+void App::InitializeComponents(unique_ptr<Renderer> pRenderer, unique_ptr<IPhysics> pPhysics, unique_ptr<IMessenger> pMessenger, shared_ptr<ResourceCache> pCache)
 {
 	m_pRenderer = move(pRenderer);
 	m_pRenderer->VInitialize(m_hWnd, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	m_pPhysics = move(pPhysics);
-	m_pCache = move(pCache);
+	m_pCache = pCache;
 }
 
 LRESULT App::MsgProc(const SystemMessage & msg)

@@ -10,7 +10,10 @@
 #include <basetsd.h>
 #include <memory>
 #include <math.h>
+#include <iostream>
+#include <fstream>
 #include <string>
+#include <stdio.h>
 #include <wchar.h>
 #include <tchar.h>
 

@@ -7,6 +7,8 @@
 #include "ResourceManager\ResourceCache.h"
 #include "ResourceManager\ResourceLoader.h"
 #include "ResourceManager\Loaders\MeshLoader.h"
+#include "ResourceManager\Loaders\MaterialLoader.h"
+#include "ResourceManager\Loaders\TextureLoader.h"
 #include "ResourceManager\Windows\ResourceDirectory.h"
 #include "Renderer\TiledRenderer.h"
 
@@ -40,16 +42,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Initialize Engine Components
 	============================== */
 	unique_ptr<ResourceDir> g_pFile = make_unique<ResourceDir>(L"Resources");
-	unique_ptr<ResourceCache> g_pCache = make_unique<ResourceCache>(300, move(g_pFile));
+	shared_ptr<ResourceCache> g_pCache = make_shared<ResourceCache>(300, move(g_pFile));
 	//unique_ptr<ResourceCache> g_pCache = make_unique<ResourceCache>(300);
 	g_pCache->Init();
 
 	//shared_ptr<IResourceLoader> pMeshLoader = make_shared<MeshLoader>();
-	//g_pCache->RegisterLoader(pMeshLoader);
+	g_pCache->RegisterLoader(make_shared<MaterialLoader>());
+	g_pCache->RegisterLoader(make_shared<MeshLoader>());
+	g_pCache->RegisterLoader(make_shared<TextureLoader>());
 
 	/* === Initialize main engine components === */
 	g_pEngine->InitializeComponents(make_unique<TiledRenderer>(), make_unique<NullPhysics>(),
-		make_unique<Messenger>(), move(g_pCache));
+		make_unique<Messenger>(), g_pCache);
 
 	// **************************** //
 	// ===						=== //
