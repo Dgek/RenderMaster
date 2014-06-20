@@ -382,6 +382,12 @@
     <ClInclude Include="Source\ResourceManager\Loaders\TextureLoader.h">
       <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Math\Point.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager\Loaders\ShaderLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">
@@ -529,27 +535,14 @@
     <ClCompile Include="Source\ResourceManager\Loaders\TextureLoader.cpp">
       <Filter>ResourceManager\Loaders</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Source\Renderer\Shaders\LightCulling.hlsl">
-      <Filter>Renderer\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Source\Renderer\Shaders\tiled_shading_vs.hlsl">
-      <Filter>Renderer\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Source\Renderer\Shaders\tiled_shading_ps.hlsl">
-      <Filter>Renderer\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Source\Renderer\Shaders\prepass_vs.hlsl">
-      <Filter>Renderer\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Source\Renderer\Shaders\prepass_ps.hlsl">
-      <Filter>Renderer\Shaders</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\Renderer\Shaders\ShadingParams.hlsli">
-      <Filter>Renderer\Shaders</Filter>
-    </None>
+    <ClCompile Include="Source\Game\Views.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\Vector.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager\Loaders\ShaderLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

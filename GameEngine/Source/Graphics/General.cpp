@@ -118,6 +118,20 @@ void DX11API::BindGlobalViewport()
 	g_pViewport->Bind();
 }
 
+void DX11API::ClearRenderTargetView(const float * color, RenderTargetView * pView)
+{
+	if (!pView)
+	{
+		//ID3D11RenderTargetView* clearMe = g_pBackBufferRTV->GetView();
+		//DX11API::D3D11DeviceContext()->ClearRenderTargetView(*g_pBackBufferRTV->GetView(), color);
+	}
+	else
+	{
+		//ID3D11RenderTargetView* clearMe = pView->GetView();
+		DX11API::D3D11DeviceContext()->ClearRenderTargetView(*pView->GetView(), color);
+	}
+}
+
 void DX11API::ClearDepthStencilView(bool depth, bool stencil, float depthValue,
 	unsigned int stencilValue, DepthStencilView * pView)
 {

@@ -15,6 +15,7 @@ public:
 	__forceinline void Bind() const;
 
 	bool Create(Blob & shaderbuffer);
+	bool CreateFromFile(const char * filename);
 	bool CreateAndCompile(const wstring & fileName, const string & entrypoint,
 		const string & target, Blob * pErrors = nullptr);
 

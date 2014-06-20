@@ -9,6 +9,9 @@
     <ClCompile Include="Source\Game\States\TestState.cpp">
       <Filter>Game\States</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\RenderingDemo.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\RenderDemo.h" />
@@ -33,5 +36,21 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{f91b4b8e-4d28-46de-bec7-892eb36ae740}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{71e2b049-c098-4b31-8a8a-1e17668cc51f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Source\Shaders\prepass_ps.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\prepass_vs.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Shaders\ShadingParams.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

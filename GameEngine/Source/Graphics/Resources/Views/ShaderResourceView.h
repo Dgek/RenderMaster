@@ -82,7 +82,9 @@ public:
 
 __forceinline ShaderResourceView::ShaderResourceView(int numViews)
 : m_ppViews{ nullptr }, m_numViews{ numViews }
-{}
+{
+	m_ppViews = new ID3D11ShaderResourceView*[numViews];
+}
 
 __forceinline ShaderResourceView::~ShaderResourceView()
 {

@@ -9,22 +9,21 @@
 #include "ResourceManager\Loaders\MeshLoader.h"
 #include "ResourceManager\Loaders\MaterialLoader.h"
 #include "ResourceManager\Loaders\TextureLoader.h"
+#include "ResourceManager\Loaders\ShaderLoader.h"
 #include "ResourceManager\Windows\ResourceDirectory.h"
 #include "Renderer\TiledRenderer.h"
 
 #include "Game\RenderingDemo.h"
 #include "Game\DemoStateFactory.h"
 
-unique_ptr<App> g_pEngine = make_unique<App>();
+//unique_ptr<App> g_pEngine = make_unique<App>();
 
 ////////////////////////////////////
 //Entry point for the application
 ////////////////////////////////////
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
 {
-	auto g_pEngine = make_unique<App>();
-
-	g_pEngine->InitializeWindow(hInstance, nShowCmd, true);
+	Global::g_pEngine->InitializeWindow(hInstance, nShowCmd, true);
 
 	/* =========================
 	Initialize Game Logic
@@ -36,7 +35,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_Game->SetNextState(GS_BOXTEST);
 
 	/* === Initialize Game === */
-	g_pEngine->InitializeGame(move(g_Game));
+	Global::g_pEngine->InitializeGame(move(g_Game));
 
 	/* ==============================
 	Initialize Engine Components
@@ -50,9 +49,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_pCache->RegisterLoader(make_shared<MaterialLoader>());
 	g_pCache->RegisterLoader(make_shared<MeshLoader>());
 	g_pCache->RegisterLoader(make_shared<TextureLoader>());
+	g_pCache->RegisterLoader(make_shared<VertexShaderLoader>());
+	g_pCache->RegisterLoader(make_shared<PixelShaderLoader>());
+	g_pCache->RegisterLoader(make_shared<ComputeShaderLoader>());
 
 	/* === Initialize main engine components === */
-	g_pEngine->InitializeComponents(make_unique<TiledRenderer>(), make_unique<NullPhysics>(),
+	Global::g_pEngine->InitializeComponents(make_unique<TiledRenderer>(), make_unique<NullPhysics>(),
 		make_unique<Messenger>(), g_pCache);
 
 	// **************************** //
@@ -60,7 +62,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// ===		Game Loop		=== //
 	// ===						=== //
 	// **************************** //
-	auto g_iExit = g_pEngine->Run();
+	auto g_iExit = Global::g_pEngine->Run();
 
-	return g_iExit;
+	return 0;
 }

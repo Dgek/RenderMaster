@@ -13,7 +13,7 @@
 	</SphereComponent>
   </PhysicsComponent>
   <GraphicsComponent>
-    <MeshComponent file="meshes\sponza.mesh">
+    <MeshComponent file="meshes/sponza.mesh">
 	</MeshComponent>
   </GraphicsComponent>
 </Actor>

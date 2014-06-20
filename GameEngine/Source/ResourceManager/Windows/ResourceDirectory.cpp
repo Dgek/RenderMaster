@@ -40,7 +40,7 @@ void ResourceDir::ReadResourceDirectory(const wstring & pattern)
 			{
 				if (fileName != L".." && fileName != L".")
 				{
-					fileName = pattern.substr(0, pattern.length() - 1) + fileName + L"\\*";
+					fileName = pattern.substr(0, pattern.length() - 1) + fileName + L"/*";
 					ReadResourceDirectory(fileName);
 				}
 			}

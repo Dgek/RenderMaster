@@ -12,6 +12,8 @@ struct SystemMessage;
 class Mat4x4;
 class Game
 {
+	friend class App;
+
 protected:
 	/** -------------------
 	Entities
@@ -48,6 +50,8 @@ public:
 
 	__forceinline Game();
 	virtual ~Game();
+
+	virtual bool VInitialize() = 0 { return true; };
 
 	//game states
 	void SetStateFactory(unique_ptr<StateFactory> pStateFactory);

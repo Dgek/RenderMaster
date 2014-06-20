@@ -6,6 +6,10 @@
 #include "GeometryShader.h"
 #include "PixelShader.h"
 
+#include "../../../ResourceManager/Resource.h"
+#include "../../../ResourceManager/ResourceCache.h"
+#include "../../../ResourceManager/Loaders/ShaderLoader.h"
+
 class ShaderBunch
 {
 private:
@@ -19,18 +23,57 @@ public:
 	__forceinline ShaderBunch();
 
 	//Shaders
-	void VSetVertexShader(const string & shaderName, INPUT_LAYOUT* layout,
-		unsigned int num, unsigned int topology, const string & target);
-	void VSetHullShader(const string & shaderName, const string & target);
-	void VSetDomainShader(const string & shaderName, const string & target);
-	void VSetGeometryShader(const string & shaderName, const string & target);
-	void VSetPixelShader(const string & shaderName, const string & target);
+	__forceinline void SetVertexShader(const string & shaderName, INPUT_LAYOUT* layout,
+		unsigned int num, unsigned int topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	__forceinline void SetHullShader(const string & shaderName);
+	__forceinline void SetDomainShader(const string & shaderName);
+	__forceinline void SetGeometryShader(const string & shaderName);
+	__forceinline void SetPixelShader(const string & shaderName);
 
 	__forceinline void VBind();
 };
 
 __forceinline ShaderBunch::ShaderBunch()
 {}
+
+__forceinline void ShaderBunch::SetVertexShader(const string & shaderName, INPUT_LAYOUT* pLayout,
+	unsigned int num, unsigned int topology)
+{
+	Resource shaderResource{ shaderName };
+	shared_ptr<ResHandle> pShaderHandle = ResourceCache::SafeGetHandle(&shaderResource);
+	shared_ptr<VertexShaderResourceExtraData> pShaderData = static_pointer_cast<VertexShaderResourceExtraData>(pShaderHandle->GetExtra());
+
+	m_pVertexShader = pShaderData->m_pShader;
+	m_pVertexShader->SetInputAssemblerState(pLayout, num, static_cast<D3D11_PRIMITIVE_TOPOLOGY>(topology));
+}
+
+__forceinline void ShaderBunch::SetHullShader(const string & shaderName)
+{
+
+}
+
+__forceinline void ShaderBunch::SetDomainShader(const string & shaderName)
+{
+
+}
+
+__forceinline void ShaderBunch::SetGeometryShader(const string & shaderName)
+{
+	Resource shaderResource{ shaderName };
+	shared_ptr<ResHandle> pShaderHandle = ResourceCache::SafeGetHandle(&shaderResource);
+	shared_ptr<GeometryShaderResourceExtraData> pShaderData = static_pointer_cast<GeometryShaderResourceExtraData>(pShaderHandle->GetExtra());
+
+	m_pGeometryShader = pShaderData->m_pShader;
+}
+
+__forceinline void ShaderBunch::SetPixelShader(const string & shaderName)
+{
+	Resource shaderResource{ shaderName };
+	shared_ptr<ResHandle> pShaderHandle = ResourceCache::SafeGetHandle(&shaderResource);
+	shared_ptr<PixelShaderResourceExtraData> pShaderData = static_pointer_cast<PixelShaderResourceExtraData>(pShaderHandle->GetExtra());
+
+	m_pPixelShader = pShaderData->m_pShader;
+}
 
 __forceinline void ShaderBunch::VBind()
 {

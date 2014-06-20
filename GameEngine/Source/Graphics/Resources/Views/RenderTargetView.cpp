@@ -3,24 +3,6 @@
 #include "RenderTargetView.h"
 #include "../../General.h"
 
-RenderTargetView::RenderTargetView()
-: m_ppViews{ nullptr }, m_numViews{ 1 }
-{}
-
-RenderTargetView::RenderTargetView(int numViews)
-: m_ppViews{ nullptr }, m_numViews{ numViews }
-{}
-
-RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
-{
-	m_ppViews = &pView;
-}
-
-ID3D11RenderTargetView** RenderTargetView::GetView(int index) const
-{
-	return &m_ppViews[index];
-}
-
 //void Set(DepthStencilViewDX11 * pView) const;
 void RenderTargetView::BindOneView(int index)
 {

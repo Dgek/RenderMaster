@@ -485,7 +485,7 @@ void EntityResource::VCreateRepresentation(Scene * pScene, shared_ptr<Entity> pE
 	Mat4x4 trans, scale;
 	trans.CreateTranslation(m_vPos);
 	scale.CreateScaling(m_vScale);
-	pRepresentation->SetCurrentTransform(scale * trans, g_pEngine->GetGameTimeInSeconds());
+	pRepresentation->SetCurrentTransform(scale * trans, Global::g_pEngine->GetGameTimeInSeconds());
 	pScene->AddRepresentation(pRepresentation);
 
 	//Now add all graphics components to its representation

@@ -3,11 +3,14 @@
 #include "App.h"
 
 #include "../Game/Game.h"
+#include "../Game/Views.h"
 #include "../Physics/PhysicsInterfaces.h"
 #include "../Graphics/General.h"
 #include "../Renderer/Renderer.h"
 #include "../ResourceManager/ResourceCache.h"
 #include "../Messenger/Messenger.h"
+
+unique_ptr<App> Global::g_pEngine = make_unique<App>();
 
 App::App()
 : m_lastUpdate{ 0 }, m_timeStep{ 0.0333 }, m_bQuitting{ false }, m_pTimer{ make_unique<Timer>() }
@@ -97,12 +100,26 @@ void App::InitializeWindow(HINSTANCE hInstance, int showWnd, bool isWindowed)
 void App::InitializeGame(unique_ptr<Game> pGame)
 {
 	m_pGame = move(pGame);
+
+	//try to initialize it
+	if (!m_pGame->VInitialize())
+	{
+		assert(0 && "Error initializing the game!");
+	}
 }
 
 void App::InitializeComponents(unique_ptr<Renderer> pRenderer, unique_ptr<IPhysics> pPhysics, unique_ptr<IMessenger> pMessenger, shared_ptr<ResourceCache> pCache)
 {
 	m_pRenderer = move(pRenderer);
 	m_pRenderer->VInitialize(m_hWnd, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	for (auto iter = begin(m_pGame->m_views); iter != end(m_pGame->m_views); ++iter)
+	{
+		if ((*iter)->VHasCamera())
+		{
+			m_pRenderer->VAddCamera((*iter)->VGetCamera());
+		}
+	}
 
 	m_pPhysics = move(pPhysics);
 	m_pCache = pCache;
@@ -146,6 +163,9 @@ void App::Update(double totaltime, double elapsedtime)
 
 void App::Render(double totaltime, double elapsedtime)
 {
+	m_pGame->VRender(m_pRenderer.get(), totaltime, elapsedtime);
+	m_pRenderer->VRender();
+
 	DX11API::PresentBackBuffer();
 }
 

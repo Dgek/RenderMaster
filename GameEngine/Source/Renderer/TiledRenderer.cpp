@@ -32,8 +32,19 @@ unsigned int TiledRenderer::m_iNumLights = 256;
 TiledRenderer::TiledRenderer()
 	: Renderer{}, m_pCurrentCamera{ nullptr }
 {
+	//prepass
 	m_pDepthNormalTexture = make_unique<Texture2D>();
 	m_pAlbedoGlossTexture = make_unique<Texture2D>();
+	m_pPrepassRTVs = make_unique<RenderTargetView>(2);
+	m_pPrepassSRVs = make_unique<ShaderResourceView>(2);
+
+	m_pPrepassLayout = make_unique<INPUT_LAYOUT[]>(4);
+	m_pPrepassShaders = make_unique<ShaderBunch>();
+
+	//light culling
+	m_pLightCullingShader = make_unique<ComputeShader>();
+
+	//voxelization
 }
 
 bool TiledRenderer::VInitialize(HWND hWnd, unsigned int width, unsigned int height)
@@ -54,9 +65,48 @@ bool TiledRenderer::VInitialize(HWND hWnd, unsigned int width, unsigned int heig
 
 	ShaderResourceViewParams srvParams;
 	srvParams.InitForTexture2D(texParams.Format, 1, 0, false);
+	m_pDepthNormalTexture->CreateShaderResourceView(m_pPrepassSRVs->GetView(0), srvParams);
+	m_pAlbedoGlossTexture->CreateShaderResourceView(m_pPrepassSRVs->GetView(1), srvParams);
 
 	RenderTargetViewParams rtvParams;
 	rtvParams.InitForTexture2D(texParams.Format, 0, true);
+	m_pDepthNormalTexture->CreateRenderTargetView(m_pPrepassRTVs->GetView(0), rtvParams);
+	m_pAlbedoGlossTexture->CreateRenderTargetView(m_pPrepassRTVs->GetView(1), rtvParams);
+
+	m_pPrepassLayout[0].SemanticName = "POSITION";
+	m_pPrepassLayout[0].SemanticIndex = 0;
+	m_pPrepassLayout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	m_pPrepassLayout[0].InputSlot = 0;
+	m_pPrepassLayout[0].AlignedByteOffset = 0;
+	m_pPrepassLayout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	m_pPrepassLayout[0].InstanceDataStepRate = 0;
+
+	m_pPrepassLayout[1].SemanticName = "TEXCOORDS";
+	m_pPrepassLayout[1].SemanticIndex = 0;
+	m_pPrepassLayout[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	m_pPrepassLayout[1].InputSlot = 1;
+	m_pPrepassLayout[1].AlignedByteOffset = 0;
+	m_pPrepassLayout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	m_pPrepassLayout[1].InstanceDataStepRate = 0;
+
+	m_pPrepassLayout[2].SemanticName = "NORMAL";
+	m_pPrepassLayout[2].SemanticIndex = 0;
+	m_pPrepassLayout[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	m_pPrepassLayout[2].InputSlot = 2;
+	m_pPrepassLayout[2].AlignedByteOffset = 0;
+	m_pPrepassLayout[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	m_pPrepassLayout[2].InstanceDataStepRate = 0;
+
+	m_pPrepassLayout[3].SemanticName = "TANGENT";
+	m_pPrepassLayout[3].SemanticIndex = 0;
+	m_pPrepassLayout[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	m_pPrepassLayout[3].InputSlot = 3;
+	m_pPrepassLayout[3].AlignedByteOffset = 0;
+	m_pPrepassLayout[3].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	m_pPrepassLayout[3].InstanceDataStepRate = 0;
+
+	m_pPrepassShaders->SetVertexShader("shaders/prepass_vs.vso", m_pPrepassLayout.get(), 4);
+	m_pPrepassShaders->SetPixelShader("shaders/prepass_ps.pso");
 
 	/////////////////////////////////////////////////////
 	//Initialize data for light culling
@@ -170,8 +220,8 @@ void TiledRenderer::VRender()
 
 void TiledRenderer::PrepareForZPrepass()
 {
-	m_pDepthEnableStencilDisableStandard->Bind(0xFF);
-	m_pAllDisabledBackCullingRasterizer->Bind();
+	DepthEnableStencilDisableStandard()->Bind(0xFF);
+	AllDisabledBackCullingRasterizer()->Bind();
 
 	m_pPrepassRTVs->Bind();
 }
@@ -185,11 +235,11 @@ void TiledRenderer::FinishZPrepass()
 void TiledRenderer::PrepareForShadingPass()
 {
 	DX11API::ClearDepthStencilView(true, false, 1.0f, 0xFF, m_pDepthDSV.get());
-	m_pDepthEnableStencilDisableStandard->Bind(0xFF);
+	DepthEnableStencilDisableStandard()->Bind(0xFF);
 	//m_pDepthDisableStencilDisable->Set(0);
 	//SetDepthStencilView(m_pDepthDSV);
 	//AllEnabledBackCullingRasterizer()->Set();
-	m_pAllDisabledBackCullingRasterizer->Bind();
+	AllDisabledBackCullingRasterizer()->Bind();
 	//NoCullingStandardRasterizer()->Set();
 
 	//SetRenderTargetView();
@@ -204,7 +254,7 @@ void TiledRenderer::PrepareForShadingPass()
 
 	m_pSunShadowSRV->Bind(10, ST_Pixel);
 
-	m_pLinearTiledSampler->Bind(0, ST_Pixel);
+	LinearTiledSampler()->Bind(0, ST_Pixel);
 
 	m_pcb16Bytes->UpdateSubresource(0, nullptr, &m_pCurrentCamera->GetPosition(), 0, 0);
 	m_pcb16Bytes->Bind(0, ST_Pixel);
@@ -272,9 +322,9 @@ void TiledRenderer::VFinishPass()
 void TiledRenderer::Voxelize()
 {
 	m_voxelizationShaders->VBind();
-	this->m_pDepthDisableStencilDisable->Bind(0);
-	m_pNoCullingStandardRasterizer->Bind();
-	m_pPointClampSampler->Bind(0, ST_Pixel);
+	DepthDisableStencilDisable()->Bind(0);
+	NoCullingStandardRasterizer()->Bind();
+	PointClampSampler()->Bind(0, ST_Pixel);
 
 	struct ThreeMatrices
 	{
@@ -300,7 +350,7 @@ void TiledRenderer::Voxelize()
 
 	m_pcb192Bytes->Bind(0, ST_Geometry);
 
-	this->m_pNoCullingStandardRasterizer->Bind();
+	NoCullingStandardRasterizer()->Bind();
 
 	m_voxelTextureRTV->BindWithUAV(1, 1, m_voxelGridUAV->GetView(), nullptr);
 	m_voxelViewport.Bind();
@@ -321,8 +371,8 @@ void TiledRenderer::Voxelize()
 
 void TiledRenderer::InjectVPLs()
 {
-	m_pDepthDisableStencilDisable->Bind(0);
-	m_pNoCullingStandardRasterizer->Bind();
+	DepthDisableStencilDisable()->Bind(0);
+	NoCullingStandardRasterizer()->Bind();
 	m_dirLightGridShaders->VBind();
 
 	m_pVoxelVB->Bind(0, 0);
@@ -417,7 +467,7 @@ void TiledRenderer::ApplyGlobalIllumination()
 	m_pcb16Bytes->UpdateSubresource(0, nullptr, &cameraPos, 0, 0);
 	m_pcb16Bytes->Bind(0, ST_Pixel);
 
-	m_pNoCullingStandardRasterizer->Bind();
+	NoCullingStandardRasterizer()->Bind();
 	//BlendAddStandard()->Set(0, 0);
 	m_pGlobalIllumBlendState->Bind(0, 0xffffffff);
 
@@ -425,7 +475,7 @@ void TiledRenderer::ApplyGlobalIllumination()
 	m_pGlobalIllumVB->Bind(0, 0);
 	m_pPrepassSRVs->Bind(0, ST_Pixel);
 	m_voxelPropagateSHSRVs->Bind(3, ST_Pixel);
-	m_pLinearTiledSampler->Bind(0, ST_Pixel);
+	LinearTiledSampler()->Bind(0, ST_Pixel);
 
 	DX11API::BindGlobalRenderTargetView();
 
@@ -434,7 +484,7 @@ void TiledRenderer::ApplyGlobalIllumination()
 
 	DX11API::D3D11DeviceContext()->Draw(m_pVoxelVB->Count(), 0);
 
-	m_pNoBlending->Bind(nullptr, 0xffffffff);
+	NoBlending()->Bind(nullptr, 0xffffffff);
 	DX11API::UnbindShaderResourceViews(0, 6, ST_Pixel);
 	DX11API::UnbindRenderTargetViews(1);
 	DX11API::UnbindGeometryShader();

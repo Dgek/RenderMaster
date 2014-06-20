@@ -12,6 +12,19 @@ bool GeometryShader::Create(Blob & shaderbuffer)
 	VALID(hr);
 }
 
+bool GeometryShader::CreateFromFile(const char * filename)
+{
+	ifstream fin{ filename, ios::binary };
+	fin.seekg(0, ios_base::end);
+	int size = static_cast<int>(fin.tellg());
+	fin.seekg(0, ios_base::beg);
+	vector<char> compiledShader(size);
+	fin.read(&compiledShader[0], size);
+
+	auto hr = DX11API::D3D11Device()->CreateGeometryShader(&compiledShader[0],size, nullptr, &m_pShader);
+	VALID(hr);
+}
+
 bool GeometryShader::CreateAndCompile(const wstring & fileName, const string & entrypoint, const string & target, Blob * pErrors)
 {
 	//Compile the shader first

@@ -25,7 +25,7 @@ public:
 	//constructor
 	__forceinline Frustum();
 
-	__forceinline void Init(float fov, float aspect, float near, float far);
+	void Init(float fov, float aspect, float near, float far);
 
 	/**
 	Methods

@@ -5,9 +5,6 @@
 #include "../Graphics/General.h"
 #include "../Graphics/Resources/Buffers/BufferParams.h"
 #include "../Graphics/Resources/Buffers/ConstantBuffer.h"
-#include "../Graphics/States/BlendState.h"
-#include "../Graphics/States/DepthStencilState.h"
-#include "../Graphics/States/RasterizerState.h"
 #include "../Graphics/States/SamplerState.h"
 
 #include "../Graphics/Resources/Textures/Texture2D.h"
@@ -69,4 +66,68 @@ void Renderer::VRemoveCamera(Camera* pCamera)
 		m_cameras.erase(camera);
 
 	assert(0 && "No such camera was found!");
+}
+
+SamplerState* Renderer::LinearTiledSampler()
+{
+	if (m_pLinearTiledSampler)
+		return m_pLinearTiledSampler.get();
+
+	//it's not created yet
+	m_pLinearTiledSampler = make_unique<SamplerState>();
+
+	SamplerStateParams params;
+	params.Init(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP,
+		D3D11_TEXTURE_ADDRESS_WRAP, D3D11_TEXTURE_ADDRESS_WRAP, 0, 16, D3D11_COMPARISON_NEVER);
+	m_pLinearTiledSampler->Create(&params);
+
+	return m_pLinearTiledSampler.get();
+}
+
+SamplerState* Renderer::AnisotropySampler16()
+{
+	if (m_pAnisotropySampler16)	
+		return m_pAnisotropySampler16.get();
+
+	//it's not created yet
+	m_pAnisotropySampler16 = make_unique<SamplerState>();
+
+	SamplerStateParams params;
+	params.Init(D3D11_FILTER_ANISOTROPIC, D3D11_TEXTURE_ADDRESS_WRAP,
+		D3D11_TEXTURE_ADDRESS_WRAP, D3D11_TEXTURE_ADDRESS_WRAP, 0, 16, D3D11_COMPARISON_NEVER);
+	m_pAnisotropySampler16->Create(&params);
+
+	return m_pAnisotropySampler16.get();
+}
+
+SamplerState* Renderer::PointClampSampler()
+{
+	if (m_pPointClampSampler)
+		return m_pPointClampSampler.get();
+
+	//notcreated yet
+	m_pPointClampSampler = make_unique<SamplerState>();
+
+	SamplerStateParams params;
+	params.Init(D3D11_FILTER_MIN_MAG_MIP_POINT, D3D11_TEXTURE_ADDRESS_CLAMP, D3D11_TEXTURE_ADDRESS_CLAMP, D3D11_TEXTURE_ADDRESS_CLAMP,
+		0, 16, D3D11_COMPARISON_NEVER);
+	m_pPointClampSampler->Create(&params);
+
+	return m_pPointClampSampler.get();
+}
+
+SamplerState* Renderer::LinearLessEqualSampler()
+{
+	if (m_pLinearLessEqualSampler)
+		return m_pLinearLessEqualSampler.get();
+
+	//not created yet
+	m_pLinearLessEqualSampler = make_unique<SamplerState>();
+
+	SamplerStateParams params;
+	params.Init(D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_MIRROR, D3D11_TEXTURE_ADDRESS_MIRROR, D3D11_TEXTURE_ADDRESS_MIRROR,
+		0, 16, D3D11_COMPARISON_LESS_EQUAL);
+	m_pLinearLessEqualSampler->Create(&params);
+
+	return m_pLinearLessEqualSampler.get();
 }

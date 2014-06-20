@@ -54,6 +54,8 @@ protected:
 	unique_ptr<Texture2D> m_pAlbedoGlossTexture;
 	unique_ptr<RenderTargetView> m_pPrepassRTVs;
 	unique_ptr<ShaderResourceView> m_pPrepassSRVs;
+
+	unique_ptr<INPUT_LAYOUT[]> m_pPrepassLayout;
 	unique_ptr<ShaderBunch> m_pPrepassShaders;
 
 	//light culling
@@ -81,6 +83,8 @@ protected:
 
 	unique_ptr<LightGeometry[]> m_pLightGeometryData;
 	unique_ptr<LightParams[]> m_pLightParams;
+
+	unique_ptr<ComputeShader> m_pLightCullingShader;
 
 	//shading pass
 	unique_ptr<ShaderBunch> m_pFinalShadingShaders;

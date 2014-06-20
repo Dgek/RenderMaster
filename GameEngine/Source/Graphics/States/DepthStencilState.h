@@ -2,6 +2,32 @@
 
 #include "../General.h"
 
+class DepthStencilParams : public D3D11_DEPTH_STENCIL_DESC
+{
+public:
+	__forceinline DepthStencilParams();
+	__forceinline bool Init(bool depthEnable, D3D11_COMPARISON_FUNC depthFunc,
+		bool stencilEnable, unsigned int stencilReadMask, unsigned int stencilWriteMask);
+};
+
+__forceinline DepthStencilParams::DepthStencilParams() 
+{ 
+	ZeroMemory(this, sizeof(DepthStencilParams)); 
+}
+
+__forceinline bool DepthStencilParams::Init(bool depthEnable, D3D11_COMPARISON_FUNC depthFunc,
+	bool stencilEnable, unsigned int stencilReadMask, unsigned int stencilWriteMask)
+{
+	DepthEnable = depthEnable;
+	DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	DepthFunc = depthFunc;
+	StencilEnable = stencilEnable;
+	StencilReadMask = stencilReadMask;
+	StencilWriteMask = stencilWriteMask;
+
+	return true;
+}
+
 class DepthStencilState
 {
 protected:

@@ -8,7 +8,7 @@
 bool VertexShader::Create(Blob & shaderbuffer, INPUT_LAYOUT* layout, unsigned int num, unsigned int topology)
 {
 	//create vertex shader
-	HRESULT hr = DX11API::D3D11Device()->CreateVertexShader(shaderbuffer.m_pBlob->GetBufferPointer(),
+	auto hr = DX11API::D3D11Device()->CreateVertexShader(shaderbuffer.m_pBlob->GetBufferPointer(),
 		shaderbuffer.m_pBlob->GetBufferSize(), nullptr, &m_pShader);
 	if (hr != S_OK)
 	{
@@ -29,6 +29,19 @@ bool VertexShader::Create(Blob & shaderbuffer, INPUT_LAYOUT* layout, unsigned in
 	m_pState->m_topology = static_cast<D3D11_PRIMITIVE_TOPOLOGY>(topology);
 
 	return true;
+}
+
+bool VertexShader::CreateFromFile(const char * filename)
+{
+	ifstream fin{ filename, ios::binary };
+	fin.seekg(0, ios_base::end);
+	m_size = static_cast<int>(fin.tellg());
+	fin.seekg(0, ios_base::beg);
+	m_pBuffer = make_unique<char[]>(m_size);
+	fin.read(m_pBuffer.get(), m_size);
+
+	auto hr = DX11API::D3D11Device()->CreateVertexShader(m_pBuffer.get(), m_size, nullptr, &m_pShader);
+	VALID(hr);
 }
 
 bool VertexShader::CreateAndCompile(const wstring & fileName, const string & entrypoint, INPUT_LAYOUT* layout,
@@ -62,6 +75,19 @@ bool VertexShader::CreateAndCompile(const wstring & fileName, const string & ent
 
 	//set primitive topology
 	m_pState->m_topology = (D3D11_PRIMITIVE_TOPOLOGY)topology;
+
+	return true;
+}
+
+bool VertexShader::SetInputAssemblerState(INPUT_LAYOUT* pLayout, unsigned int num, D3D11_PRIMITIVE_TOPOLOGY topology)
+{
+	//create input layout
+	auto hr = DX11API::D3D11Device()->CreateInputLayout(pLayout, num, m_pBuffer.get(),
+		m_size, &m_pState->m_pLayout);
+	VALID(hr);
+
+	//set primitive topology
+	m_pState->m_topology = topology;
 
 	return true;
 }

@@ -1,5 +1,47 @@
 #pragma once
 
+class SamplerStateParams : public D3D11_SAMPLER_DESC
+{
+public:
+	__forceinline SamplerStateParams();
+	__forceinline bool Init(D3D11_FILTER Filter, D3D11_TEXTURE_ADDRESS_MODE AddressU,
+		D3D11_TEXTURE_ADDRESS_MODE AddressV, D3D11_TEXTURE_ADDRESS_MODE AddressW,
+		float MipLODBias, unsigned int MaxAnisotropy, D3D11_COMPARISON_FUNC ComparisonFunc,
+		float* BorderColor = nullptr, float MinLOD = 0, float MaxLOD = 0x7FFFFFFF);
+};
+
+__forceinline SamplerStateParams::SamplerStateParams() 
+{
+	ZeroMemory(this, sizeof(SamplerStateParams)); 
+}
+
+__forceinline bool SamplerStateParams::Init(D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE addressU,
+	D3D11_TEXTURE_ADDRESS_MODE addressV, D3D11_TEXTURE_ADDRESS_MODE addressW,
+	float mipLODBias, unsigned int maxAnisotropy, D3D11_COMPARISON_FUNC comparisonFunc,
+	float* borderColor, float minLOD, float maxLOD)
+{
+	Filter = filter;
+	AddressU = addressU;
+	AddressV = addressV;
+	AddressW = addressW;
+	MipLODBias = mipLODBias;
+	MaxAnisotropy = maxAnisotropy;
+	ComparisonFunc = comparisonFunc;
+
+	if (borderColor)
+	{
+		BorderColor[0] = borderColor[0];
+		BorderColor[1] = borderColor[1];
+		BorderColor[2] = borderColor[2];
+		BorderColor[3] = borderColor[3];
+	}
+
+	MinLOD = minLOD;
+	MaxLOD = maxLOD;
+
+	return true;
+}
+
 class SamplerState
 {
 protected:

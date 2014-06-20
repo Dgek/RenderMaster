@@ -2,6 +2,52 @@
 
 #include "../General.h"
 
+class RasterizerParams : public D3D11_RASTERIZER_DESC
+{
+public:
+	__forceinline RasterizerParams();
+	__forceinline bool Init(bool wireframe, bool cullFront, bool cullBack, bool frontCounterClockwise,
+		int depthBias, float depthBiasClamp, float slopeScaledDepthBias, 
+		bool depthClipEnable, bool scissorEnable, bool multiSampleEnable,
+		bool antialiasedLineEnable);
+};
+
+__forceinline RasterizerParams::RasterizerParams() 
+{
+	ZeroMemory(this, sizeof(RasterizerParams)); 
+}
+
+__forceinline bool RasterizerParams::Init(bool wireframe, bool cullFront, bool cullBack, bool frontCounterClockwise,
+	int depthBias, float depthBiasClamp, float slopeScaledDepthBias,
+	bool depthClipEnable, bool scissorEnable, bool multiSampleEnable,
+	bool antialiasedLineEnable)
+{
+	if (wireframe)
+		FillMode = D3D11_FILL_WIREFRAME;
+	else
+		FillMode = D3D11_FILL_SOLID;
+
+	if (!cullFront && !cullBack)
+		CullMode = D3D11_CULL_NONE;
+	else if (cullFront && !cullBack)
+		CullMode = D3D11_CULL_FRONT;
+	else if (!cullFront && cullBack)
+		CullMode = D3D11_CULL_BACK;
+	else if (cullFront && cullBack)
+		assert(0 && "Rasterizer cannot cull front and back faces concurrently!");
+
+	FrontCounterClockwise = frontCounterClockwise;
+	DepthBias = depthBias;
+	DepthBiasClamp = depthBiasClamp;
+	SlopeScaledDepthBias = slopeScaledDepthBias;
+	DepthClipEnable = depthClipEnable;
+	ScissorEnable = scissorEnable;
+	MultisampleEnable = multiSampleEnable;
+	AntialiasedLineEnable = antialiasedLineEnable;
+
+	return true;
+}
+
 class RasterizerState
 {
 protected:

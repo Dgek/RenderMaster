@@ -93,4 +93,7 @@ __forceinline IPhysics* App::GetPhysics() const
 	return m_pPhysics.get();
 }
 
-extern unique_ptr<App> g_pEngine;
+namespace Global
+{
+	extern unique_ptr<App> g_pEngine;
+};

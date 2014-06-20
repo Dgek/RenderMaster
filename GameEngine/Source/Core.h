@@ -4,6 +4,8 @@
 #include <d3dx11.h>
 #include <d3d11shader.h>
 #include <D3Dcommon.h>
+#include <D3Dcompiler.h>
+#include <d3dcompiler.h>
 //#include <D3DX10.h>
 
 #include <assert.h>

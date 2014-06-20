@@ -5,6 +5,8 @@ class IMouseHandler;
 class IKeyboardHandler;
 class MovementController;
 class Widget;
+struct SystemMessage;
+class Renderer;
 class IView
 {
 public:
@@ -24,12 +26,12 @@ public:
 class PlayerView : public IView
 {
 protected:
-	shared_ptr<IMouseHandler>		m_pMouseHandler;
-	shared_ptr<IKeyboardHandler>	m_pKeyboardHandler;
-	shared_ptr<MovementController>	m_pController;
+	shared_ptr<IMouseHandler> m_pMouseHandler;
+	shared_ptr<IKeyboardHandler> m_pKeyboardHandler;
+	shared_ptr<MovementController> m_pController;
 
 public:
-	PlayerView();
+	__forceinline PlayerView();
 
 	virtual bool VInit() override;
 	virtual bool VRestore() override;
@@ -69,6 +71,15 @@ public:
 	//Accessors
 	__forceinline shared_ptr<MovementController> GetController() const;
 };
+
+__forceinline PlayerView::PlayerView()
+{}
+
+__forceinline void PlayerView::VSetCamera(shared_ptr<Camera> pCamera)
+{
+	m_pCamera = pCamera;
+	m_bHasCamera = true;
+}
 
 __forceinline shared_ptr<Camera> PlayerView::VGetCamera() const 
 {

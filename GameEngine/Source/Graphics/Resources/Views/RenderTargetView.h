@@ -46,17 +46,17 @@ private:
 	int m_numViews;
 
 public:
-	RenderTargetView();
+	__forceinline RenderTargetView();
 
-	explicit RenderTargetView(int numViews);
+	__forceinline explicit RenderTargetView(int numViews);
 
-	explicit RenderTargetView(ID3D11RenderTargetView * View);
+	__forceinline explicit RenderTargetView(ID3D11RenderTargetView * View);
 
 	__forceinline ~RenderTargetView();
 
 
 	/*** Getters ***/
-	ID3D11RenderTargetView** GetView(int index = 0) const;
+	__forceinline ID3D11RenderTargetView** GetView(int index = 0) const;
 
 	/* ==
 	Bind Render Target Views to the pipeline
@@ -72,6 +72,28 @@ public:
 	void Clear(float bgColor[4]);
 	void Clear();
 };
+
+__forceinline RenderTargetView::RenderTargetView()
+	: m_ppViews{ nullptr }, m_numViews{ 1 }
+{
+}
+
+__forceinline RenderTargetView::RenderTargetView(int numViews)
+	: m_ppViews{ nullptr }, m_numViews{ numViews }
+{
+	m_ppViews = new ID3D11RenderTargetView*[numViews];
+}
+
+__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
+{
+	m_numViews = 1;
+	m_ppViews = &pView;
+}
+
+__forceinline ID3D11RenderTargetView** RenderTargetView::GetView(int index) const
+{
+	return &m_ppViews[index];
+}
 
 __forceinline RenderTargetView::~RenderTargetView()
 {
