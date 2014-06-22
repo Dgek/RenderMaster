@@ -57,7 +57,7 @@ public:
 	virtual bool CreateDepthStencilView(DepthStencilView & view,
 		const DepthStencilViewParams & params) const = 0;
 
-	virtual bool CreateDepthStencilView(ID3D11DepthStencilView** ppView,
+	virtual bool CreateDepthStencilView(ID3D11DepthStencilView* pView,
 		const DepthStencilViewParams & params) const = 0;
 
 };

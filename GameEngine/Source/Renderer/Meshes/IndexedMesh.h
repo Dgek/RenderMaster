@@ -1,24 +1,32 @@
 #pragma once
 
 #include "Mesh.h"
+#include "SubMesh.h"
 
 class IndexedMesh : public Mesh
 {
-protected:
+	friend class MeshLoader;
+
+public:
 	shared_ptr<IndexBuffer> m_pIndexBuffer;
+	vector<shared_ptr<SubMesh>> m_subMeshes;
 
 public:
-
-	int m_firstIndex;
-	int m_numIndices;
-
-public:
-
-	__forceinline IndexedMesh();
 
 	__forceinline void SetIndexedBuffer();
+
+	__forceinline void AddSubMesh(shared_ptr<SubMesh> pSubMesh);
+
+	__forceinline void BindIndexBuffer(unsigned int offset);
 };
 
-__forceinline IndexedMesh::IndexedMesh()
-	: m_firstIndex{ 0 }, m_numIndices{ 0 }
-{}
+
+__forceinline void IndexedMesh::AddSubMesh(shared_ptr<SubMesh> pSubMesh)
+{
+	m_subMeshes.push_back(pSubMesh);
+}
+
+__forceinline void IndexedMesh::BindIndexBuffer(unsigned int offset)
+{
+	m_pIndexBuffer->Bind(offset);
+}

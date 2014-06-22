@@ -41,6 +41,10 @@ protected:
 	unique_ptr<ConstantBuffer> m_pcb192Bytes;
 	unique_ptr<ConstantBuffer> m_pcb256Bytes;
 
+	static unsigned int m_numSamples;
+	static unsigned int m_sampleQuality;
+	static bool m_bMSAA;
+
 private:
 	/** ================================
 	Sampler States

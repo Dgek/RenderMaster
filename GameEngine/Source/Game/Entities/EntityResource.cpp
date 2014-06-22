@@ -535,10 +535,11 @@ void EntityResource::VCreateRepresentation(Scene * pScene, shared_ptr<Entity> pE
 				//m_meshes.push_back(pData->m_pMeshes[i]);
 				//pRepresentation->VAddMesh(static_pointer_cast<Mesh>(pData->m_pMeshes[i]));
 			//}
-			for (auto iter = begin(pData->m_pMeshes); iter != end(pData->m_pMeshes); ++iter)
-			{
-				pRepresentation->VAddMesh(*iter);
-			}
+			//for (auto iter = begin(pData->m_meshes); iter != end(pData->m_meshes); ++iter)
+			//{
+			//	pRepresentation->VAddMesh(*iter);
+			//}
+			pRepresentation->VAddMesh(pData->m_pMesh);
 		}
 		else if (type == "PointLight")
 		{

@@ -60,7 +60,7 @@ public:
 	/*==
 	//App stuff
 	==*/
-	virtual LRESULT	VMsgProc(const SystemMessage & msg);
+	virtual LRESULT	VMsgProc(const SystemMessage * msg);
 
 	/*==
 	//Updating methods

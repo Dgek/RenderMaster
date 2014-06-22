@@ -84,10 +84,11 @@ bool VertexShader::SetInputAssemblerState(INPUT_LAYOUT* pLayout, unsigned int nu
 	//create input layout
 	auto hr = DX11API::D3D11Device()->CreateInputLayout(pLayout, num, m_pBuffer.get(),
 		m_size, &m_pState->m_pLayout);
-	VALID(hr);
 
 	//set primitive topology
 	m_pState->m_topology = topology;
+
+	ClearBuffer();
 
 	return true;
 }

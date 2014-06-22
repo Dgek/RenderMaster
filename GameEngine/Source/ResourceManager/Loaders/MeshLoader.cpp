@@ -20,6 +20,8 @@ bool MeshLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_p
 	auto pExtra = make_shared<MeshResourceExtraData>();
 	pHandle->SetExtra(pExtra);
 
+	pExtra->m_pMesh = make_shared<IndexedMesh>();
+
 	FILE *file;
 	fopen_s(&file, pRawBuffer, "rb");
 	if (!file)
@@ -89,28 +91,35 @@ bool MeshLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_p
 	SubresourceData data;
 	data.SetData(pos);
 
-	if (!pExtra->m_pVertices->Create(params, &data, numVertices, sizeof(float3)))
+	pExtra->m_pMesh->m_pVertices = make_shared<VertexBuffer>();
+	if (!pExtra->m_pMesh->m_pVertices->Create(params, &data, numVertices, sizeof(float3)))
 	{
 		assert(0 && "Error creating vertex buffer!");
 	}
 
 	params.FillVertexBufferParams(sizeof(float2), numVertices, true, false, false, false);
 	data.SetData(texCoords);
-	if (!pExtra->m_pTexCoords->Create(params, &data, numVertices, sizeof(float2)))
+
+	pExtra->m_pMesh->m_pTexCoords = make_shared<VertexBuffer>();
+	if (!pExtra->m_pMesh->m_pTexCoords->Create(params, &data, numVertices, sizeof(float2)))
 	{
 		assert(0 && "Error creating vertex buffer!");
 	}
 
 	params.FillVertexBufferParams(sizeof(float3), numVertices, true, false, false, false);
 	data.SetData(normals);
-	if (!pExtra->m_pNormals->Create(params, &data, numVertices, sizeof(float3)))
+
+	pExtra->m_pMesh->m_pNormals = make_shared<VertexBuffer>();
+	if (!pExtra->m_pMesh->m_pNormals->Create(params, &data, numVertices, sizeof(float3)))
 	{
 		assert(0 && "Error creating vertex buffer!");
 	}
 
 	params.FillVertexBufferParams(sizeof(Vec), numVertices, true, false, false, false);
 	data.SetData(tangents);
-	if (!pExtra->m_pTangents->Create(params, &data, numVertices, sizeof(Vec)))
+
+	pExtra->m_pMesh->m_pTangents = make_shared<VertexBuffer>();
+	if (!pExtra->m_pMesh->m_pTangents->Create(params, &data, numVertices, sizeof(Vec)))
 	{
 		assert(0 && "Error creating vertex buffer!");
 	}
@@ -141,7 +150,9 @@ bool MeshLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_p
 
 	params.FillIndexBufferParams(sizeof(int), numIndices, true, false, false, false);
 	data.SetData(indices);
-	pExtra->m_pIndexBuffer->Create(params, &data, numIndices, sizeof(int));
+
+	pExtra->m_pMesh->m_pIndexBuffer = make_shared<IndexBuffer>();
+	pExtra->m_pMesh->m_pIndexBuffer->Create(params, &data, numIndices, sizeof(int));
 
 	SAFE_DELETE_ARRAY(indices);
 
@@ -155,17 +166,19 @@ bool MeshLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_p
 	}
 
 	//load and create submeshes
-	pExtra->m_pMeshes.reserve(numSubMeshes);
+	pExtra->m_pMesh->m_subMeshes.reserve(numSubMeshes);
 	pExtra->m_uNumMeshes = numSubMeshes;
 	for (int i = 0; i < numSubMeshes; ++i)
 	{
-		auto pMesh = make_shared<IndexedMesh>();
+		auto pMesh = make_shared<SubMesh>();
 		char materialName[256];
 		fread(materialName, sizeof(char), 256, file);
 		pMesh->SetMaterial(materialName);
 
 		fread(&pMesh->m_firstIndex, sizeof(int), 1, file);
 		fread(&pMesh->m_numIndices, sizeof(int), 1, file);
+
+		pExtra->m_pMesh->AddSubMesh(pMesh);
 	}
 
 	return true;

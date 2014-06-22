@@ -65,16 +65,25 @@ __forceinline Material::Material()
 __forceinline void Material::SetDiffuse(shared_ptr<Texture2D> pDiffuse)
 {
 	m_pDiffuse = pDiffuse;
+
+	m_pDiffuseSRV = make_shared<ShaderResourceView>();
+	m_pDiffuse->CreateShaderResourceView(m_pDiffuseSRV->GetView());
 }
 
 __forceinline void Material::SetSpecular(shared_ptr<Texture2D> pSpecular)
 {
 	m_pSpecular = pSpecular;
+
+	m_pSpecularSRV = make_shared<ShaderResourceView>();
+	m_pSpecular->CreateShaderResourceView(m_pSpecularSRV->GetView());
 }
 
 __forceinline void Material::SetNormal(shared_ptr<Texture2D> pNormal)
 {
 	m_pNormalTex = pNormal;
+
+	m_pNormalSRV = make_shared<ShaderResourceView>();
+	m_pNormalTex->CreateShaderResourceView(m_pNormalSRV->GetView());
 }
 
 
@@ -93,6 +102,7 @@ __forceinline void Material::BindSpecular(unsigned int slot)
 __forceinline void Material::BindNormal(unsigned int slot)
 {
 	m_pNormalSRV->Bind(slot, ST_Pixel);
+	m_normalSlot = slot;
 }
 
 __forceinline void Material::UnbindDiffuse()

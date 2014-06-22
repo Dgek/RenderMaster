@@ -16,7 +16,7 @@ public:
 	virtual bool VRestore() = 0;
 	virtual void VUpdate(unsigned int deltaMilliseconds) = 0;
 	virtual void VRender(Renderer* pRenderer, double time, double elapsedTime) = 0;
-	virtual bool VMsgProc(const SystemMessage & msg) = 0;
+	virtual bool VMsgProc(const SystemMessage * msg) = 0;
 
 	virtual	void VSetCamera(shared_ptr<Camera> pCamera) = 0;
 	virtual	shared_ptr<Camera> VGetCamera() const = 0;
@@ -37,7 +37,7 @@ public:
 	virtual bool VRestore() override;
 	virtual void VUpdate(unsigned int deltaMilliseconds) override;
 	virtual void VRender(Renderer* pRenderer, double time, double elapsedTime) override;
-	virtual bool VMsgProc(const SystemMessage & msg) override;
+	virtual bool VMsgProc(const SystemMessage * msg) override;
 
 protected:
 	/* ==================================

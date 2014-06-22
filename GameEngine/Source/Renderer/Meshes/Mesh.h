@@ -19,6 +19,7 @@ protected:
 	shared_ptr<VertexBuffer> m_pVertices;
 	shared_ptr<VertexBuffer> m_pTexCoords;
 	shared_ptr<VertexBuffer> m_pNormals;
+	shared_ptr<VertexBuffer> m_pTangents;
 
 	shared_ptr<Material> m_pMaterial;
 
@@ -30,9 +31,10 @@ public:
 	__forceinline void SetMaterial(const string & materialName);
 
 	__forceinline void BindMaterial();
-	__forceinline void BindPositionBuffer();
-	__forceinline void BindTexCoordsBuffer();
-	__forceinline void BindNormalsBuffer();
+	__forceinline void BindVertices(unsigned int startSlot, unsigned int offset);
+	__forceinline void BindTexCoords(unsigned int startSlot, unsigned int offset);
+	__forceinline void BindNormals(unsigned int startSlot, unsigned int offset);
+	__forceinline void BindTangents(unsigned int startSlot, unsigned int offset);
 
 	virtual void SetWorldTransform(const Mat4x4 & transform) override;
 };
@@ -54,17 +56,22 @@ __forceinline void Mesh::BindMaterial()
 	m_pMaterial->VBind(0);
 }
 
-__forceinline void Mesh::BindPositionBuffer()
+__forceinline void Mesh::BindVertices(unsigned int startSlot, unsigned int offset)
 {
-	m_pVertices->Bind(0, 0);
+	m_pVertices->Bind(startSlot, offset);
 }
 
-__forceinline void Mesh::BindTexCoordsBuffer()
+__forceinline void Mesh::BindTexCoords(unsigned int startSlot, unsigned int offset)
 {
-	m_pTexCoords->Bind(1, 0);
+	m_pTexCoords->Bind(startSlot, offset);
 }
 
-__forceinline void Mesh::BindNormalsBuffer()
+__forceinline void Mesh::BindNormals(unsigned int startSlot, unsigned int offset)
 {
-	m_pNormals->Bind(2, 0);
+	m_pNormals->Bind(startSlot, offset);
+}
+
+__forceinline void Mesh::BindTangents(unsigned int startSlot, unsigned int offset)
+{
+	m_pTangents->Bind(startSlot, offset);
 }

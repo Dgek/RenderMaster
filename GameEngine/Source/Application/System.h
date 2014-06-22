@@ -5,6 +5,7 @@ struct SystemMessage
 	SystemMessageType m_type;
 
 	__forceinline explicit SystemMessage(SystemMessageType type);
+	virtual ~SystemMessage() {}
 };
 
 struct QuitMessage : public SystemMessage

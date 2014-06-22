@@ -58,16 +58,17 @@ bool Texture1D::CreateRenderTargetView(ID3D11RenderTargetView** ppView,
 bool Texture1D::CreateDepthStencilView(DepthStencilView & view,
 	const DepthStencilViewParams & params) const
 {
-	HRESULT hr = DX11API::D3D11Device()->CreateDepthStencilView(m_pTexture, &params,
-		const_cast<ID3D11DepthStencilView**>(view.GetView()));
+	//HRESULT hr = DX11API::D3D11Device()->CreateDepthStencilView(m_pTexture, &params,
+	//	const_cast<ID3D11DepthStencilView**>(view.GetView()));
 
-	VALID(hr);
+	//VALID(hr);
+	return true;
 }
 
-bool Texture1D::CreateDepthStencilView(ID3D11DepthStencilView** ppView,
+bool Texture1D::CreateDepthStencilView(ID3D11DepthStencilView* ppView,
 	const DepthStencilViewParams & params)		const
 {
-	HRESULT hr = DX11API::D3D11Device()->CreateDepthStencilView(m_pTexture, &params, ppView);
+	HRESULT hr = DX11API::D3D11Device()->CreateDepthStencilView(m_pTexture, &params, &ppView);
 
 	VALID(hr);
 }

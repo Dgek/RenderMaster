@@ -33,6 +33,8 @@ using namespace std;
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
+#define VIEW_DISTANCE 10000.0f
+
 #define SAMPLES_COUNT 8
 #define SAMPLES_QUALITY 1
 

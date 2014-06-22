@@ -151,6 +151,7 @@
     <ClInclude Include="Source\Renderer\Meshes\Mesh.h" />
     <ClInclude Include="Source\Renderer\Meshes\PlaneMesh.h" />
     <ClInclude Include="Source\Renderer\Meshes\Sprite.h" />
+    <ClInclude Include="Source\Renderer\Meshes\SubMesh.h" />
     <ClInclude Include="Source\Renderer\Objects\IMovable.h" />
     <ClInclude Include="Source\Renderer\Renderer.h" />
     <ClInclude Include="Source\Renderer\RenderQueue.h" />

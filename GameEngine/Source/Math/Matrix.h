@@ -82,15 +82,25 @@ __forceinline Mat4x4::Mat4x4(const Vec & v1, const Vec & v2, const Vec & v3, con
 	m[3][0] = v4.x; m[3][1] = v4.y; m[3][2] = v4.z; m[3][3] = v4.w;
 }
 
+__forceinline Vec operator*(const Vec & v, const Mat4x4 & M)
+{
+	return Vec(v.x * M.m[0][0] + v.y * M.m[1][0] + v.z * M.m[2][0] + v.w * M.m[3][0],
+		v.x * M.m[0][1] + v.y * M.m[1][1] + v.z * M.m[2][1] + v.w * M.m[3][1],
+		v.x * M.m[0][2] + v.y * M.m[1][2] + v.z * M.m[2][2] + v.w * M.m[3][2],
+		v.x * M.m[0][3] + v.y * M.m[1][3] + v.z * M.m[2][3] + v.w * M.m[3][3]);
+}
+
 __forceinline Mat4x4 & Mat4x4::operator*=(const Mat4x4 & other)
 {
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			m[i][j] *= other.m[i][j];
-		}
-	}
+	Vec row0 = Vec{ m[0][0], m[0][1], m[0][2], m[0][3] } *other;
+	Vec row1 = Vec{ m[1][0], m[1][1], m[1][2], m[1][3] } *other;
+	Vec row2 = Vec{ m[2][0], m[2][1], m[2][2], m[2][3] } *other;
+	Vec row3 = Vec{ m[3][0], m[3][1], m[3][2], m[3][3] } *other;
+
+	m[0][0] = row0.x; m[0][1] = row0.y; m[0][2] = row0.z; m[0][3] = row0.w;
+	m[1][0] = row1.x; m[1][1] = row1.y; m[1][2] = row1.z; m[1][3] = row1.w;
+	m[2][0] = row2.x; m[2][1] = row2.y; m[2][2] = row2.z; m[2][3] = row2.w;
+	m[3][0] = row3.x; m[3][1] = row3.y; m[3][2] = row3.z; m[3][3] = row3.w;
 
 	return *this;
 }
@@ -309,14 +319,6 @@ __forceinline void Mat4x4::Transpose()
 {
 	Mat4x4 temp = GetTransposed();
 	*this = temp;
-}
-
-__forceinline Vec operator*(const Vec & v, const Mat4x4 & M)
-{
-	return Vec(v.x * M.m[0][0] + v.y * M.m[1][0] + v.z * M.m[2][0] + v.w * M.m[3][0],
-		v.x * M.m[0][1] + v.y * M.m[1][1] + v.z * M.m[2][1] + v.w * M.m[3][1],
-		v.x * M.m[0][2] + v.y * M.m[1][2] + v.z * M.m[2][2] + v.w * M.m[3][2],
-		v.x * M.m[0][3] + v.y * M.m[1][3] + v.z * M.m[2][3] + v.w * M.m[3][3]);
 }
 
 class MatrixStack

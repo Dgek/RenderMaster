@@ -33,7 +33,7 @@ public:
 	virtual bool CreateDepthStencilView(DepthStencilView & view,
 		const DepthStencilViewParams & params) const override;
 
-	virtual bool CreateDepthStencilView(ID3D11DepthStencilView** ppView,
+	virtual bool CreateDepthStencilView(ID3D11DepthStencilView* ppView,
 		const DepthStencilViewParams & params) const override;
 
 protected:

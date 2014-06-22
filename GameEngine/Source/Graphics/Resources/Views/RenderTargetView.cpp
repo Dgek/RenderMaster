@@ -11,11 +11,11 @@ void RenderTargetView::BindOneView(int index)
 
 void RenderTargetView::Bind(const DepthStencilView & depthview) const
 {
-	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews, *depthview.GetView());
+	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews, depthview.GetView());
 }
 void RenderTargetView::Bind() const
 {
-	DX11API::D3D11DeviceContext()->OMSetRenderTargets(1, m_ppViews, nullptr);
+	DX11API::D3D11DeviceContext()->OMSetRenderTargets(m_numViews, m_ppViews, nullptr);
 }
 
 void RenderTargetView::BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,

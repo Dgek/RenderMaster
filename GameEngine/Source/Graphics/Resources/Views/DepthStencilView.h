@@ -3,12 +3,17 @@
 struct DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
 {
 public:
-	__forceinline DepthStencilViewParams() = default;
+	__forceinline DepthStencilViewParams();
 
 	__forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
 
 	__forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
 };
+
+__forceinline DepthStencilViewParams::DepthStencilViewParams()
+{
+	ZeroMemory(this, sizeof(DepthStencilViewParams));
+}
 
 __forceinline void DepthStencilViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
 {
@@ -40,6 +45,8 @@ __forceinline void DepthStencilViewParams::InitForTexture2DArray(int arraySize, 
 
 class DepthStencilView
 {
+	friend class Renderer;
+
 private:
 	ID3D11DepthStencilView* m_pView;
 
@@ -51,7 +58,7 @@ public:
 
 
 	/*** Getters ***/
-	__forceinline ID3D11DepthStencilView * const *GetView() const;
+	__forceinline ID3D11DepthStencilView * GetView() const;
 };
 
 __forceinline DepthStencilView::DepthStencilView()
@@ -63,7 +70,7 @@ __forceinline DepthStencilView::~DepthStencilView()
 	SAFE_RELEASE(m_pView);
 }
 
-__forceinline ID3D11DepthStencilView * const *DepthStencilView::GetView() const
+__forceinline ID3D11DepthStencilView *DepthStencilView::GetView() const
 {
-	return &m_pView;
+	return m_pView;
 }

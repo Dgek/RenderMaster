@@ -5,7 +5,7 @@ class Widget
 public:
 	virtual void VUpdate(unsigned int deltaMilliseconds) = 0;
 	virtual void VRender(Renderer* pRenderer, double time, double elapsedTime) = 0;
-	virtual bool VMsgProc(const SystemMessage & msg) = 0;
+	virtual bool VMsgProc(const SystemMessage * msg) = 0;
 
 	//To order widgets on the screen
 	virtual void VSetZ(unsigned char z) = 0;

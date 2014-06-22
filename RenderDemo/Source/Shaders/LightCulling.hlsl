@@ -152,7 +152,7 @@ void light_culling_cs(uint3 groupId	: SV_GroupID,
 	float maxDepth = 0;
 	for (int i = 0; i < 8; i++)
 	{
-		float curDepth = depthTexture.Load(int2(dispatchThreadId.x, dispatchThreadId.y), i);
+		float curDepth = depthTexture.Load(int2(dispatchThreadId.x, dispatchThreadId.y), i).w;
 		if (curDepth < minDepth)
 			minDepth = curDepth;
 		if (curDepth > maxDepth)

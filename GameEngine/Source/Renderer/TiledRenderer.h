@@ -5,6 +5,7 @@
 
 
 #include "../Math/Vector.h"
+#include "../Math/Matrix.h"
 #include "../Graphics/Other/Viewport.h"
 
 struct LightData
@@ -40,6 +41,7 @@ class TiledRenderer : public Renderer
 private:
 
 	static unsigned int m_iNumLights;
+	static unsigned int m_iLightsPerTile;
 
 protected:
 
@@ -84,9 +86,17 @@ protected:
 	unique_ptr<LightGeometry[]> m_pLightGeometryData;
 	unique_ptr<LightParams[]> m_pLightParams;
 
-	unique_ptr<ComputeShader> m_pLightCullingShader;
+	shared_ptr<ComputeShader> m_pLightCullingShader;
+
+	struct CameraCullingData
+	{
+		Mat4x4 View; Mat4x4 viewProj; Vec posAndFov;
+		float viewWidth; float viewHeight; float cameraNear; float cameraFar; Vec dir;
+	};
+	unique_ptr<ConstantBuffer> m_pcbCameraCulling;
 
 	//shading pass
+	unique_ptr<INPUT_LAYOUT[]> m_pFinalShadingLayout;
 	unique_ptr<ShaderBunch> m_pFinalShadingShaders;
 
 	////////////////////////////////////
@@ -153,6 +163,7 @@ protected:
 	void InjectVPLs();
 	void PropagateVPLs(unsigned int index);
 	void ApplyGlobalIllumination();
+	void ClearVoxelGrid();
 
 public:
 

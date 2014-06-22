@@ -19,6 +19,10 @@ private:
 	shared_ptr<GeometryShader> m_pGeometryShader;
 	shared_ptr<PixelShader> m_pPixelShader;
 
+	bool m_bHullShader;
+	bool m_bDomainShader;
+	bool m_bGeometryShader;
+
 public:
 	__forceinline ShaderBunch();
 
@@ -30,10 +34,11 @@ public:
 	__forceinline void SetGeometryShader(const string & shaderName);
 	__forceinline void SetPixelShader(const string & shaderName);
 
-	__forceinline void VBind();
+	__forceinline void Bind();
 };
 
 __forceinline ShaderBunch::ShaderBunch()
+	: m_bHullShader{ false }, m_bDomainShader{ false }, m_bGeometryShader{ false }
 {}
 
 __forceinline void ShaderBunch::SetVertexShader(const string & shaderName, INPUT_LAYOUT* pLayout,
@@ -49,12 +54,12 @@ __forceinline void ShaderBunch::SetVertexShader(const string & shaderName, INPUT
 
 __forceinline void ShaderBunch::SetHullShader(const string & shaderName)
 {
-
+	m_bHullShader = true;
 }
 
 __forceinline void ShaderBunch::SetDomainShader(const string & shaderName)
 {
-
+	m_bDomainShader = true;
 }
 
 __forceinline void ShaderBunch::SetGeometryShader(const string & shaderName)
@@ -64,6 +69,7 @@ __forceinline void ShaderBunch::SetGeometryShader(const string & shaderName)
 	shared_ptr<GeometryShaderResourceExtraData> pShaderData = static_pointer_cast<GeometryShaderResourceExtraData>(pShaderHandle->GetExtra());
 
 	m_pGeometryShader = pShaderData->m_pShader;
+	m_bGeometryShader = true;
 }
 
 __forceinline void ShaderBunch::SetPixelShader(const string & shaderName)
@@ -75,11 +81,18 @@ __forceinline void ShaderBunch::SetPixelShader(const string & shaderName)
 	m_pPixelShader = pShaderData->m_pShader;
 }
 
-__forceinline void ShaderBunch::VBind()
+__forceinline void ShaderBunch::Bind()
 {
 	m_pVertexShader->Bind();
-	//m_pHullShader->Bind();
-	//m_pDomainShader->Bind();
-	m_pGeometryShader->Bind();
+
+	//if (m_bHullShader)
+	//	m_pHullShader->Bind();
+
+	//if (m_bDomainShader)
+	//	m_pDomainShader->Bind();
+
+	if (m_bGeometryShader)
+		m_pGeometryShader->Bind();
+
 	m_pPixelShader->Bind();
 }

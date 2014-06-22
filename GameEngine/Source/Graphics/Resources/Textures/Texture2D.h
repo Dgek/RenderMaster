@@ -110,6 +110,8 @@ public:
 	virtual bool CreateShaderResourceView(ID3D11ShaderResourceView** ppView,
 		const ShaderResourceViewParams & params)	const;
 
+	virtual bool CreateShaderResourceView(ID3D11ShaderResourceView** ppView) const;
+
 
 	virtual bool CreateUnorderedAccessView(UnorderedAccessView & view,
 		const UnorderedAccessViewParams & params)	const;
@@ -128,7 +130,10 @@ public:
 	virtual bool CreateDepthStencilView(DepthStencilView & view,
 		const DepthStencilViewParams & params)		const;
 
-	virtual bool CreateDepthStencilView(ID3D11DepthStencilView** ppView,
+	virtual bool CreateDepthStencilView(ID3D11DepthStencilView* pView,
+		const DepthStencilViewParams & params)		const;
+
+	virtual bool CreateDepthStencilView(ID3D11DepthStencilView** pView,
 		const DepthStencilViewParams & params)		const;
 
 

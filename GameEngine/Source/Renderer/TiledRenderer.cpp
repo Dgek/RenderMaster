@@ -4,7 +4,7 @@
 
 #include "Cameras/Camera.h"
 #include "Lights/Light.h"
-#include "Meshes/Mesh.h"
+#include "Meshes/IndexedMesh.h"
 
 #include "../Graphics/Other/Viewport.h"
 
@@ -13,6 +13,7 @@
 #include "../Graphics/States/RasterizerState.h"
 #include "../Graphics/States/SamplerState.h"
 
+#include "../Graphics/Resources/Buffers/BufferParams.h"
 #include "../Graphics/Resources/Buffers/ConstantBuffer.h"
 #include "../Graphics/Resources/Buffers/StructuredBuffer.h"
 #include "../Graphics/Resources/Buffers/VertexBuffer.h"
@@ -27,7 +28,8 @@
 #include "../Graphics/Stages/Shaders/ShaderBunch.h"
 #include "../Graphics/Stages/Shaders/ComputeShader.h"
 
-unsigned int TiledRenderer::m_iNumLights = 256;
+unsigned int TiledRenderer::m_iNumLights = 1000;
+unsigned int TiledRenderer::m_iLightsPerTile = 256;
 
 TiledRenderer::TiledRenderer()
 	: Renderer{}, m_pCurrentCamera{ nullptr }
@@ -42,7 +44,33 @@ TiledRenderer::TiledRenderer()
 	m_pPrepassShaders = make_unique<ShaderBunch>();
 
 	//light culling
-	m_pLightCullingShader = make_unique<ComputeShader>();
+	m_psbLightIdx = make_unique<StructuredBuffer>();
+	m_pLightIdxUAV = make_unique<UnorderedAccessView>();
+	m_pLightIdxSRV = make_unique<ShaderResourceView>();
+
+	m_psbLowerBound = make_unique<StructuredBuffer>();
+	m_pLowerBoundUAV = make_unique<UnorderedAccessView>();
+	m_pLowerBoundSRV = make_unique<ShaderResourceView>();
+
+	m_psbHigherBound = make_unique<StructuredBuffer>();
+	m_pHigherBoundUAV = make_unique<UnorderedAccessView>();
+	m_pHigherBoundSRV = make_unique<ShaderResourceView>();
+
+	m_psbLightCounter = make_unique<StructuredBuffer>();
+	m_pLightCounterUAV = make_unique<UnorderedAccessView>();
+	m_pLightCounterSRV = make_unique<ShaderResourceView>();
+
+	m_psbLightGeometry = make_unique<StructuredBuffer>();
+	m_pLightGeometrySRV = make_unique<ShaderResourceView>();
+
+	m_psbLights = make_unique<StructuredBuffer>();
+	m_pLightsSRV = make_unique<ShaderResourceView>();
+
+	m_pcbCameraCulling = make_unique<ConstantBuffer>();
+
+	//final shading
+	m_pFinalShadingLayout = make_unique<INPUT_LAYOUT[]>(4);
+	m_pFinalShadingShaders = make_unique<ShaderBunch>();
 
 	//voxelization
 }
@@ -58,18 +86,18 @@ bool TiledRenderer::VInitialize(HWND hWnd, unsigned int width, unsigned int heig
 	//Initialize data for z prepass
 	////////////////////////////////////////////////////
 	Texture2DParams texParams;
-	texParams.Init(SCREEN_WIDTH, SCREEN_HEIGHT, 1, DXGI_FORMAT_R8G8B8A8_UNORM, true, false, true, false, 1, 0,
+	texParams.Init(SCREEN_WIDTH, SCREEN_HEIGHT, 1, DXGI_FORMAT_R8G8B8A8_UNORM, true, false, true, false, m_numSamples, m_sampleQuality,
 		1, true, false, false);
 	m_pDepthNormalTexture->Create(texParams);
 	m_pAlbedoGlossTexture->Create(texParams);
 
 	ShaderResourceViewParams srvParams;
-	srvParams.InitForTexture2D(texParams.Format, 1, 0, false);
+	srvParams.InitForTexture2D(texParams.Format, 1, 0, m_bMSAA);
 	m_pDepthNormalTexture->CreateShaderResourceView(m_pPrepassSRVs->GetView(0), srvParams);
 	m_pAlbedoGlossTexture->CreateShaderResourceView(m_pPrepassSRVs->GetView(1), srvParams);
 
 	RenderTargetViewParams rtvParams;
-	rtvParams.InitForTexture2D(texParams.Format, 0, true);
+	rtvParams.InitForTexture2D(texParams.Format, 0, m_bMSAA);
 	m_pDepthNormalTexture->CreateRenderTargetView(m_pPrepassRTVs->GetView(0), rtvParams);
 	m_pAlbedoGlossTexture->CreateRenderTargetView(m_pPrepassRTVs->GetView(1), rtvParams);
 
@@ -113,6 +141,83 @@ bool TiledRenderer::VInitialize(HWND hWnd, unsigned int width, unsigned int heig
 	/////////////////////////////////////////////////////
 	m_pLightGeometryData = make_unique<LightGeometry[]>(m_iNumLights);
 	m_pLightParams = make_unique<LightParams[]>(m_iNumLights);
+
+	BufferParams bufferParams;
+	bufferParams.FillStructredBufferParams(4, m_iLightsPerTile*m_iNumLights, false, true);
+	m_psbLightIdx->Create(bufferParams, nullptr);
+
+	srvParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, m_iLightsPerTile*m_iNumLights);
+	m_psbLightIdx->CreateShaderResourceView(m_pLightIdxSRV->GetView(), srvParams);
+
+	UnorderedAccessViewParams uavParams;
+	uavParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, m_iLightsPerTile*m_iNumLights, D3D11_BUFFER_UAV_FLAG_COUNTER);
+	m_psbLightIdx->CreateUnorderedAccessView(m_pLightIdxUAV->GetView(), uavParams);
+
+	/*****************************************/
+	//lower bound
+	bufferParams.FillStructredBufferParams(4, m_iNumLights, false, true);
+	m_psbLowerBound->Create(bufferParams, nullptr);
+
+	srvParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, m_iNumLights);
+	m_psbLowerBound->CreateShaderResourceView(m_pLowerBoundSRV->GetView(), srvParams);
+
+	uavParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, m_iNumLights, D3D11_BUFFER_UAV_FLAG_COUNTER);
+	m_psbLowerBound->CreateUnorderedAccessView(m_pLowerBoundUAV->GetView(), uavParams);
+
+	/*****************************************/
+	//higher bound
+	bufferParams.FillStructredBufferParams(4, m_iNumLights, false, true);
+	m_psbHigherBound->Create(bufferParams, nullptr);
+
+	srvParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, m_iNumLights);
+	m_psbHigherBound->CreateShaderResourceView(m_pHigherBoundSRV->GetView(), srvParams);
+
+	uavParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, m_iNumLights, D3D11_BUFFER_UAV_FLAG_COUNTER);
+	m_psbHigherBound->CreateUnorderedAccessView(m_pHigherBoundUAV->GetView(), uavParams);
+
+	/*****************************************/
+	//Light Counter
+	bufferParams.FillStructredBufferParams(4, 1, false, true);
+	m_psbLightCounter->Create(bufferParams, nullptr);
+
+	srvParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, 1);
+	m_psbLightCounter->CreateShaderResourceView(m_pLightCounterSRV->GetView(), srvParams);
+
+	uavParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, 1, D3D11_BUFFER_UAV_FLAG_COUNTER);
+	m_psbLightCounter->CreateUnorderedAccessView(m_pLightCounterUAV->GetView(), uavParams);
+
+	Resource shaderResource{ "shaders/LightCulling.cso" };
+	shared_ptr<ResHandle> pShaderHandle = ResourceCache::SafeGetHandle(&shaderResource);
+	shared_ptr<ComputeShaderResourceExtraData> pShaderData = static_pointer_cast<ComputeShaderResourceExtraData>(pShaderHandle->GetExtra());
+	m_pLightCullingShader = pShaderData->m_pShader;
+
+	/*****************************************/
+	//Light Geometry
+	bufferParams.FillStructredBufferParams(sizeof(LightGeometry), m_iNumLights, true, false);
+	m_psbLightGeometry->Create(bufferParams, nullptr);
+
+	srvParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, m_iNumLights);
+	m_psbLightGeometry->CreateShaderResourceView(m_pLightGeometrySRV->GetView(), srvParams);
+
+	/*****************************************/
+	//Light Params
+	bufferParams.FillStructredBufferParams(sizeof(LightParams), m_iNumLights, true, false);
+	m_psbLights->Create(bufferParams, nullptr);
+
+	srvParams.InitForStructuredBuffer(DXGI_FORMAT_UNKNOWN, 0, m_iNumLights);
+	m_psbLights->CreateShaderResourceView(m_pLightsSRV->GetView(), srvParams);
+
+	/*****************************************/
+	//Camera culling
+	BufferParams params{};
+	params.FillConstantBufferParams(sizeof(CameraCullingData), true, false, false);
+	if (!m_pcbCameraCulling->Create(params, nullptr)) return false;
+
+	/////////////////////////////////////////////////////
+	//Initialize data for final shading
+	/////////////////////////////////////////////////////
+	m_pFinalShadingShaders->SetVertexShader("shaders/tiled_shading_vs.vso", m_pPrepassLayout.get(), 4);
+	m_pFinalShadingShaders->SetPixelShader("shaders/tiled_shading_ps.pso");
 
 	return true;
 }
@@ -159,18 +264,18 @@ void TiledRenderer::VRender()
 		//Voxelization
 		//if (g_pEngine->GameTimeInSeconds())
 		//{
-		Voxelize();
+		//Voxelize();
 		//}
 		//RenderGrid(viewProj);
 
 		///////////////////////////////////////////////////////////
 		//Inject light sources to the voxel grid
-		InjectVPLs();
+		//InjectVPLs();
 
 		///////////////////////////////////////////////////////////
 		//Propogate virtual point lights
-		for (int i = 0; i < 9; i++)
-			PropagateVPLs(i);
+		//for (int i = 0; i < 9; i++)
+		//	PropagateVPLs(i);
 
 		// ===================================================== //
 		//						Light Culling					 //
@@ -187,14 +292,8 @@ void TiledRenderer::VRender()
 		m_queue.Reset();
 		while (pMesh = m_queue.Next().get())
 		{
-			//set states needed for rendering current mesh
-			VPreRenderMesh(pMesh);
-
-			//finally render it
+			//render it
 			VRenderMesh(pMesh);
-
-			//remove previous states
-			VPostRenderMesh(pMesh);
 		};
 
 		FinishShadingPass();
@@ -202,7 +301,7 @@ void TiledRenderer::VRender()
 		// ===================================================	//
 		//			Global Illumination Post Process			//
 		// ===================================================	//
-		ApplyGlobalIllumination();
+		//ApplyGlobalIllumination();
 
 		//clear meshes queue
 		m_queue.Clear();
@@ -222,15 +321,49 @@ void TiledRenderer::PrepareForZPrepass()
 {
 	DepthEnableStencilDisableStandard()->Bind(0xFF);
 	AllDisabledBackCullingRasterizer()->Bind();
+	LinearTiledSampler()->Bind(0, ST_Pixel);
 
 	m_pPrepassRTVs->Bind();
+
+	m_pPrepassShaders->Bind();
 }
 
 void TiledRenderer::RenderZPrepass(Mesh* pMesh)
-{}
+{
+	IndexedMesh* pIndexedMesh = static_cast<IndexedMesh*>(pMesh);
+
+	struct Buffer { Mat4x4 world; Mat4x4 worldView; Mat4x4 WVP; } buffer;
+	buffer.world = pIndexedMesh->GetWorldTransform();
+	buffer.worldView = buffer.world * m_pCurrentCamera->GetView();
+	buffer.WVP = buffer.worldView * m_pCurrentCamera->GetProjection();
+	buffer.world.Transpose(); buffer.worldView.Transpose(); buffer.WVP.Transpose();
+
+	m_pcb192Bytes->UpdateSubresource(0, nullptr, &buffer, 0, 0);
+	m_pcb192Bytes->Bind(0, ST_Vertex);
+
+	pIndexedMesh->BindVertices(0, 0);
+	pIndexedMesh->BindTexCoords(1, 0);
+	pIndexedMesh->BindNormals(2, 0);
+	pIndexedMesh->BindTangents(3, 0);
+
+	pIndexedMesh->BindIndexBuffer(0);
+
+	for (auto iter = begin(pIndexedMesh->m_subMeshes); iter != end(pIndexedMesh->m_subMeshes); ++iter)
+	{
+		(*iter)->BindMaterialNormal(0);
+		(*iter)->BindMaterialDiffuse(1);
+
+		(*iter)->DrawIndexed();
+
+		(*iter)->UnBindMaterialNormal();
+		(*iter)->UnBindMaterialDiffuse();
+	}
+}
 
 void TiledRenderer::FinishZPrepass()
-{}
+{
+	DX11API::UnbindRenderTargetViews(2);
+}
 
 void TiledRenderer::PrepareForShadingPass()
 {
@@ -244,7 +377,7 @@ void TiledRenderer::PrepareForShadingPass()
 
 	//SetRenderTargetView();
 	DX11API::BindGlobalRenderTargetView(m_pDepthDSV.get());
-	m_pFinalShadingShaders->VBind();
+	m_pFinalShadingShaders->Bind();
 
 	m_pLightsSRV->Bind(0, ST_Pixel);
 	m_pLightIdxSRV->Bind(1, ST_Pixel);
@@ -252,7 +385,7 @@ void TiledRenderer::PrepareForShadingPass()
 	m_pHigherBoundSRV->Bind(3, ST_Pixel);
 	m_pLightCounterSRV->Bind(4, ST_Pixel);
 
-	m_pSunShadowSRV->Bind(10, ST_Pixel);
+	//m_pSunShadowSRV->Bind(10, ST_Pixel);
 
 	LinearTiledSampler()->Bind(0, ST_Pixel);
 
@@ -317,11 +450,15 @@ void TiledRenderer::UpdateLightBuffers()
 
 void TiledRenderer::VFinishPass()
 {
+	m_pPrepassRTVs->Clear();
+	//m_voxelTextureRTV->Clear();
+	NullLightCounter();
+	ClearVoxelGrid();
 }
 
 void TiledRenderer::Voxelize()
 {
-	m_voxelizationShaders->VBind();
+	m_voxelizationShaders->Bind();
 	DepthDisableStencilDisable()->Bind(0);
 	NoCullingStandardRasterizer()->Bind();
 	PointClampSampler()->Bind(0, ST_Pixel);
@@ -373,7 +510,7 @@ void TiledRenderer::InjectVPLs()
 {
 	DepthDisableStencilDisable()->Bind(0);
 	NoCullingStandardRasterizer()->Bind();
-	m_dirLightGridShaders->VBind();
+	m_dirLightGridShaders->Bind();
 
 	m_pVoxelVB->Bind(0, 0);
 	m_voxelGridSRV->Bind(0, ST_Pixel);
@@ -429,7 +566,7 @@ void TiledRenderer::PropagateVPLs(unsigned int index)
 
 void TiledRenderer::ApplyGlobalIllumination()
 {
-	m_pGlobalIllumShaders->VBind();
+	m_pGlobalIllumShaders->Bind();
 
 	//set constant buffers
 	struct {
@@ -490,23 +627,92 @@ void TiledRenderer::ApplyGlobalIllumination()
 	DX11API::UnbindGeometryShader();
 }
 
+void TiledRenderer::ClearVoxelGrid()
+{
+
+}
+
 void TiledRenderer::LightCulling()
-{}
+{
+	CameraCullingData data;
+	data.View = m_pCurrentCamera->GetView(); data.View.Transpose();
+	data.viewProj = m_pCurrentCamera->GetViewProjection(); data.viewProj.Transpose();
+	data.posAndFov = m_pCurrentCamera->GetPosition(); data.posAndFov.w = m_pCurrentCamera->GetFrustum().GetFOV();
+	data.cameraFar = VIEW_DISTANCE; data.cameraNear = 1.0f;
+	data.viewWidth = SCREEN_WIDTH; data.viewHeight = SCREEN_HEIGHT; data.dir = m_pCurrentCamera->GetDir();
+
+	m_pcbCameraCulling->UpdateSubresource(0, nullptr, &data, 0, 0);
+	m_pcbCameraCulling->Bind(0, ST_Compute);
+
+	struct culling
+	{
+		unsigned int m_numLights; unsigned int m_pad1;
+		unsigned int m_pad2; unsigned int m_pad3;
+	} culling_data;
+	culling_data.m_numLights = m_iNumLights;
+
+	m_pcb16Bytes->UpdateSubresource(0, nullptr, &culling_data, 0, 0);
+	m_pcb16Bytes->Bind(1, ST_Compute);
+
+	m_pLightCullingShader->Bind();
+	//m_pLinearZSRV->Set(0, ST_Compute);
+	m_pPrepassSRVs->BindView(0, 0, ST_Compute);
+	m_pLightGeometrySRV->Bind(1, ST_Compute);
+	m_pLightIdxUAV->Bind(0, ST_Compute);
+	m_pLowerBoundUAV->Bind(1, ST_Compute);
+	m_pHigherBoundUAV->Bind(2, ST_Compute);
+	m_pLightCounterUAV->Bind(3, ST_Compute);
+
+	DX11API::D3D11DeviceContext()->Dispatch(ceil((float)SCREEN_WIDTH / 16.0), ceil((float)SCREEN_HEIGHT / 16.0), 1);
+	//D3D11DeviceContext()->Dispatch(1, 1, 1);
+
+	DX11API::UnbindShaderResourceViews(0, 2, ST_Compute);
+	DX11API::UnbindUnorderedAccessViews(0, 4);
+
+	m_pLightIdxSRV->Bind(1, ST_Pixel);
+}
 
 void TiledRenderer::FinalShading()
 {}
 
 void TiledRenderer::NullLightCounter()
-{}
+{
+	float f = 0.0f;
+	m_psbLightCounter->UpdateSubresource(0, nullptr, &f, 0, 0);
+}
 
 void TiledRenderer::FinishShadingPass()
-{}
-
-void TiledRenderer::VPreRenderMesh(Mesh*)
-{}
+{
+	DX11API::UnbindShaderResourceViews(0, 5, ST_Pixel);
+	DX11API::UnbindShaderResourceViews(10, 1, ST_Pixel);
+}
 
 void TiledRenderer::VRenderMesh(Mesh* pMesh)
-{}
+{
+	IndexedMesh* pIndexedMesh = static_cast<IndexedMesh*>(pMesh);
 
-void TiledRenderer::VPostRenderMesh(Mesh* pMesh)
-{}
+	struct Buffer { Mat4x4 world; Mat4x4 worldView; Mat4x4 WVP; } buffer;
+	buffer.world = pIndexedMesh->GetWorldTransform();
+	buffer.worldView = buffer.world * m_pCurrentCamera->GetView();
+	buffer.WVP = buffer.worldView * m_pCurrentCamera->GetProjection();
+	buffer.world.Transpose(); buffer.worldView.Transpose(); buffer.WVP.Transpose();
+
+	m_pcb192Bytes->UpdateSubresource(0, nullptr, &buffer, 0, 0);
+	m_pcb192Bytes->Bind(0, ST_Vertex);
+
+	pIndexedMesh->BindVertices(0, 0);
+	pIndexedMesh->BindTexCoords(1, 0);
+	pIndexedMesh->BindNormals(2, 0);
+	pIndexedMesh->BindTangents(3, 0);
+
+	pIndexedMesh->BindIndexBuffer(0);
+
+	for (auto iter = begin(pIndexedMesh->m_subMeshes); iter != end(pIndexedMesh->m_subMeshes); ++iter)
+	{
+		(*iter)->BindMaterial(5);
+
+		(*iter)->DrawIndexed();
+
+		(*iter)->UnbindMaterial();
+	}
+}

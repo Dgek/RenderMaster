@@ -46,9 +46,7 @@ private:
 	int m_numViews;
 
 public:
-	__forceinline RenderTargetView();
-
-	__forceinline explicit RenderTargetView(int numViews);
+	__forceinline explicit RenderTargetView(int numViews = 1);
 
 	__forceinline explicit RenderTargetView(ID3D11RenderTargetView * View);
 
@@ -73,11 +71,6 @@ public:
 	void Clear();
 };
 
-__forceinline RenderTargetView::RenderTargetView()
-	: m_ppViews{ nullptr }, m_numViews{ 1 }
-{
-}
-
 __forceinline RenderTargetView::RenderTargetView(int numViews)
 	: m_ppViews{ nullptr }, m_numViews{ numViews }
 {
@@ -85,9 +78,10 @@ __forceinline RenderTargetView::RenderTargetView(int numViews)
 }
 
 __forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
+	: m_numViews{ 1 }
 {
-	m_numViews = 1;
-	m_ppViews = &pView;
+	m_ppViews = new ID3D11RenderTargetView*[m_numViews];
+	m_ppViews[0] = pView;
 }
 
 __forceinline ID3D11RenderTargetView** RenderTargetView::GetView(int index) const

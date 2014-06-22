@@ -10,7 +10,7 @@ Game::~Game()
 	m_pStateMachine = nullptr;
 }
 
-LRESULT	Game::VMsgProc(const SystemMessage & msg)
+LRESULT	Game::VMsgProc(const SystemMessage * msg)
 {
 	for (auto iter = begin(m_views); iter != end(m_views); ++iter)
 	{

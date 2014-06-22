@@ -32,7 +32,9 @@ public:
 
 __forceinline VertexShader::VertexShader()
 	: m_size{ 0 }
-{}
+{
+	m_pState = make_shared<InputAssemblerState>();
+}
 
 __forceinline VertexShader::~VertexShader()
 {

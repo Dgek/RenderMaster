@@ -10,8 +10,15 @@
 #include "../Graphics/Resources/Textures/Texture2D.h"
 #include "../Graphics/Resources/Views/DepthStencilView.h"
 
+unsigned int Renderer::m_numSamples = 8;
+unsigned int Renderer::m_sampleQuality = 1;
+bool Renderer::m_bMSAA = true;
+
 Renderer::Renderer()
 {
+	m_pDepthTexture = make_unique<Texture2D>();
+	m_pDepthDSV = make_unique<DepthStencilView>();
+
 	m_pcb16Bytes = make_unique<ConstantBuffer>();
 	m_pcb64Bytes = make_unique<ConstantBuffer>();
 	m_pcb128Bytes = make_unique<ConstantBuffer>();
@@ -26,12 +33,25 @@ bool Renderer::VInitialize(HWND hWnd, unsigned int width, unsigned int height)
 {
 	DX11API::InitializeGraphics(hWnd);
 
-	BufferParams params{};
+	/*	===============================
+	==	Create Depth Textures  ==
+	===============================  */
+	Texture2DParams texParams;
+	texParams.Init(SCREEN_WIDTH, SCREEN_HEIGHT, 1, DXGI_FORMAT_D24_UNORM_S8_UINT,
+		false, false, false, true, m_numSamples, m_sampleQuality, 1, true, false, false);
+	if (!m_pDepthTexture->Create(texParams))
+		return false;
+
+	DepthStencilViewParams dsvParams;
+	dsvParams.InitForTexture2D(DXGI_FORMAT_D24_UNORM_S8_UINT, 0, m_bMSAA);
+	if (!m_pDepthTexture->CreateDepthStencilView(&m_pDepthDSV->m_pView, dsvParams))
+		return false;
 
 	/*	===============================
 	==	Create Constant Buffers  ==
 	===============================  */
 
+	BufferParams params{};
 	params.FillConstantBufferParams(16, true, false, false);
 	if (!m_pcb16Bytes->Create(params, nullptr)) return false;
 

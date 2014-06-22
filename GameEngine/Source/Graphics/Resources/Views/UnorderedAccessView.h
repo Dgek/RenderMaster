@@ -49,9 +49,7 @@ private:
 	int m_numViews;
 
 public:
-	__forceinline UnorderedAccessView();
-
-	__forceinline explicit UnorderedAccessView(int numViews);
+	__forceinline explicit UnorderedAccessView(int numViews = 1);
 
 	//__forceinline explicit UnorderedAccessView(ID3D11RenderTargetView * View);
 
@@ -68,13 +66,12 @@ public:
 	__forceinline void BindView(int index, int slot, ShaderType type) const;
 };
 
-__forceinline UnorderedAccessView::UnorderedAccessView()
-: m_ppViews{ nullptr }, m_numViews{ 1 }
-{}
 
 __forceinline UnorderedAccessView::UnorderedAccessView(int numViews)
-: m_ppViews{ nullptr }, m_numViews{ numViews }
-{}
+	: m_ppViews{ nullptr }, m_numViews{ numViews }
+{
+	m_ppViews = new ID3D11UnorderedAccessView*[numViews];
+}
 
 //__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * View);
 

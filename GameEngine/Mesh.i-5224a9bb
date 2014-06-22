@@ -1,12 +1,11 @@
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.cpp"
 #line 1 "<built-in>"
 #line 1 "<built-in>"
 #line 176 "<built-in>"
 #line 1 "<command line>"
 #line 1 "<built-in>"
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/RenderDemo_pch.h"
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.cpp"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 
 #line 1 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\D3D11.h"
@@ -102943,7 +102942,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d11_0000_0031_v0_0_s_ifspec;
 
 
 }
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 #line 1 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\d3dx11.h"
 #line 20 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\d3dx11.h"
@@ -103514,7 +103513,7 @@ enum _D3DX11_ERR {
     D3DX11_ERR_DUPLICATE_NAMED_FRAGMENT = ((HRESULT) (((unsigned long)(1)<<31) | ((unsigned long)(0x876)<<16) | ((unsigned long)(2907))) ),
     D3DX11_ERR_CANNOT_REMOVE_LAST_ITEM = ((HRESULT) (((unsigned long)(1)<<31) | ((unsigned long)(0x876)<<16) | ((unsigned long)(2908))) ),
 };
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 #line 1 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\d3d11shader.h"
 #line 16 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\d3d11shader.h"
@@ -103788,7 +103787,221 @@ extern "C" {
 
 
 }
-#line 5 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 5 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
+
+
+#line 1 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\D3Dcompiler.h"
+#line 32 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\D3Dcompiler.h"
+extern "C" {
+#line 148 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\D3Dcompiler.h"
+HRESULT __stdcall
+D3DCompile( LPCVOID pSrcData,
+                SIZE_T SrcDataSize,
+                    LPCSTR pSourceName,
+                                                   const D3D_SHADER_MACRO* pDefines,
+                    ID3DInclude* pInclude,
+                LPCSTR pEntrypoint,
+                LPCSTR pTarget,
+                UINT Flags1,
+                UINT Flags2,
+                 ID3DBlob** ppCode,
+                     ID3DBlob** ppErrorMsgs);
+
+typedef HRESULT (__stdcall *pD3DCompile)
+    (LPCVOID pSrcData,
+     SIZE_T SrcDataSize,
+     LPCSTR pFileName,
+     const D3D_SHADER_MACRO* pDefines,
+     ID3DInclude* pInclude,
+     LPCSTR pEntrypoint,
+     LPCSTR pTarget,
+     UINT Flags1,
+     UINT Flags2,
+     ID3DBlob** ppCode,
+     ID3DBlob** ppErrorMsgs);
+#line 181 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\D3Dcompiler.h"
+HRESULT __stdcall
+D3DPreprocess( LPCVOID pSrcData,
+                   SIZE_T SrcDataSize,
+                       LPCSTR pSourceName,
+                       const D3D_SHADER_MACRO* pDefines,
+                       ID3DInclude* pInclude,
+                    ID3DBlob** ppCodeText,
+                        ID3DBlob** ppErrorMsgs);
+
+typedef HRESULT (__stdcall *pD3DPreprocess)
+    (LPCVOID pSrcData,
+     SIZE_T SrcDataSize,
+     LPCSTR pFileName,
+     const D3D_SHADER_MACRO* pDefines,
+     ID3DInclude* pInclude,
+     ID3DBlob** ppCodeText,
+     ID3DBlob** ppErrorMsgs);
+#line 206 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\D3Dcompiler.h"
+HRESULT __stdcall
+D3DGetDebugInfo( LPCVOID pSrcData,
+                     SIZE_T SrcDataSize,
+                      ID3DBlob** ppDebugInfo);
+#line 218 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\D3Dcompiler.h"
+HRESULT __stdcall
+D3DReflect( LPCVOID pSrcData,
+                SIZE_T SrcDataSize,
+         const IID & pInterface,
+                 void** ppReflector);
+#line 236 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\D3Dcompiler.h"
+HRESULT __stdcall
+D3DDisassemble( LPCVOID pSrcData,
+                    SIZE_T SrcDataSize,
+                    UINT Flags,
+                        LPCSTR szComments,
+                     ID3DBlob** ppDisassembly);
+
+typedef HRESULT (__stdcall *pD3DDisassemble)
+    ( LPCVOID pSrcData,
+          SIZE_T SrcDataSize,
+          UINT Flags,
+              LPCSTR szComments,
+           ID3DBlob** ppDisassembly);
+#line 257 "D:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include\\D3Dcompiler.h"
+HRESULT __stdcall
+D3DDisassemble10Effect( struct ID3D10Effect *pEffect,
+                            UINT Flags,
+                             ID3DBlob** ppDisassembly);
+
+
+
+
+
+
+
+HRESULT __stdcall
+D3DGetInputSignatureBlob( LPCVOID pSrcData,
+                              SIZE_T SrcDataSize,
+                               ID3DBlob** ppSignatureBlob);
+
+
+
+
+
+
+
+HRESULT __stdcall
+D3DGetOutputSignatureBlob( LPCVOID pSrcData,
+                               SIZE_T SrcDataSize,
+                                ID3DBlob** ppSignatureBlob);
+
+
+
+
+
+
+
+HRESULT __stdcall
+D3DGetInputAndOutputSignatureBlob( LPCVOID pSrcData,
+                                       SIZE_T SrcDataSize,
+                                        ID3DBlob** ppSignatureBlob);
+
+
+
+
+
+
+
+typedef enum D3DCOMPILER_STRIP_FLAGS
+{
+    D3DCOMPILER_STRIP_REFLECTION_DATA = 1,
+    D3DCOMPILER_STRIP_DEBUG_INFO = 2,
+    D3DCOMPILER_STRIP_TEST_BLOBS = 4,
+    D3DCOMPILER_STRIP_FORCE_DWORD = 0x7fffffff,
+} D3DCOMPILER_STRIP_FLAGS;
+
+HRESULT __stdcall
+D3DStripShader( LPCVOID pShaderBytecode,
+                    SIZE_T BytecodeLength,
+                    UINT uStripFlags,
+                     ID3DBlob** ppStrippedBlob);
+
+
+
+
+
+
+
+typedef enum D3D_BLOB_PART
+{
+    D3D_BLOB_INPUT_SIGNATURE_BLOB,
+    D3D_BLOB_OUTPUT_SIGNATURE_BLOB,
+    D3D_BLOB_INPUT_AND_OUTPUT_SIGNATURE_BLOB,
+    D3D_BLOB_PATCH_CONSTANT_SIGNATURE_BLOB,
+    D3D_BLOB_ALL_SIGNATURE_BLOB,
+    D3D_BLOB_DEBUG_INFO,
+    D3D_BLOB_LEGACY_SHADER,
+    D3D_BLOB_XNA_PREPASS_SHADER,
+    D3D_BLOB_XNA_SHADER,
+
+
+
+    D3D_BLOB_TEST_ALTERNATE_SHADER = 0x8000,
+    D3D_BLOB_TEST_COMPILE_DETAILS,
+    D3D_BLOB_TEST_COMPILE_PERF,
+} D3D_BLOB_PART;
+
+HRESULT __stdcall
+D3DGetBlobPart( LPCVOID pSrcData,
+                    SIZE_T SrcDataSize,
+                    D3D_BLOB_PART Part,
+                    UINT Flags,
+                     ID3DBlob** ppPart);
+
+
+
+
+
+
+
+typedef struct _D3D_SHADER_DATA
+{
+    LPCVOID pBytecode;
+    SIZE_T BytecodeLength;
+} D3D_SHADER_DATA;
+
+
+
+HRESULT __stdcall
+D3DCompressShaders( UINT uNumShaders,
+                                            D3D_SHADER_DATA* pShaderData,
+                        UINT uFlags,
+                         ID3DBlob** ppCompressedData);
+
+
+
+
+
+
+
+HRESULT __stdcall
+D3DDecompressShaders( LPCVOID pSrcData,
+                          SIZE_T SrcDataSize,
+                          UINT uNumShaders,
+                          UINT uStartIndex,
+                                                  UINT* pIndices,
+                          UINT uFlags,
+                                               ID3DBlob** ppShaders,
+                 UINT* pTotalShaders);
+
+
+
+
+
+
+
+HRESULT __stdcall
+D3DCreateBlob( SIZE_T Size,
+                    ID3DBlob** ppBlob);
+
+
+}
+#line 7 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 
 
@@ -103805,7 +104018,7 @@ __declspec(dllimport) void __cdecl _wassert( const wchar_t * _Message, const wch
 
 
 }
-#line 9 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 11 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 
 #line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\memory"
@@ -123310,18 +123523,12 @@ template <class _Ty> inline
 
 #pragma warning(pop)
 #pragma pack(pop)
-#line 11 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 13 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 #line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\math.h"
-#line 12 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 14 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
-#line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\string"
-
-
-
-
-
-#line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\iterator"
+#line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\iostream"
 
 
 
@@ -135119,7 +135326,1375 @@ __declspec(dllimport) inline basic_istream<unsigned short, char_traits<unsigned 
 
 #pragma warning(pop)
 #pragma pack(pop)
-#line 6 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\iterator"
+#line 6 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\iostream"
+
+
+#pragma pack(push,8)
+#pragma warning(push, 3)
+
+
+namespace std {
+#line 26 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\iostream"
+                        extern __declspec(dllimport) istream cin, *_Ptr_cin;
+                        extern __declspec(dllimport) ostream cout, *_Ptr_cout;
+                        extern __declspec(dllimport) ostream cerr, *_Ptr_cerr;
+                        extern __declspec(dllimport) ostream clog, *_Ptr_clog;
+
+                        extern __declspec(dllimport) wistream wcin, *_Ptr_wcin;
+                        extern __declspec(dllimport) wostream wcout, *_Ptr_wcout;
+                        extern __declspec(dllimport) wostream wcerr, *_Ptr_wcerr;
+                        extern __declspec(dllimport) wostream wclog, *_Ptr_wclog;
+
+
+class __declspec(dllimport) _Winit {
+public:
+ __thiscall _Winit();
+ __thiscall ~_Winit() throw ();
+private:
+                         static int _Init_cnt;
+ };
+
+}
+
+#pragma warning(pop)
+#pragma pack(pop)
+#line 15 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
+
+#line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\fstream"
+
+
+
+
+
+
+
+#pragma pack(push,8)
+#pragma warning(push, 3)
+
+
+
+namespace std {
+#pragma warning(disable: 4127)
+
+extern __declspec(dllimport) _iobuf *__cdecl _Fiopen(
+ const char *,
+ ios_base::openmode, int);
+extern __declspec(dllimport) _iobuf *__cdecl _Fiopen(
+ const wchar_t *,
+ ios_base::openmode, int);
+
+
+extern __declspec(dllimport) _iobuf *__cdecl _Fiopen(
+ const unsigned short *,
+ ios_base::openmode, int);
+
+
+
+template<class _Elem> inline
+ bool _Fgetc(_Elem& _Ch, _iobuf *_File)
+ {
+ return (fread(&_Ch, sizeof (_Elem), 1, _File) == 1);
+ }
+
+template<> inline bool _Fgetc(char& _Byte, _iobuf *_File)
+ {
+ int _Meta;
+ if ((_Meta = fgetc(_File)) == (-1))
+  return (false);
+ else
+  {
+  _Byte = (char)_Meta;
+  return (true);
+  }
+ }
+
+template<> inline bool _Fgetc(wchar_t& _Wchar, _iobuf *_File)
+ {
+ wint_t _Meta;
+ if ((_Meta = :: fgetwc(_File)) == (wint_t)(0xFFFF))
+  return (false);
+ else
+  {
+  _Wchar = (wchar_t)_Meta;
+  return (true);
+  }
+ }
+
+
+template<> inline bool _Fgetc(unsigned short& _Wchar, _iobuf *_File)
+ {
+ wint_t _Meta;
+ if ((_Meta = :: fgetwc(_File)) == (wint_t)(0xFFFF))
+  return (false);
+ else
+  {
+  _Wchar = (unsigned short)_Meta;
+  return (true);
+  }
+ }
+
+
+
+template<class _Elem> inline
+ bool _Fputc(_Elem _Ch, _iobuf *_File)
+ {
+ return (fwrite(&_Ch, 1, sizeof (_Elem), _File) == sizeof (_Elem));
+ }
+
+template<> inline bool _Fputc(char _Byte, _iobuf *_File)
+ {
+ return (fputc(_Byte, _File) != (-1));
+ }
+
+template<> inline bool _Fputc(wchar_t _Wchar, _iobuf *_File)
+ {
+ return (:: fputwc(_Wchar, _File) != (wint_t)(0xFFFF));
+ }
+
+
+template<> inline bool _Fputc(unsigned short _Wchar, _iobuf *_File)
+ {
+ return (:: fputwc(_Wchar, _File) != (wint_t)(0xFFFF));
+ }
+
+
+
+template<class _Elem> inline
+ bool _Ungetc(const _Elem& _Ch, _iobuf *_File)
+ {
+ return (false);
+ }
+
+template<> inline bool _Ungetc(const char& _Byte, _iobuf *_File)
+ {
+ return (ungetc((unsigned char)_Byte, _File) != (-1));
+ }
+
+template<> inline bool _Ungetc(const signed char& _Byte, _iobuf *_File)
+ {
+ return (ungetc((unsigned char)_Byte, _File) != (-1));
+ }
+
+template<> inline bool _Ungetc(const unsigned char& _Byte, _iobuf *_File)
+ {
+ return (ungetc(_Byte, _File) != (-1));
+ }
+
+template<> inline bool _Ungetc(const wchar_t& _Wchar, _iobuf *_File)
+ {
+ return (:: ungetwc(_Wchar, _File) != (wint_t)(0xFFFF));
+ }
+
+
+template<> inline bool _Ungetc(const unsigned short& _Wchar, _iobuf *_File)
+ {
+ return (:: ungetwc(_Wchar, _File) != (wint_t)(0xFFFF));
+ }
+
+
+
+template<class _Elem,
+ class _Traits>
+ class basic_filebuf
+  : public basic_streambuf<_Elem, _Traits>
+ {
+public:
+ typedef basic_filebuf<_Elem, _Traits> _Myt;
+ typedef basic_streambuf<_Elem, _Traits> _Mysb;
+ typedef typename _Traits::state_type _Myst;
+ typedef codecvt<_Elem, char, typename _Traits::state_type> _Cvt;
+
+ basic_filebuf(_iobuf *_File = 0)
+  : _Mysb()
+  {
+  _Init(_File, _Newfl);
+  }
+
+ virtual ~basic_filebuf() throw ()
+  {
+  if (_Myfile != 0)
+   _Reset_back();
+  if (_Closef)
+   close();
+  }
+
+ typedef typename _Traits::int_type int_type;
+ typedef typename _Traits::pos_type pos_type;
+ typedef typename _Traits::off_type off_type;
+
+ basic_filebuf(_Uninitialized)
+  : _Mysb(_Noinit)
+  {
+  }
+
+ basic_filebuf(_Myt&& _Right)
+  {
+  _Init(_Right._Myfile, _Newfl);
+  _Init((_iobuf *)0, _Closefl);
+  _Assign_rv(::std:: forward<_Myt>(_Right));
+  }
+
+ _Myt& operator=(_Myt&& _Right)
+  {
+  _Assign_rv(::std:: forward<_Myt>(_Right));
+  return (*this);
+  }
+
+ void _Assign_rv(_Myt&& _Right)
+  {
+  if (this != &_Right)
+   {
+   close();
+   this->swap(_Right);
+   }
+  }
+
+ void swap(_Myt& _Right)
+  {
+  if (this != &_Right)
+   {
+
+   _iobuf *_Myfile_sav = _Myfile;
+   const _Cvt *_Pcvt_sav = _Pcvt;
+   typename _Traits::state_type _State_sav = _State;
+   bool _Wrotesome_sav = _Wrotesome;
+   bool _Closef_sav = _Closef;
+   bool _Set_eback_sav = _Mysb::eback() == &_Mychar;
+   bool _Set_eback_live = _Mysb::gptr() == &_Mychar;
+
+   _Elem *_Pfirst = _Mysb::pbase();
+   _Elem *_Pnext = _Mysb::pptr();
+   _Elem *_Pend = _Mysb::epptr();
+   _Elem *_Gfirst = _Mysb::eback();
+   _Elem *_Gnext = _Mysb::gptr();
+   _Elem *_Gend = _Mysb::egptr();
+
+
+   _Init(_Right._Myfile, _Right._Myfile != 0 ? _Openfl : _Newfl);
+   _Mysb::setp(_Right.pbase(), _Right.pptr(), _Right.epptr());
+   if (_Right.eback() != &_Right._Mychar)
+    _Mysb::setg(_Right.eback(), _Right.gptr(), _Right.egptr());
+   else if (_Right.gptr() != &_Right._Mychar)
+    _Mysb::setg(&_Mychar, &_Mychar + 1, &_Mychar + 1);
+   else
+    _Mysb::setg(&_Mychar, &_Mychar, &_Mychar + 1);
+
+   _Pcvt = _Right._Pcvt;
+   _State = _Right._State;
+   _Wrotesome = _Right._Wrotesome;
+   _Closef = _Right._Closef;
+
+
+   _Right._Init(_Myfile_sav, _Myfile_sav != 0 ? _Openfl : _Newfl);
+   _Right.setp(_Pfirst, _Pnext, _Pend);
+   if (!_Set_eback_sav)
+    _Right.setg(_Gfirst, _Gnext, _Gend);
+   else if (!_Set_eback_live)
+    _Right.setg(&_Right._Mychar, &_Right._Mychar + 1,
+     &_Right._Mychar + 1);
+   else
+    _Right.setg(&_Right._Mychar, &_Right._Mychar,
+     &_Right._Mychar + 1);
+
+   _Right._Pcvt = _Pcvt_sav;
+   _Right._State = _State_sav;
+   _Right._Wrotesome = _Wrotesome_sav;
+   _Right._Closef = _Closef_sav;
+
+
+   ::std:: swap(_Set_eback, _Right._Set_eback);
+   ::std:: swap(_Set_egptr, _Right._Set_egptr);
+
+   ::std:: swap(_Mychar, _Right._Mychar);
+   ::std:: swap(_Mysb::_Plocale, _Right._Plocale);
+   }
+  }
+
+ basic_filebuf(const _Myt&) = delete;
+ _Myt& operator=(const _Myt&) = delete;
+
+ enum _Initfl
+  {
+  _Newfl, _Openfl, _Closefl};
+
+ bool is_open() const
+  {
+  return (_Myfile != 0);
+  }
+
+ _Myt *open(const char *_Filename,
+  ios_base::openmode _Mode,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  _iobuf *_File;
+  if (_Myfile != 0 || (_File = _Fiopen(_Filename, _Mode, _Prot)) == 0)
+   return (0);
+
+  _Init(_File, _Openfl);
+  _Initcvt(&use_facet< _Cvt >(_Mysb::getloc()));
+  return (this);
+  }
+
+ _Myt *open(const string& _Str,
+  ios_base::openmode _Mode,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  return (open(_Str.c_str(), _Mode, _Prot));
+  }
+
+ _Myt *open(const char *_Filename, ios_base::open_mode _Mode)
+  {
+  return (open(_Filename, (ios_base::openmode)_Mode));
+  }
+
+ _Myt *open(const wchar_t *_Filename,
+  ios_base::openmode _Mode,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  _iobuf *_File;
+  if (_Myfile != 0 || (_File = _Fiopen(_Filename, _Mode, _Prot)) == 0)
+   return (0);
+
+  _Init(_File, _Openfl);
+  _Initcvt(&use_facet< _Cvt >(_Mysb::getloc()));
+  return (this);
+  }
+
+ _Myt *open(const wstring& _Str,
+  ios_base::openmode _Mode,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  return (open(_Str.c_str(), _Mode, _Prot));
+  }
+
+ _Myt *open(const wchar_t *_Filename,
+  ios_base::open_mode _Mode)
+  {
+  return (open(_Filename, (ios_base::openmode)_Mode));
+  }
+
+
+ _Myt *open(const unsigned short *_Filename,
+  ios_base::openmode _Mode,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  _iobuf *_File;
+  if (_Myfile != 0 || (_File = _Fiopen(_Filename, _Mode, _Prot)) == 0)
+   return (0);
+
+  _Init(_File, _Openfl);
+  _Initcvt(&use_facet< _Cvt >(_Mysb::getloc()));
+  return (this);
+  }
+
+ _Myt *open(const unsigned short *_Filename,
+  ios_base::open_mode _Mode)
+  {
+  return (open(_Filename, (ios_base::openmode)_Mode));
+  }
+
+
+ _Myt *close()
+  {
+  _Myt *_Ans = this;
+  if (_Myfile == 0)
+   _Ans = 0;
+  else
+   {
+   if (!_Endwrite())
+    _Ans = 0;
+   if (fclose(_Myfile) != 0)
+    _Ans = 0;
+   }
+  _Init(0, _Closefl);
+  return (_Ans);
+  }
+
+ virtual void _Lock()
+  {
+  if (_Myfile)
+   :: _lock_file(_Myfile);
+  }
+
+ virtual void _Unlock()
+  {
+  if (_Myfile)
+   :: _unlock_file(_Myfile);
+  }
+
+protected:
+ virtual int_type overflow(int_type _Meta =
+  _Traits::eof())
+  {
+  if (_Traits::eq_int_type(_Traits::eof(), _Meta))
+   return (_Traits::not_eof(_Meta));
+  else if (_Mysb::pptr() != 0
+   && _Mysb::pptr() < _Mysb::epptr())
+   {
+   *_Mysb::_Pninc() = _Traits::to_char_type(_Meta);
+   return (_Meta);
+   }
+  else if (_Myfile == 0)
+   return (_Traits::eof());
+  _Reset_back();
+  if (_Pcvt == 0)
+   return (_Fputc(_Traits::to_char_type(_Meta), _Myfile)
+    ? _Meta : _Traits::eof());
+  else
+   {
+   const int _STRING_INC = 8;
+   const _Elem _Ch = _Traits::to_char_type(_Meta);
+   const _Elem *_Src;
+   char *_Dest;
+
+   string _Str(_STRING_INC, '\0');
+   for (; ; )
+    switch (_Pcvt->out(_State,
+     &_Ch, &_Ch + 1, _Src,
+     &*_Str.begin(), &*_Str.begin() + _Str.size(), _Dest))
+    {
+    case codecvt_base::partial:
+    case codecvt_base::ok:
+     {
+     size_t _Count = _Dest - &*_Str.begin();
+     if (0 < _Count && _Count !=
+      fwrite(&*_Str.begin(), 1, _Count, _Myfile))
+      return (_Traits::eof());
+
+     _Wrotesome = true;
+     if (_Src != &_Ch)
+      return (_Meta);
+
+     if (0 < _Count)
+      ;
+     else if (_Str.size() < 4 * _STRING_INC)
+      _Str.append(_STRING_INC, '\0');
+     else
+      return (_Traits::eof());
+     break;
+     }
+
+    case codecvt_base::noconv:
+     return (_Fputc(_Ch, _Myfile) ? _Meta
+      : _Traits::eof());
+
+    default:
+     return (_Traits::eof());
+    }
+   }
+ }
+
+ virtual int_type pbackfail(int_type _Meta =
+  _Traits::eof())
+  {
+  if (_Mysb::gptr() != 0
+   && _Mysb::eback() < _Mysb::gptr()
+   && (_Traits::eq_int_type(_Traits::eof(), _Meta)
+   || _Traits::eq_int_type(_Traits::to_int_type(_Mysb::gptr()[-1]),
+    _Meta)))
+   {
+   _Mysb::_Gndec();
+   return (_Traits::not_eof(_Meta));
+   }
+  else if (_Myfile == 0 || _Traits::eq_int_type(_Traits::eof(), _Meta))
+   return (_Traits::eof());
+  else if (_Pcvt == 0 && _Ungetc(_Traits::to_char_type(_Meta), _Myfile))
+   return (_Meta);
+  else if (_Mysb::gptr() != &_Mychar)
+   {
+   _Mychar = _Traits::to_char_type(_Meta);
+   _Set_back();
+   return (_Meta);
+   }
+  else
+   return (_Traits::eof());
+ }
+
+ virtual int_type underflow()
+  {
+  int_type _Meta;
+  if (_Mysb::gptr() != 0
+   && _Mysb::gptr() < _Mysb::egptr())
+   return (_Traits::to_int_type(*_Mysb::gptr()));
+  else if (_Traits::eq_int_type(_Traits::eof(), _Meta = uflow()))
+   return (_Meta);
+  else
+   {
+   pbackfail(_Meta);
+   return (_Meta);
+   }
+  }
+
+ virtual int_type uflow()
+  {
+  if (_Mysb::gptr() != 0
+   && _Mysb::gptr() < _Mysb::egptr())
+   return (_Traits::to_int_type(
+    *_Mysb::_Gninc()));
+  else if (_Myfile == 0)
+   return (_Traits::eof());
+  _Reset_back();
+  if (_Pcvt == 0)
+   {
+   _Elem _Ch = 0;
+   return (_Fgetc(_Ch, _Myfile) ? _Traits::to_int_type(_Ch)
+    : _Traits::eof());
+   }
+  else
+   {
+   string _Str;
+
+   for (; ; )
+    {
+    _Elem _Ch, *_Dest;
+    const char *_Src;
+    int _Nleft;
+    int _Meta = fgetc(_Myfile);
+
+    if (_Meta == (-1))
+     return (_Traits::eof());
+
+    _Str.append(1, (char)_Meta);
+    switch (_Pcvt->in(_State,
+     &*_Str.begin(), &*_Str.begin() + _Str.size(), _Src,
+     &_Ch, &_Ch + 1, _Dest))
+     {
+    case codecvt_base::partial:
+    case codecvt_base::ok:
+     if (_Dest != &_Ch)
+      {
+      _Nleft = (int)(&*_Str.begin() + _Str.size() - _Src);
+      for (; 0 < _Nleft; )
+       ungetc(_Src[--_Nleft], _Myfile);
+      return (_Traits::to_int_type(_Ch));
+      }
+     else
+      _Str.erase((size_t)0,
+       (size_t)(_Src - &*_Str.begin()));
+     break;
+
+    case codecvt_base::noconv:
+     if (_Str.size() < sizeof (_Elem))
+      break;
+
+     ::memcpy_s((&_Ch), (sizeof (_Elem)), (&*_Str.begin()), (sizeof (_Elem)));
+
+
+     return (_Traits::to_int_type(_Ch));
+
+    default:
+     return (_Traits::eof());
+     }
+    }
+   }
+  }
+
+ virtual pos_type seekoff(off_type _Off,
+  ios_base::seekdir _Way,
+  ios_base::openmode =
+   (ios_base::openmode)(ios_base::in | ios_base::out))
+  {
+  fpos_t _Fileposition;
+
+  if (_Mysb::gptr() == &_Mychar
+   && _Way == ios_base::cur
+   && _Pcvt == 0)
+   _Off -= (off_type)sizeof (_Elem);
+
+  if (_Myfile == 0 || !_Endwrite()
+   || ((_Off != 0 || _Way != ios_base::cur)
+    && _fseeki64(_Myfile, _Off, _Way) != 0)
+   || fgetpos(_Myfile, &_Fileposition) != 0)
+   return (pos_type(_BADOFF));
+
+  _Reset_back();
+  return (pos_type(_State, _Fileposition));
+
+  }
+
+ virtual pos_type seekpos(pos_type _Pos,
+  ios_base::openmode =
+   (ios_base::openmode)(ios_base::in | ios_base::out))
+  {
+  fpos_t _Fileposition = _Pos.seekpos();
+  off_type _Off = (off_type)_Pos - (off_type)((long long)(_Fileposition));
+
+  if (_Myfile == 0 || !_Endwrite()
+   || fsetpos(_Myfile, &_Fileposition) != 0
+   || (_Off != 0 && _fseeki64(_Myfile, _Off, 1) != 0)
+   || fgetpos(_Myfile, &_Fileposition) != 0)
+   return (pos_type(_BADOFF));
+
+  _State = _Pos.state();
+
+  _Reset_back();
+  return (pos_type(_State, _Fileposition));
+
+  }
+
+ virtual _Mysb * setbuf(_Elem *_Buffer, streamsize _Count)
+  {
+  if (_Myfile == 0 || setvbuf(_Myfile, (char *)_Buffer,
+   _Buffer == 0 && _Count == 0 ? 0x0004 : 0x0000,
+   (size_t)_Count * sizeof (_Elem)) != 0)
+   return (0);
+  else
+   {
+   _Init(_Myfile, _Openfl);
+   return (this);
+   }
+  }
+
+ virtual int sync()
+  {
+  return (_Myfile == 0
+   || _Traits::eq_int_type(_Traits::eof(), overflow())
+   || 0 <= fflush(_Myfile) ? 0 : -1);
+  }
+
+ virtual void imbue(const locale& _Loc)
+  {
+  _Initcvt(&use_facet< _Cvt >(_Loc));
+  }
+
+ void _Init(_iobuf *_File, _Initfl _Which)
+  {
+                          static _Myst _Stinit;
+
+  _Closef = _Which == _Openfl;
+  _Wrotesome = false;
+
+  _Mysb::_Init();
+
+
+
+
+
+
+#pragma warning(push)
+#pragma warning(disable: 6240)
+ if (_File != 0 && sizeof (_Elem) == 1)
+#pragma warning(pop)
+
+ {
+   _Elem **_Pb = (_Elem **)&_File->_base;
+   _Elem **_Pn = (_Elem **)&_File->_ptr;
+   int *_Nr = (int *)&_File->_cnt;
+   int *_Nw = (int *)&_File->_cnt;
+   _Mysb::_Init(_Pb, _Pn, _Nr, _Pb, _Pn, _Nw);
+   }
+
+  _Myfile = _File;
+  _State = _Stinit;
+  _Pcvt = 0;
+  }
+
+ bool _Endwrite()
+  {
+  if (_Pcvt == 0 || !_Wrotesome)
+   return (true);
+  else
+   {
+   const int _STRING_INC = 8;
+   char *_Dest;
+   if (_Traits::eq_int_type(_Traits::eof(), overflow()))
+    return (false);
+
+   string _Str(_STRING_INC, '\0');
+   for (; ; )
+    switch (_Pcvt->unshift(_State,
+     &*_Str.begin(), &*_Str.begin() + _Str.size(), _Dest))
+    {
+    case codecvt_base::ok:
+     _Wrotesome = false;
+
+    case codecvt_base::partial:
+     {
+     size_t _Count = _Dest - &*_Str.begin();
+     if (0 < _Count && _Count !=
+      fwrite(&*_Str.begin(), 1, _Count, _Myfile))
+      return (false);
+     if (!_Wrotesome)
+      return (true);
+     if (_Count == 0)
+      _Str.append(_STRING_INC, '\0');
+     break;
+     }
+
+    case codecvt_base::noconv:
+     return (true);
+
+    default:
+     return (false);
+    }
+   }
+  }
+
+ void _Initcvt(const _Cvt *_Newpcvt)
+  {
+  if (_Newpcvt->always_noconv())
+   _Pcvt = 0;
+  else
+   {
+   _Pcvt = _Newpcvt;
+   _Mysb::_Init();
+   }
+  }
+
+private:
+ void _Reset_back()
+  {
+  if (_Mysb::eback() == &_Mychar)
+   _Mysb::setg(_Set_eback, _Set_eback, _Set_egptr);
+  }
+
+ void _Set_back()
+  {
+  if (_Mysb::eback() != &_Mychar)
+   {
+   _Set_eback = _Mysb::eback();
+   _Set_egptr = _Mysb::egptr();
+   }
+  _Mysb::setg(&_Mychar, &_Mychar, &_Mychar + 1);
+  }
+
+ _Elem *_Set_eback;
+ _Elem *_Set_egptr;
+
+ const _Cvt *_Pcvt;
+ _Elem _Mychar;
+ bool _Wrotesome;
+ typename _Traits::state_type _State;
+ bool _Closef;
+ _iobuf *_Myfile;
+ };
+
+
+template<class _Elem,
+ class _Traits> inline
+ void swap(basic_filebuf<_Elem, _Traits>& _Left,
+  basic_filebuf<_Elem, _Traits>& _Right)
+ {
+ _Left.swap(_Right);
+ }
+
+
+template<class _Elem,
+ class _Traits>
+ class basic_ifstream
+  : public basic_istream<_Elem, _Traits>
+ {
+public:
+ typedef basic_ifstream<_Elem, _Traits> _Myt;
+ typedef basic_istream<_Elem, _Traits> _Mybase;
+ typedef basic_filebuf<_Elem, _Traits> _Myfb;
+ typedef basic_ios<_Elem, _Traits> _Myios;
+
+ basic_ifstream()
+  : _Mybase(&_Filebuffer)
+  {
+  }
+
+ explicit basic_ifstream(const char *_Filename,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::in, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+ explicit basic_ifstream(const string& _Str,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Str.c_str(), _Mode | ios_base::in, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+ explicit basic_ifstream(const wchar_t *_Filename,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::in, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+ explicit basic_ifstream(const wstring& _Str,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Str.c_str(), _Mode | ios_base::in, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+
+ explicit basic_ifstream(const unsigned short *_Filename,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::in, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+
+ explicit basic_ifstream(_iobuf *_File)
+  : _Mybase(&_Filebuffer),
+   _Filebuffer(_File)
+  {
+  }
+
+ basic_ifstream(_Myt&& _Right)
+  : _Mybase(&_Filebuffer)
+  {
+  _Assign_rv(::std:: forward<_Myt>(_Right));
+  }
+
+ _Myt& operator=(_Myt&& _Right)
+  {
+  _Assign_rv(::std:: forward<_Myt>(_Right));
+  return (*this);
+  }
+
+ void _Assign_rv(_Myt&& _Right)
+  {
+  if (this != &_Right)
+   {
+   _Filebuffer.close();
+   this->swap(_Right);
+   }
+  }
+
+ void swap(_Myt& _Right)
+  {
+  if (this != &_Right)
+   {
+   _Mybase::swap(_Right);
+   _Filebuffer.swap(_Right._Filebuffer);
+   }
+  }
+
+ basic_ifstream(const _Myt&) = delete;
+ _Myt& operator=(const _Myt&) = delete;
+
+ void open(const wchar_t *_Filename,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::in, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  else
+   _Myios::clear();
+  }
+
+ void open(const wstring& _Str,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  open(_Str.c_str(), _Mode, _Prot);
+  }
+
+ void open(const wchar_t *_Filename, ios_base::open_mode _Mode)
+  {
+  open(_Filename, (ios_base::openmode)_Mode);
+  }
+
+
+ void open(const unsigned short *_Filename,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::in, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  else
+   _Myios::clear();
+  }
+
+ void open(const unsigned short *_Filename,
+  ios_base::open_mode _Mode)
+  {
+  open(_Filename, (ios_base::openmode)_Mode);
+  }
+
+
+ virtual ~basic_ifstream() throw ()
+  {
+  }
+
+ _Myfb *rdbuf() const
+  {
+  return ((_Myfb *)&_Filebuffer);
+  }
+
+ bool is_open() const
+  {
+  return (_Filebuffer.is_open());
+  }
+
+ void open(const char *_Filename,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::in, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  else
+   _Myios::clear();
+  }
+
+ void open(const string& _Str,
+  ios_base::openmode _Mode = ios_base::in,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  open(_Str.c_str(), _Mode, _Prot);
+  }
+
+ void open(const char *_Filename, ios_base::open_mode _Mode)
+  {
+  open(_Filename, (ios_base::openmode)_Mode);
+  }
+
+ void close()
+  {
+  if (_Filebuffer.close() == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+private:
+ _Myfb _Filebuffer;
+ };
+
+
+template<class _Elem,
+ class _Traits> inline
+ void swap(basic_ifstream<_Elem, _Traits>& _Left,
+  basic_ifstream<_Elem, _Traits>& _Right)
+ {
+ _Left.swap(_Right);
+ }
+
+
+template<class _Elem,
+ class _Traits>
+ class basic_ofstream
+  : public basic_ostream<_Elem, _Traits>
+ {
+public:
+ typedef basic_ofstream<_Elem, _Traits> _Myt;
+ typedef basic_ostream<_Elem, _Traits> _Mybase;
+ typedef basic_filebuf<_Elem, _Traits> _Myfb;
+ typedef basic_ios<_Elem, _Traits> _Myios;
+
+ basic_ofstream()
+  : _Mybase(&_Filebuffer)
+  {
+  }
+
+ explicit basic_ofstream(const char *_Filename,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::out, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+ explicit basic_ofstream(const string& _Str,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Str.c_str(), _Mode | ios_base::out, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+ explicit basic_ofstream(const wchar_t *_Filename,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::out, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+ explicit basic_ofstream(const wstring& _Str,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Str.c_str(), _Mode | ios_base::out, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+
+ explicit basic_ofstream(const unsigned short *_Filename,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::out, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+
+ explicit basic_ofstream(_iobuf *_File)
+  : _Mybase(&_Filebuffer),
+   _Filebuffer(_File)
+  {
+  }
+
+ basic_ofstream(_Myt&& _Right)
+  : _Mybase(&_Filebuffer)
+  {
+  _Assign_rv(::std:: forward<_Myt>(_Right));
+  }
+
+ _Myt& operator=(_Myt&& _Right)
+  {
+  _Assign_rv(::std:: forward<_Myt>(_Right));
+  return (*this);
+  }
+
+ void _Assign_rv(_Myt&& _Right)
+  {
+  if (this != &_Right)
+   {
+   _Filebuffer.close();
+   this->swap(_Right);
+   }
+  }
+
+ void swap(_Myt& _Right)
+  {
+  if (this != &_Right)
+   {
+   _Mybase::swap(_Right);
+   _Filebuffer.swap(_Right._Filebuffer);
+   }
+  }
+
+ basic_ofstream(const _Myt&) = delete;
+ _Myt& operator=(const _Myt&) = delete;
+
+ void open(const wchar_t *_Filename,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::out, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  else
+   _Myios::clear();
+  }
+
+ void open(const wstring& _Str,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  open(_Str.c_str(), _Mode, _Prot);
+  }
+
+ void open(const wchar_t *_Filename, ios_base::open_mode _Mode)
+  {
+  open(_Filename, (ios_base::openmode)_Mode);
+  }
+
+
+ void open(const unsigned short *_Filename,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::out, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  else
+   _Myios::clear();
+  }
+
+ void open(const unsigned short *_Filename,
+  ios_base::open_mode _Mode)
+  {
+  open(_Filename, (ios_base::openmode)_Mode);
+  }
+
+
+ virtual ~basic_ofstream() throw ()
+  {
+  }
+
+ _Myfb *rdbuf() const
+  {
+  return ((_Myfb *)&_Filebuffer);
+  }
+
+ bool is_open() const
+  {
+  return (_Filebuffer.is_open());
+  }
+
+ void open(const char *_Filename,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  if (_Filebuffer.open(_Filename, _Mode | ios_base::out, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  else
+   _Myios::clear();
+  }
+
+ void open(const string& _Str,
+  ios_base::openmode _Mode = ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  open(_Str.c_str(), _Mode, _Prot);
+  }
+
+ void open(const char *_Filename, ios_base::open_mode _Mode)
+  {
+  open(_Filename, (ios_base::openmode)_Mode);
+  }
+
+ void close()
+  {
+  if (_Filebuffer.close() == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+private:
+ _Myfb _Filebuffer;
+ };
+
+
+template<class _Elem,
+ class _Traits> inline
+ void swap(basic_ofstream<_Elem, _Traits>& _Left,
+  basic_ofstream<_Elem, _Traits>& _Right)
+ {
+ _Left.swap(_Right);
+ }
+
+
+template<class _Elem,
+ class _Traits>
+ class basic_fstream
+  : public basic_iostream<_Elem, _Traits>
+ {
+public:
+ typedef basic_fstream<_Elem, _Traits> _Myt;
+ typedef basic_iostream<_Elem, _Traits> _Mybase;
+ typedef basic_filebuf<_Elem, _Traits> _Myfb;
+ typedef basic_ios<_Elem, _Traits> _Myios;
+ typedef _Elem char_type;
+ typedef _Traits traits_type;
+ typedef typename _Traits::int_type int_type;
+ typedef typename _Traits::pos_type pos_type;
+ typedef typename _Traits::off_type off_type;
+
+ basic_fstream()
+  : _Mybase(&_Filebuffer)
+  {
+  }
+
+ explicit basic_fstream(const char *_Filename,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Filename, _Mode, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+ explicit basic_fstream(const string& _Str,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Str.c_str(), _Mode, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+ explicit basic_fstream(const wchar_t *_Filename,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Filename, _Mode, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+ explicit basic_fstream(const wstring& _Str,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Str.c_str(), _Mode, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+
+ explicit basic_fstream(const unsigned short *_Filename,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  : _Mybase(&_Filebuffer)
+  {
+  if (_Filebuffer.open(_Filename, _Mode, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  }
+
+
+ explicit basic_fstream(_iobuf *_File)
+  : _Mybase(&_Filebuffer),
+   _Filebuffer(_File)
+  {
+  }
+
+ basic_fstream(_Myt&& _Right)
+  : _Mybase(&_Filebuffer)
+  {
+  _Assign_rv(::std:: forward<_Myt>(_Right));
+  }
+
+ _Myt& operator=(_Myt&& _Right)
+  {
+  _Assign_rv(::std:: forward<_Myt>(_Right));
+  return (*this);
+  }
+
+ void _Assign_rv(_Myt&& _Right)
+  {
+  if (this != &_Right)
+   {
+   _Filebuffer.close();
+   this->swap(_Right);
+   }
+  }
+
+ void swap(_Myt& _Right)
+  {
+  if (this != &_Right)
+   {
+   _Mybase::swap(_Right);
+   _Filebuffer.swap(_Right._Filebuffer);
+   }
+  }
+
+ basic_fstream(const _Myt&) = delete;
+ _Myt& operator=(const _Myt&) = delete;
+
+ void open(const wchar_t *_Filename,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  if (_Filebuffer.open(_Filename, _Mode, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  else
+   _Myios::clear();
+  }
+
+ void open(const wstring& _Str,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  open(_Str.c_str(), _Mode, _Prot);
+  }
+
+ void open(const wchar_t *_Filename, ios_base::open_mode _Mode)
+  {
+  open(_Filename, (ios_base::openmode)_Mode);
+  }
+
+
+ void open(const unsigned short *_Filename,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  if (_Filebuffer.open(_Filename, _Mode, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  else
+   _Myios::clear();
+  }
+
+ void open(const unsigned short *_Filename,
+  ios_base::open_mode _Mode)
+  {
+  open(_Filename, (ios_base::openmode)_Mode);
+  }
+
+
+ virtual ~basic_fstream() throw ()
+  {
+  }
+
+ _Myfb *rdbuf() const
+  {
+  return ((_Myfb *)&_Filebuffer);
+  }
+
+ bool is_open() const
+  {
+  return (_Filebuffer.is_open());
+  }
+
+ void open(const char *_Filename,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  if (_Filebuffer.open(_Filename, _Mode, _Prot) == 0)
+   _Myios::setstate(ios_base::failbit);
+  else
+   _Myios::clear();
+  }
+
+ void open(const string& _Str,
+  ios_base::openmode _Mode = ios_base::in | ios_base::out,
+  int _Prot = (int)ios_base::_Openprot)
+  {
+  open(_Str.c_str(), _Mode, _Prot);
+  }
+
+ void open(const char *_Filename, ios_base::open_mode _Mode)
+  {
+  open(_Filename, (ios_base::openmode)_Mode);
+  }
+
+ void close()
+  {
+  if (_Filebuffer.close() == 0)
+   _Myios::setstate(ios_base::failbit);
+ }
+
+private:
+ _Myfb _Filebuffer;
+ };
+
+
+template<class _Elem,
+ class _Traits> inline
+ void swap(basic_fstream<_Elem, _Traits>& _Left,
+  basic_fstream<_Elem, _Traits>& _Right)
+ {
+ _Left.swap(_Right);
+ }
+}
+
+
+#pragma warning(pop)
+#pragma pack(pop)
+#line 16 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
+
+#line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\string"
+
+
+
+
+
+#line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\iterator"
+
+
+
+
+
 
 
 
@@ -136475,7 +138050,8 @@ inline wstring to_wstring(float _Val)
 
 #pragma warning(pop)
 #pragma pack(pop)
-#line 13 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 17 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
+
 
 
 #line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\tchar.h"
@@ -136688,7 +138264,7 @@ __declspec(deprecated("This function or variable may be unsafe. Consider using "
 }
 #line 2503 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\tchar.h"
 }
-#line 15 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 20 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 
 
@@ -136698,7 +138274,7 @@ __declspec(deprecated("This function or variable may be unsafe. Consider using "
 extern "C" {
 #line 1373 "D:/Program Files (x86)/Windows Kits/8.1/Include/shared\\windowsx.h"
 }
-#line 19 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 24 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 
 #line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\vector"
@@ -139618,7 +141194,7 @@ template<class _Alloc>
 
 #pragma warning(pop)
 #pragma pack(pop)
-#line 21 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 26 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 #line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\queue"
 
@@ -146058,7 +147634,7 @@ template<class _Ty,
 
 #pragma warning(pop)
 #pragma pack(pop)
-#line 22 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 27 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 #line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\map"
 
@@ -149546,7 +151122,7 @@ template<class _Kty,
 
 #pragma warning(pop)
 #pragma pack(pop)
-#line 23 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 28 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 #line 1 "D:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include\\list"
 
@@ -151487,15 +153063,16 @@ template<class _Ty,
 
 #pragma warning(pop)
 #pragma pack(pop)
-#line 24 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 29 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 
 using namespace std;
-#line 164 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/../../GameEngine/Source/Core.h"
+#line 181 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 typedef unsigned int EntityId;
 typedef unsigned int EntityRepresentationId;
 typedef unsigned char Key;
 typedef unsigned int StateId;
+typedef unsigned int MaterialId;
 typedef map<string, int> ContentMap;
 
 enum SystemMessageType
@@ -151519,293 +153096,29 @@ enum ShaderType
  ST_Pixel,
  ST_Compute
 };
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/RenderDemo_pch.h"
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
 
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Application\\App.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Application/System.h"
-
-
-struct SystemMessage
+enum LightType
 {
- SystemMessageType m_type;
-
- __forceinline explicit SystemMessage(SystemMessageType type);
+ LT_Point = 1,
+ LT_Spot = 2,
+ LT_Directional = 3,
 };
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.cpp"
 
-struct QuitMessage : public SystemMessage
-{
- __forceinline QuitMessage();
-};
 
-struct KeyboardMessage : public SystemMessage
-{
- char m_key;
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.h"
 
- __forceinline KeyboardMessage(SystemMessageType type, char key);
-};
 
-struct KeyDownMessage : public KeyboardMessage
-{
- __forceinline explicit KeyDownMessage(char key);
-};
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Objects/IMovable.h"
 
-struct KeyUpMessage : public KeyboardMessage
-{
- __forceinline explicit KeyUpMessage(char key);
-};
 
-struct MouseMessage : public SystemMessage
-{
- float m_posx;
- float m_posy;
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Objects/../../Math/Matrix.h"
 
- __forceinline MouseMessage(SystemMessageType type, float x, float y);
-};
 
-struct LMouseDownMessage : public MouseMessage
-{
- __forceinline LMouseDownMessage(float x, float y);
-};
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Objects/../../Math/Vector.h"
 
-struct LMouseUpMessage : public MouseMessage
-{
- __forceinline LMouseUpMessage(float x, float y);
-};
 
-struct RMouseDownMessage : public MouseMessage
-{
- __forceinline RMouseDownMessage(float x, float y);
-};
-
-struct RMouseUpMessage : public MouseMessage
-{
- __forceinline RMouseUpMessage(float x, float y);
-};
-
-struct MouseMoveMessage : public MouseMessage
-{
- __forceinline MouseMoveMessage(float x, float y);
-};
-
-__forceinline SystemMessage::SystemMessage(SystemMessageType type)
- : m_type{ type }
-{}
-
-__forceinline QuitMessage::QuitMessage()
- : SystemMessage{ SMT_Quit }
-{}
-
-
-__forceinline KeyboardMessage::KeyboardMessage(SystemMessageType type, char key)
- : SystemMessage{ type }, m_key{ key }
-{}
-
-__forceinline KeyDownMessage::KeyDownMessage(char key)
- : KeyboardMessage(SMT_KeyDown, key)
-{}
-
-__forceinline KeyUpMessage::KeyUpMessage(char key)
- : KeyboardMessage(SMT_KeyUp, key)
-{}
-
-
-__forceinline MouseMessage::MouseMessage(SystemMessageType type, float x, float y)
- : SystemMessage{ type }, m_posx{ x }, m_posy{ y }
-{}
-
-__forceinline LMouseDownMessage::LMouseDownMessage(float x, float y)
- : MouseMessage{ SMT_LMouseDown, x, y }
-{}
-
-__forceinline LMouseUpMessage::LMouseUpMessage(float x, float y)
- : MouseMessage{ SMT_LMouseUp, x, y }
-{}
-
-__forceinline RMouseDownMessage::RMouseDownMessage(float x, float y)
- : MouseMessage{ SMT_RMouseDown, x, y }
-{}
-
-__forceinline RMouseUpMessage::RMouseUpMessage(float x, float y)
- : MouseMessage{ SMT_RMouseUp, x, y }
-{}
-
-__forceinline MouseMoveMessage::MouseMoveMessage(float x, float y)
- : MouseMessage{ SMT_MouseMove, x, y }
-{}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Application\\App.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Application/Timer.h"
-
-
-class Timer
-{
-private:
-
-
- __int64 m_startTime;
-
-
- float m_ticksInMs;
-
-
- float m_frameTime;
-
-
- __int64 m_gameTime;
-
-public:
-
-
-
-
- Timer();
-
-
- void Tick();
-
-
-
-
-
- __forceinline float GetGameTime() const;
- __forceinline float GetGameTimeSeconds() const;
- __forceinline float GetDeltaTime() const;
- __forceinline float GetDeltaTimeSeconds() const;
-};
-
-__forceinline float Timer::GetGameTime() const
-{
- return m_gameTime / m_ticksInMs;
-}
-
-__forceinline float Timer::GetGameTimeSeconds() const
-{
- return m_gameTime / m_ticksInMs * 0.001f;
-}
-
-__forceinline float Timer::GetDeltaTime() const
-{
- return m_frameTime;
-}
-
-__forceinline float Timer::GetDeltaTimeSeconds() const
-{
- return m_frameTime * 0.001f;
-}
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Application\\App.h"
-
-
-using namespace std;
-
-class Game;
-class IPhysics;
-class IMessenger;
-class Renderer;
-class ResourceCache;
-class App
-{
-public:
- unique_ptr<Game> m_pGame;
- unique_ptr<Timer> m_pTimer;
-
- unique_ptr<Renderer> m_pRenderer;
- unique_ptr<IPhysics> m_pPhysics;
- unique_ptr<ResourceCache> m_pCache;
-
-private:
-
-
-
-
- HWND m_hWnd;
- HINSTANCE m_hInstance;
- LPCTSTR m_windowClassName;
- bool m_bWindowed;
- int m_width;
- int m_height;
-
-
- double m_lastUpdate;
- double m_timeStep;
-
-
-
-
- bool m_bQuitting;
-
- queue<SystemMessage> m_messageQueue;
-
-public:
- App();
-
-
-
-
- void InitializeComponents(unique_ptr<Renderer> pRenderer, unique_ptr<IPhysics> pPhysics, unique_ptr<IMessenger> pMessenger, unique_ptr<ResourceCache> pCache);
-
- void InitializeWindow(HINSTANCE hInstance, int showWnd, bool isWindowed);
- void InitializeGame(unique_ptr<Game> pGame);
-
- LRESULT MsgProc(const SystemMessage & msg);
-
- void Update(double totaltime, double elapsedtime);
- void Render(double totaltime, double elapsedtime);
-
-
-
-
- int Run();
-
-
-
-
- void Close();
-
- __forceinline double GetTimeStep() const;
- __forceinline double GetGameTime() const;
-
- static LRESULT __stdcall WndProc(HWND hWnd, unsigned int msg, WPARAM wParam, LPARAM lParam);
-};
-
-__forceinline double App::GetTimeStep() const
-{
- return 0.0;
-}
-
-__forceinline double App::GetGameTime() const
-{
- return 0.0f;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Messenger\\Messenger.h"
-
-
-class IMessenger
-{
-
-};
-
-class Messenger : public IMessenger
-{
-};
-#line 5 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics\\NullPhysics.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics/PhysicsInterfaces.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics/../Math/Vector.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics/../Math/Math.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Objects/../../Math/Math.h"
 
 
 struct Math
@@ -151864,7 +153177,7 @@ __forceinline float Math::Abs(const float a)
 {
  return fabsf(a);
 }
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics/../Math/Vector.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Objects/../../Math/Vector.h"
 
 
 class Vec
@@ -151886,7 +153199,7 @@ public:
 
 
  __forceinline Vec() = default;
-#line 33 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics/../Math/Vector.h"
+#line 33 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Objects/../../Math/Vector.h"
  __forceinline Vec(float inX, float inY, float inZ, float inW);
 
 
@@ -152112,11 +153425,7 @@ __forceinline float Dot4(const Vec & v1, const Vec & v2)
 {
  return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
 }
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics/PhysicsInterfaces.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics/../Math/Matrix.h"
-
-
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Objects/../../Math/Matrix.h"
 
 
 class Mat4x4
@@ -152154,6 +153463,10 @@ public:
  __forceinline Mat4x4(const Vec & v1, const Vec & v2, const Vec & v3, const Vec & v4);
 
  __forceinline void SetIdentity();
+
+ __forceinline Mat4x4 GetTransposed() const;
+
+ __forceinline void Transpose();
 
  __forceinline Mat4x4 & operator*=(const Mat4x4 & other);
 
@@ -152391,6 +153704,39 @@ __forceinline Mat4x4 Mat4x4::CreateRollPitchYaw(float rollInRadians, float pitch
  return CreateRotationZ(rollInRadians) * CreateRotationX(pitchInRadians) * CreateRotationY(yawInRadians);
 }
 
+__forceinline Mat4x4 Mat4x4::GetTransposed() const
+{
+ Mat4x4 mat;
+
+ mat.m[0][0] = m[0][0];
+ mat.m[0][1] = m[1][0];
+ mat.m[0][2] = m[2][0];
+ mat.m[0][3] = m[3][0];
+
+ mat.m[1][0] = m[0][1];
+ mat.m[1][1] = m[1][1];
+ mat.m[1][2] = m[2][1];
+ mat.m[1][3] = m[3][1];
+
+ mat.m[2][0] = m[0][2];
+ mat.m[2][1] = m[1][2];
+ mat.m[2][2] = m[2][2];
+ mat.m[2][3] = m[3][2];
+
+ mat.m[3][0] = m[0][3];
+ mat.m[3][1] = m[1][3];
+ mat.m[3][2] = m[2][3];
+ mat.m[3][3] = m[3][3];
+
+ return mat;
+}
+
+__forceinline void Mat4x4::Transpose()
+{
+ Mat4x4 temp = GetTransposed();
+ *this = temp;
+}
+
 __forceinline Vec operator*(const Vec & v, const Mat4x4 & M)
 {
  return Vec(v.x * M.m[0][0] + v.y * M.m[1][0] + v.z * M.m[2][0] + v.w * M.m[3][0],
@@ -152454,105 +153800,966 @@ __forceinline void MatrixStack::PushTransform(const Mat4x4 & mat)
  m_matrices.push_back(m_matrices.back() * mat);
  ++m_count;
 }
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics/PhysicsInterfaces.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Objects/IMovable.h"
 
 
-class Entity;
-class Quaternion;
-class IPhysics
+class IMovable
+{
+protected:
+
+ Mat4x4 m_worldTransform;
+
+public:
+
+ virtual void SetWorldTransform(const Mat4x4 & transform) = 0;
+ __forceinline const Mat4x4 & GetWorldTransform() const;
+};
+
+__forceinline const Mat4x4 & IMovable::GetWorldTransform() const
+{
+ return m_worldTransform;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/VertexBuffer.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/Buffers.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/../../General.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/RenderTargetView.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/DepthStencilView.h"
+
+
+struct DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
+{
+public:
+ __forceinline DepthStencilViewParams() = default;
+
+ __forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
+
+ __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
+};
+
+__forceinline void DepthStencilViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
+{
+ Format = format;
+ Texture2D.MipSlice = mipslice;
+
+ ViewDimension = multiSampled ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+}
+
+__forceinline void DepthStencilViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
+{
+ Format = format;
+
+ if (multiSampled)
+ {
+  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
+  Texture2DMSArray.ArraySize = arraySize;
+  Texture2DMSArray.FirstArraySlice = firstArraySlice;
+ }
+ else
+ {
+  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
+  Texture2DArray.ArraySize = arraySize;
+  Texture2DArray.MipSlice = mipslice;
+  Texture2DArray.FirstArraySlice = firstArraySlice;
+ }
+}
+
+
+class DepthStencilView
+{
+private:
+ ID3D11DepthStencilView* m_pView;
+
+public:
+
+ __forceinline DepthStencilView();
+
+ __forceinline ~DepthStencilView();
+
+
+
+ __forceinline ID3D11DepthStencilView * GetView() const;
+};
+
+__forceinline DepthStencilView::DepthStencilView()
+ : m_pView{ nullptr }
+{}
+
+__forceinline DepthStencilView::~DepthStencilView()
+{
+ if(m_pView) m_pView->Release(); m_pView=0;;
+}
+
+__forceinline ID3D11DepthStencilView *DepthStencilView::GetView() const
+{
+ return m_pView;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/RenderTargetView.h"
+
+
+struct RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
+{
+public:
+ __forceinline RenderTargetViewParams() =default;
+
+ __forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
+
+ __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
+};
+
+__forceinline void RenderTargetViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
+{
+ Format = format;
+ Texture2D.MipSlice = mipslice;
+
+ ViewDimension = multiSampled ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
+}
+
+__forceinline void RenderTargetViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
+{
+ Format = format;
+
+ if (multiSampled)
+ {
+  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY;
+  Texture2DMSArray.ArraySize = arraySize;
+  Texture2DMSArray.FirstArraySlice = firstArraySlice;
+ }
+ else
+ {
+  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
+  Texture2DArray.ArraySize = arraySize;
+  Texture2DArray.MipSlice = mipslice;
+  Texture2DArray.FirstArraySlice = firstArraySlice;
+ }
+}
+
+class RenderTargetView
+{
+private:
+ ID3D11RenderTargetView** m_ppViews;
+ int m_numViews;
+
+public:
+ __forceinline RenderTargetView();
+
+ __forceinline explicit RenderTargetView(int numViews);
+
+ __forceinline explicit RenderTargetView(ID3D11RenderTargetView * View);
+
+ __forceinline ~RenderTargetView();
+
+
+
+ __forceinline ID3D11RenderTargetView** GetView(int index = 0) const;
+
+
+
+
+
+
+ void Bind(const DepthStencilView & depthview) const;
+ void Bind() const;
+ void BindOneView(int index);
+ void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
+  ID3D11UnorderedAccessView * const *, const unsigned int *);
+
+ void Clear(float bgColor[4]);
+ void Clear();
+};
+
+__forceinline RenderTargetView::RenderTargetView()
+ : m_ppViews{ nullptr }, m_numViews{ 1 }
+{
+}
+
+__forceinline RenderTargetView::RenderTargetView(int numViews)
+ : m_ppViews{ nullptr }, m_numViews{ numViews }
+{
+ m_ppViews = new ID3D11RenderTargetView*[numViews];
+}
+
+__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
+{
+ m_numViews = 1;
+ m_ppViews = &pView;
+}
+
+__forceinline ID3D11RenderTargetView** RenderTargetView::GetView(int index) const
+{
+ return &m_ppViews[index];
+}
+
+__forceinline RenderTargetView::~RenderTargetView()
+{
+ auto i = m_numViews - 1;
+ for (; i > 0; i--)
+  if(m_ppViews[i]) m_ppViews[i]->Release(); m_ppViews[i]=0;;
+
+ if (m_ppViews) delete [] m_ppViews; m_ppViews=0;;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/../../General.h"
+
+
+struct Viewport;
+class DepthStencilView;
+class DX11API
+{
+private:
+
+ static ID3D11Device* g_d3d11Device;
+ static ID3D11DeviceContext* g_d3d11DeviceContext;
+ static IDXGISwapChain* g_pSwapChain;
+
+ static RenderTargetView* g_pBackBufferRTV;
+ static DepthStencilView* g_pDepthStencilView;
+ static Viewport* g_pViewport;
+
+public:
+
+
+
+
+
+
+ static bool InitializeGraphics(HWND hWnd);
+
+ static void Dispatch(int groupCountX, int groupCountY, int groupCountZ);
+ static void Draw(int vertexCount, int startVertexLocation);
+ static void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation);
+
+ static ID3D11Device* D3D11Device();
+ static ID3D11DeviceContext* D3D11DeviceContext();
+
+ static void BindGlobalRenderTargetView();
+ static void BindGlobalRenderTargetView(DepthStencilView* pDepthStencilView);
+ static void BindGlobalDepthStencilView(DepthStencilView * pDepthStencilView);
+ static void BindGlobalViewport();
+
+
+
+
+
+
+ static void ClearRenderTargetView(const float * color, RenderTargetView * pView);
+#line 55 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/../../General.h"
+ static void ClearDepthStencilView(bool depth, bool stencil, float depthValue,
+  unsigned int stencilValue, DepthStencilView * pView);
+
+
+
+
+
+
+
+ static void UnbindShaderResourceViews(unsigned int slot, unsigned int numviews, ShaderType shadertype);
+
+
+
+
+
+
+ static void UnbindUnorderedAccessViews(unsigned int slot, unsigned int numviews);
+
+
+
+
+
+ static void UnbindRenderTargetViews(unsigned int numviews);
+
+
+
+
+
+ static void UnbindGeometryShader();
+
+
+
+
+ static void PresentBackBuffer();
+};
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/Buffers.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/../GraphicsResource.h"
+
+
+struct GraphicsBox : public D3D11_BOX
+{
+public:
+
+ __forceinline GraphicsBox(unsigned int left, unsigned int top, unsigned int front,
+  unsigned int right, unsigned int bottom, unsigned int back);
+};
+
+__forceinline GraphicsBox::GraphicsBox(unsigned int left, unsigned int top, unsigned int front,
+ unsigned int right, unsigned int bottom, unsigned int back)
+{
+ this->left = left;
+ this->top = top;
+ this->front = front;
+ this->right = right;
+ this->bottom = bottom;
+ this->back = back;
+}
+
+struct SubresourceData : public D3D11_SUBRESOURCE_DATA
+{
+ __forceinline void SetData(const void* pData, unsigned int sysMemPitch = 0, unsigned int sysMemSlicePitch = 0);
+};
+
+__forceinline void SubresourceData::SetData(const void* pData, unsigned int sysMemPitch, unsigned int sysMemSlicePitch)
+{
+ pSysMem = pData;
+ sysMemPitch = sysMemPitch;
+ sysMemSlicePitch = sysMemSlicePitch;
+}
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/Buffers.h"
+
+
+class Buffer
+{
+protected:
+ ID3D11Buffer* m_pBuffer;
+
+public:
+
+ __forceinline Buffer();
+ virtual ~Buffer();
+
+ __forceinline ID3D11Resource* GetResourcePointer() const;
+
+ __forceinline void UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
+  const void * pSrcData, unsigned int srcRowPitch, unsigned int srcDepthPitch);
+
+ __forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData *, unsigned int numElements = 0);
+};
+
+__forceinline Buffer::Buffer()
+ : m_pBuffer{ nullptr }
+{}
+
+__forceinline ID3D11Resource* Buffer::GetResourcePointer() const
+{
+ return static_cast<ID3D11Resource*>(m_pBuffer);
+}
+
+__forceinline void Buffer::UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
+ const void * pSrcData, unsigned int srcRowPitch, unsigned int srcDepthPitch)
+{
+ DX11API::D3D11DeviceContext()->UpdateSubresource(m_pBuffer, destSubresource, pBox, pSrcData, srcRowPitch, srcDepthPitch);
+}
+
+__forceinline bool Buffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements)
+{
+ HRESULT hr = DX11API::D3D11Device()->CreateBuffer(&desc, pData, &m_pBuffer);
+
+ if (hr == ((HRESULT)0L)) return true; else { switch (hr) { case ((HRESULT)0L): break; case ((HRESULT)1L): OutputDebugStringA("Completed without error, but only partial results were obtained. 							If a buffer is not large enough to hold the information that is returned 							to it, the returned information is often truncated to fit into the buffer 							and S_FALSE is returned from the method."); break; case ((HRESULT)0x80004005L): OutputDebugStringA("Operation couldn't be performed."); break; case ((HRESULT)0x80070057L): OutputDebugStringA("One of the arguments passed in was invalid."); break; case ((HRESULT)0x80004002L): OutputDebugStringA("The object searched for was not found."); break; case ((HRESULT)0x8007000EL): OutputDebugStringA("A memory allocation attempt failed."); break; case ((HRESULT)0x8000FFFFL): OutputDebugStringA("The target was not accessible, ot the engine was not in a state 							where the function or method could be processed."); break; case ((HRESULT)0x80004001L): OutputDebugStringA("Not implemented."); break; default: OutputDebugStringA("File not found."); break; }; __asm { int 3 };; return false; };;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/VertexBuffer.h"
+
+
+class VertexBuffer : public Buffer
+{
+protected:
+ unsigned int m_vertexSize;
+ unsigned int m_vertexCount;
+
+public:
+ __forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize);
+ __forceinline void Bind(unsigned int startSlot, unsigned int offset) const;
+ __forceinline void Bind(unsigned int startSlot, unsigned int offset, unsigned int vertexSize) const;
+ __forceinline unsigned int Count() const;
+};
+
+__forceinline bool VertexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize)
+{
+ m_vertexCount = numElements;
+ m_vertexSize = elementSize;
+
+ return Buffer::Create(desc, pData, numElements);
+}
+
+__forceinline void VertexBuffer::Bind(unsigned int startSlot, unsigned int offset) const
+{
+ DX11API::D3D11DeviceContext()->IASetVertexBuffers(startSlot, 1, &m_pBuffer, &m_vertexSize, &offset);
+}
+
+__forceinline void VertexBuffer::Bind(unsigned int startSlot, unsigned int offset, unsigned int vertexSize) const
+{
+ DX11API::D3D11DeviceContext()->IASetVertexBuffers(startSlot, 1, &m_pBuffer, &vertexSize, &offset);
+}
+
+__forceinline unsigned int VertexBuffer::Count() const
+{
+ return m_vertexCount;
+}
+#line 5 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/IndexBuffer.h"
+
+
+
+
+class IndexBuffer : public Buffer
+{
+protected:
+ DXGI_FORMAT m_format;
+ unsigned int m_indexSize;
+ unsigned int m_indexCount;
+
+public:
+
+ __forceinline void Bind(unsigned int offset) const;
+
+ __forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
+  unsigned int numElements, unsigned int elementSize);
+
+ __forceinline unsigned int Count() const;
+};
+
+__forceinline void IndexBuffer::Bind(unsigned int offset) const
+{
+ DX11API::D3D11DeviceContext()->IASetIndexBuffer(m_pBuffer, m_format, offset);
+}
+
+__forceinline bool IndexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
+ unsigned int numElements, unsigned int elementSize)
+{
+ m_indexCount = numElements;
+ m_indexSize = elementSize;
+
+ if (elementSize == 4)
+ {
+  m_format = DXGI_FORMAT_R32_UINT;
+ }
+ else if (elementSize == 2)
+ {
+  m_format = DXGI_FORMAT_R16_UINT;
+ }
+ else
+ {
+  (void)( (!!(0 && "Index size should be size of 2 or 4 bytes!")) || (_wassert(L"0 && \"Index size should be size of 2 or 4 bytes!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../Graphics/Resources/Buffers/IndexBuffer.h", 43), 0) );
+ }
+
+ return Buffer::Create(desc, pData, numElements);
+}
+
+__forceinline unsigned int IndexBuffer::Count() const
+{
+ return m_indexCount;
+}
+#line 6 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Materials/Material.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture2D.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture.h"
+
+
+struct ShaderResourceViewParams;
+struct UnorderedAccessViewParams;
+struct DepthStencilViewParams;
+struct RenderTargetViewParams;
+class ShaderResourceView;
+class UnorderedAccessView;
+class DepthStencilView;
+class RenderTargetView;
+class ITexture
 {
 public:
 
 
- virtual bool VInit() = 0;
-
-
- virtual void VSyncData(double currentTime) = 0;
-
-
- virtual void VUpdate(double deltaSeconds) = 0;
-
-
-
-
- virtual void VAddBox(Entity* pEntity, Vec & pos, Quaternion & rot, Vec & dimensions, float r32Mass, string & physMat, bool isStatic) = 0;
- virtual void VAddPlane(Entity* pEntity, Vec & pos, Quaternion & rot, Vec & halfDimensions, float r32Mass, string & physMat, bool isStatic) = 0;
- virtual void VAddSphere(Entity* pEntity, Vec & pos, Quaternion & rot, float r32Radius, float r32Mass, string & physMat, bool isStatic) = 0;
-
-
- virtual void VAddCharacter(Entity* pEntity, Vec & pos, Quaternion & rot, const Vec & dim, float mass, float maxForce, float maxSlope) = 0;
 
 
 
 
 
- virtual void VApplyForce(EntityId entityId, float deltaTime, const Vec & dir, float newtons) = 0;
- virtual void VApplyTorque(EntityId entityId, float deltaTime, const Vec & dir, float newtons) = 0;
- virtual void VKinematicMovement(EntityId entityId, Mat4x4 & mat) = 0;
+ virtual bool CreateShaderResourceView(ShaderResourceView & view,
+  const ShaderResourceViewParams & params) const = 0;
+
+ virtual bool CreateShaderResourceView(ID3D11ShaderResourceView** ppView,
+  const ShaderResourceViewParams & params) const = 0;
 
 
 
- virtual Vec VGetVelocity(EntityId entityId) = 0;
- virtual Vec VGetAngularVelocity(EntityId entityId) = 0;
- virtual Mat4x4 VGetTransform(EntityId entityId) = 0;
 
 
 
- virtual void VSetVelocity(EntityId entityId, const Vec & vel) = 0;
- virtual void VSetAngularVelocity(EntityId entityId, const Vec & angularVel) = 0;
+
+ virtual bool CreateUnorderedAccessView(UnorderedAccessView & view,
+  const UnorderedAccessViewParams & params) const = 0;
+
+ virtual bool CreateUnorderedAccessView(ID3D11UnorderedAccessView** ppView,
+  const UnorderedAccessViewParams & params) const = 0;
+
+
+
+
+
+
+
+ virtual bool CreateRenderTargetView(RenderTargetView & view,
+  const RenderTargetViewParams & params) const = 0;
+
+ virtual bool CreateRenderTargetView(ID3D11RenderTargetView** ppView,
+  const RenderTargetViewParams & params) const = 0;
+
+
+
+
+
+
+
+ virtual bool CreateDepthStencilView(DepthStencilView & view,
+  const DepthStencilViewParams & params) const = 0;
+
+ virtual bool CreateDepthStencilView(ID3D11DepthStencilView** ppView,
+  const DepthStencilViewParams & params) const = 0;
 
 };
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Physics\\NullPhysics.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture2D.h"
 
 
-class NullPhysics : public IPhysics
+struct ShaderResourceViewParams;
+struct UnorderedAccessViewParams;
+struct DepthStencilViewParams;
+struct RenderTargetViewParams;
+class ShaderResourceView;
+class UnorderedAccessView;
+class DepthStencilView;
+class RenderTargetView;
+
+struct Texture2DParams : public D3D11_TEXTURE2D_DESC
+{
+public:
+ __forceinline Texture2DParams();
+
+ __forceinline void Init(unsigned int width, unsigned int height, unsigned int arraySize,
+  unsigned int format, bool shaderResource, bool unorderedAccess, bool renderTarget,
+  bool depthStencil, unsigned int sampleCount, unsigned int sampleQuality,
+  unsigned int miplevels, bool gpuWrite, bool cpuRead, bool cpuWrite,
+  bool generateMipMaps = false);
+
+ __forceinline void InitCubeTexture(unsigned int width, unsigned int height,
+  unsigned int arraySize, unsigned int format, bool shaderResource, bool unorderedAccess,
+  bool renderTarget, bool depthStencil, unsigned int sampleCount, unsigned int sampleQuality,
+  unsigned int miplevels, bool gpuWrite, bool cpuRead, bool cpuWrite,
+  bool bGenerateMipMaps = false);
+};
+
+__forceinline Texture2DParams::Texture2DParams()
+{}
+
+__forceinline void Texture2DParams::Init(unsigned int width, unsigned int height, unsigned int arraySize,
+ unsigned int format, bool shaderResource, bool unorderedAccess, bool renderTarget,
+ bool depthStencil, unsigned int sampleCount, unsigned int sampleQuality,
+ unsigned int miplevels, bool gpuWrite, bool cpuRead, bool cpuWrite,
+ bool generateMipMaps)
+{
+ memset((this),0,(sizeof(Texture2DParams)));
+
+ Width = width;
+ Height = height;
+ ArraySize = arraySize;
+ Format = (DXGI_FORMAT)format;
+ SampleDesc.Count = sampleCount;
+ SampleDesc.Quality = sampleQuality;
+ MipLevels = miplevels;
+
+
+ if (cpuRead && cpuWrite && gpuWrite)
+ {
+  Usage = D3D11_USAGE_STAGING;
+  CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+ }
+ else if (gpuWrite && !cpuRead && !cpuWrite)
+ {
+  Usage = D3D11_USAGE_DEFAULT;
+ }
+ else if (cpuWrite && !cpuRead && !gpuWrite)
+ {
+  Usage = D3D11_USAGE_DYNAMIC;
+  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+ }
+ else
+ {
+  Usage = D3D11_USAGE_IMMUTABLE;
+ }
+
+
+ if (shaderResource)
+  BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+ if (renderTarget)
+  BindFlags |= D3D11_BIND_RENDER_TARGET;
+ if (unorderedAccess)
+  BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
+ if (depthStencil)
+  BindFlags |= D3D11_BIND_DEPTH_STENCIL;
+
+ if (generateMipMaps)
+  MiscFlags |= D3D11_RESOURCE_MISC_GENERATE_MIPS;
+}
+
+__forceinline void Texture2DParams::InitCubeTexture(unsigned int width, unsigned int height,
+ unsigned int arraySize, unsigned int format, bool shaderResource, bool unorderedAccess,
+ bool renderTarget, bool depthStencil, unsigned int sampleCount, unsigned int sampleQuality,
+ unsigned int miplevels, bool gpuWrite, bool cpuRead, bool cpuWrite,
+ bool bGenerateMipMaps)
+{
+ Init(width, height, arraySize, format, shaderResource, unorderedAccess, renderTarget, depthStencil, sampleCount, sampleQuality,
+  miplevels, gpuWrite, cpuRead, cpuWrite, bGenerateMipMaps);
+
+ MiscFlags |= D3D11_RESOURCE_MISC_TEXTURECUBE;
+}
+
+class Texture2D : public ITexture
 {
 public:
 
+ __forceinline Texture2D();
 
- __forceinline bool VInit() override { return true; }
+ virtual bool Create(const D3D11_TEXTURE2D_DESC & pParams);
 
+ void CreateFromFile(const char * filepath);
 
- __forceinline void VSyncData(double currentTime) override {}
+ virtual bool CreateShaderResourceView(ShaderResourceView & view,
+  const ShaderResourceViewParams & params) const;
 
-
- __forceinline void VUpdate(double deltaSeconds) override {}
-
-
-
-
- __forceinline void VAddBox(Entity* pEntity, Vec & pos, Quaternion & rot, Vec & dimensions, float r32Mass, string & physMat, bool isStatic) override {}
- __forceinline void VAddPlane(Entity* pEntity, Vec & pos, Quaternion & rot, Vec & halfDimensions, float r32Mass, string & physMat, bool isStatic) override {}
- __forceinline void VAddSphere(Entity* pEntity, Vec & pos, Quaternion & rot, float r32Radius, float r32Mass, string & physMat, bool isStatic) override {}
+ virtual bool CreateShaderResourceView(ID3D11ShaderResourceView** ppView,
+  const ShaderResourceViewParams & params) const;
 
 
- __forceinline void VAddCharacter(Entity* pEntity, Vec & pos, Quaternion & rot, const Vec & dim, float mass, float maxForce, float maxSlope) override {}
+ virtual bool CreateUnorderedAccessView(UnorderedAccessView & view,
+  const UnorderedAccessViewParams & params) const;
+
+ virtual bool CreateUnorderedAccessView(ID3D11UnorderedAccessView** ppView,
+  const UnorderedAccessViewParams & params) const;
 
 
+ virtual bool CreateRenderTargetView(RenderTargetView & view,
+  const RenderTargetViewParams & params) const;
+
+ virtual bool CreateRenderTargetView(ID3D11RenderTargetView** ppView,
+  const RenderTargetViewParams & params) const;
 
 
+ virtual bool CreateDepthStencilView(DepthStencilView & view,
+  const DepthStencilViewParams & params) const;
 
- __forceinline void VApplyForce(EntityId entityId, float deltaTime, const Vec & dir, float newtons) override {}
- __forceinline void VApplyTorque(EntityId entityId, float deltaTime, const Vec & dir, float newtons) override {}
- __forceinline void VKinematicMovement(EntityId entityId, Mat4x4 & mat) override {}
-
-
-
- __forceinline Vec VGetVelocity(EntityId entityId) override { return Vec{ 0.0f, 0.0f, 0.0f, 0.0f }; }
- __forceinline Vec VGetAngularVelocity(EntityId entityId) override { return Vec{ 0.0f, 0.0f, 0.0f, 0.0f }; }
- __forceinline Mat4x4 VGetTransform(EntityId entityId) override { return Mat4x4{}; }
+ virtual bool CreateDepthStencilView(ID3D11DepthStencilView* pView,
+  const DepthStencilViewParams & params) const;
 
 
-
- __forceinline void VSetVelocity(EntityId entityId, const Vec & vel) override {}
- __forceinline void VSetAngularVelocity(EntityId entityId, const Vec & angularVel) override {}
+protected:
+ ID3D11Texture2D* m_pTexture;
 };
-#line 6 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\ResourceManager\\ResourceCache.h"
+__forceinline Texture2D::Texture2D()
+ : m_pTexture{ nullptr }
+{}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Materials/Material.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Materials/../../Graphics/Resources/Views/ShaderResourceView.h"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\ResourceManager/ResourceFile.h"
+
+
+struct ShaderResourceViewParams : public D3D11_SHADER_RESOURCE_VIEW_DESC
+{
+public:
+ __forceinline ShaderResourceViewParams() = default;
+
+ __forceinline void InitForTexture2D(DXGI_FORMAT format, int miplevels, int mostdetailedmip, bool multiSampled);
+
+ __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int miplevels, int mostdetailedmip, bool multiSampled);
+
+ __forceinline void InitForCubeTexture(DXGI_FORMAT format, int miplevels, int mostdetailedmip);
+
+ __forceinline void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int elementWidth);
+};
+
+__forceinline void ShaderResourceViewParams::InitForTexture2D(DXGI_FORMAT format, int miplevels, int mostdetailedmip, bool multiSampled)
+{
+ Format = format;
+ Texture2D.MipLevels = miplevels;
+ Texture2D.MostDetailedMip = mostdetailedmip;
+
+ ViewDimension = multiSampled ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
+}
+__forceinline void ShaderResourceViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int miplevels, int mostdetailedmip, bool multiSampled)
+{
+ Format = format;
+
+ if (multiSampled)
+ {
+  ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMSARRAY;
+  Texture2DMSArray.ArraySize = arraySize;
+  Texture2DMSArray.FirstArraySlice = firstArraySlice;
+ }
+ else
+ {
+  ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+  Texture2DArray.ArraySize = arraySize;
+  Texture2DArray.MipLevels = 1;
+  Texture2DArray.FirstArraySlice = firstArraySlice;
+ }
+}
+__forceinline void ShaderResourceViewParams::InitForCubeTexture(DXGI_FORMAT format, int miplevels, int mostdetailedmip)
+{
+ Format = format;
+ TextureCube.MipLevels = miplevels;
+ TextureCube.MostDetailedMip = mostdetailedmip;
+ ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+}
+__forceinline void ShaderResourceViewParams::InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int elementWidth)
+{
+ Format = format;
+ Buffer.FirstElement = 0;
+ Buffer.NumElements = elementWidth;
+ ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+}
+
+class ShaderResourceView
+{
+private:
+ ID3D11ShaderResourceView** m_ppViews;
+ int m_numViews;
+
+public:
+
+ __forceinline explicit ShaderResourceView(int numViews = 1);
+
+ __forceinline ~ShaderResourceView();
+
+
+
+ __forceinline ID3D11ShaderResourceView** GetView(int index = 0) const;
+
+
+
+
+ __forceinline void Bind(int slot, ShaderType type) const;
+ __forceinline void BindView(int index, int slot, ShaderType type) const;
+};
+
+__forceinline ShaderResourceView::ShaderResourceView(int numViews)
+ : m_ppViews{ nullptr }, m_numViews{ numViews }
+{
+ m_ppViews = new ID3D11ShaderResourceView*[numViews];
+}
+
+__forceinline ShaderResourceView::~ShaderResourceView()
+{
+ auto i = m_numViews - 1;
+ for (; i > 0; i--)
+  if(m_ppViews[i]) m_ppViews[i]->Release(); m_ppViews[i]=0;;
+
+ if (m_ppViews) delete [] m_ppViews; m_ppViews=0;;
+}
+
+__forceinline ID3D11ShaderResourceView** ShaderResourceView::GetView(int index) const
+{
+ return m_ppViews + index;
+}
+
+__forceinline void ShaderResourceView::Bind(int slot, ShaderType type) const
+{
+ switch (type)
+ {
+ case ST_Vertex:
+  DX11API::D3D11DeviceContext()->VSSetShaderResources(slot, m_numViews, m_ppViews);
+  break;
+ case ST_Domain:
+  DX11API::D3D11DeviceContext()->DSSetShaderResources(slot, m_numViews, m_ppViews);
+  break;
+ case ST_Geometry:
+  DX11API::D3D11DeviceContext()->GSSetShaderResources(slot, m_numViews, m_ppViews);
+  break;
+ case ST_Pixel:
+  DX11API::D3D11DeviceContext()->PSSetShaderResources(slot, m_numViews, m_ppViews);
+  break;
+ case ST_Compute:
+  DX11API::D3D11DeviceContext()->CSSetShaderResources(slot, m_numViews, m_ppViews);
+ default:
+  break;
+ };
+}
+__forceinline void ShaderResourceView::BindView(int index, int slot, ShaderType type) const
+{
+ switch (type)
+ {
+ case ST_Vertex:
+  DX11API::D3D11DeviceContext()->VSSetShaderResources(slot, m_numViews, m_ppViews);
+  break;
+ case ST_Domain:
+  DX11API::D3D11DeviceContext()->DSSetShaderResources(slot, m_numViews, m_ppViews);
+  break;
+ case ST_Geometry:
+  DX11API::D3D11DeviceContext()->GSSetShaderResources(slot, m_numViews, m_ppViews);
+  break;
+ case ST_Pixel:
+  DX11API::D3D11DeviceContext()->PSSetShaderResources(slot, m_numViews, m_ppViews);
+  break;
+ case ST_Compute:
+  DX11API::D3D11DeviceContext()->CSSetShaderResources(slot, m_numViews, m_ppViews);
+ default:
+  break;
+ };
+}
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../Materials/Material.h"
+
+
+class Material
+{
+protected:
+
+ MaterialId m_id;
+
+
+
+
+ shared_ptr<Texture2D> m_pDiffuse;
+ shared_ptr<Texture2D> m_pSpecular;
+ shared_ptr<Texture2D> m_pNormalTex;
+
+
+
+
+ shared_ptr<ShaderResourceView> m_pDiffuseSRV;
+ shared_ptr<ShaderResourceView> m_pSpecularSRV;
+ shared_ptr<ShaderResourceView> m_pNormalSRV;
+
+
+
+
+ int m_diffuseSlot;
+ int m_specularSlot;
+ int m_normalSlot;
+
+public:
+
+ __forceinline Material();
+
+ virtual bool VInitialize(const string & name);
+
+
+ __forceinline void SetDiffuse(shared_ptr<Texture2D> pDiffuse);
+ __forceinline void SetSpecular(shared_ptr<Texture2D> pSpecular);
+ __forceinline void SetNormal(shared_ptr<Texture2D> pNormal);
+
+
+
+ __forceinline void BindDiffuse(unsigned int slot);
+ __forceinline void BindSpecular(unsigned int slot);
+ __forceinline void BindNormal(unsigned int slot);
+
+ virtual void VBind(unsigned int slot);
+
+
+
+ __forceinline void UnbindDiffuse();
+ __forceinline void UnbindSpecular();
+ __forceinline void UnbindNormal();
+
+ virtual void VUnbind();
+};
+
+__forceinline Material::Material()
+ : m_diffuseSlot{ -1 }, m_specularSlot{ -1 }, m_normalSlot{ 01 }
+{}
+
+__forceinline void Material::SetDiffuse(shared_ptr<Texture2D> pDiffuse)
+{
+ m_pDiffuse = pDiffuse;
+}
+
+__forceinline void Material::SetSpecular(shared_ptr<Texture2D> pSpecular)
+{
+ m_pSpecular = pSpecular;
+}
+
+__forceinline void Material::SetNormal(shared_ptr<Texture2D> pNormal)
+{
+ m_pNormalTex = pNormal;
+}
+
+
+__forceinline void Material::BindDiffuse(unsigned int slot)
+{
+ m_pDiffuseSRV->Bind(slot, ST_Pixel);
+ m_diffuseSlot = slot;
+}
+
+__forceinline void Material::BindSpecular(unsigned int slot)
+{
+ m_pSpecularSRV->Bind(slot, ST_Pixel);
+ m_specularSlot = slot;
+}
+
+__forceinline void Material::BindNormal(unsigned int slot)
+{
+ m_pNormalSRV->Bind(slot, ST_Pixel);
+}
+
+__forceinline void Material::UnbindDiffuse()
+{
+ DX11API::UnbindShaderResourceViews(m_diffuseSlot, 1, ST_Pixel);
+ m_diffuseSlot = -1;
+}
+__forceinline void Material::UnbindSpecular()
+{
+ DX11API::UnbindShaderResourceViews(m_specularSlot, 1, ST_Pixel);
+ m_specularSlot = -1;
+}
+
+__forceinline void Material::UnbindNormal()
+{
+ DX11API::UnbindShaderResourceViews(m_normalSlot, 1, ST_Pixel);
+ m_normalSlot = -1;
+}
+#line 7 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../ResourceManager/Resource.h"
+
+
+class Resource
+{
+public:
+ string m_name;
+
+public:
+ __forceinline explicit Resource(const string & name);
+};
+
+__forceinline Resource::Resource(const string & name)
+ : m_name{ name }
+{}
+
+class IResourceExtraData
+{
+public:
+ virtual string VToString() = 0;
+};
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../ResourceManager/ResourceCache.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../ResourceManager/ResourceFile.h"
 
 
 class Resource;
@@ -152570,9 +154777,9 @@ public:
 
  virtual wstring VGetDirectory() const = 0;
 };
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\ResourceManager\\ResourceCache.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../ResourceManager/ResourceCache.h"
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\ResourceManager/ResourceLoader.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../ResourceManager/ResourceLoader.h"
 
 
 class ResHandle;
@@ -152623,7 +154830,7 @@ __forceinline bool DefaultResourceLoader::VLoadResource(char* pRawBuffer, unsign
 {
  return true;
 }
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\ResourceManager\\ResourceCache.h"
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../ResourceManager/ResourceCache.h"
 
 
 class Resource;
@@ -152632,10 +154839,8 @@ class ResourceCache
 {
  friend class ResHandle;
 
-
- friend std::shared_ptr<ResHandle> SafeGetHandle(Resource *pResource);
-
 protected:
+
  unique_ptr<IResourceFile> m_pFile;
 
  typedef std::list< std::shared_ptr<ResHandle>> ResHandleList;
@@ -152652,9 +154857,9 @@ protected:
  unsigned int m_uAllocated;
 
  shared_ptr<ResHandle> Find(Resource* pResource);
- void Update(std::shared_ptr<ResHandle> pHandle);
+ void Update(shared_ptr<ResHandle> pHandle);
  shared_ptr<ResHandle> Load(Resource *pResource);
- void Free(std::shared_ptr<ResHandle> pFreeMe);
+ void Free(shared_ptr<ResHandle> pFreeMe);
 
  bool MakeRoom(unsigned int uSize);
  char* Allocate(unsigned int uSize);
@@ -152665,24 +154870,19 @@ public:
 
  static ResourceCache * const Get();
 
- __forceinline ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
+
+ static shared_ptr<ResHandle> SafeGetHandle(Resource *pResource);
+
+ ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
  __forceinline ~ResourceCache();
 
  __forceinline bool Init();
  void RegisterLoader(shared_ptr<IResourceLoader> pLoader);
 
- std::shared_ptr<ResHandle> GetHandle(Resource *pResource);
+ shared_ptr<ResHandle> GetHandle(Resource *pResource);
  int Preload(const string & pattern, void(*progressCallback)(int, bool &));
  void Flush();
 };
-
-__forceinline ResourceCache::ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile)
-{
- m_uCacheSize = sizeInMb * 1024 * 1024;
- m_uAllocated = 0;
-
- m_pFile = move(pFile);
-}
 
 __forceinline ResourceCache::~ResourceCache()
 {}
@@ -152698,518 +154898,195 @@ __forceinline bool ResourceCache::Init()
 
  return bResult;
 }
-#line 7 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
+#line 22 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../ResourceManager/Resource.h"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\ResourceManager\\Loaders\\MeshLoader.h"
-
-
-
-
-class MeshLoader : IResourceLoader
+class ResHandle
 {
-
-};
-#line 9 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\ResourceManager\\Windows\\ResourceDirectory.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\ResourceManager\\Windows/../../Help/Strings/Strings.h"
-
-
-class StringHelper
-{
-public:
- static bool AnsiToWideCch(wchar_t* dest, const char* src, int charCount);
- static bool WideToAnsiCch(char* dest, const wchar_t* src, int charCount);
- static bool GenericToAnsiCch(char* dest, const TCHAR* src, int charCount);
- static bool GenericToWideCch(wchar_t* dest, const TCHAR* src, int charCount);
- static bool AnsiToGenericCch(TCHAR* dest, const char* src, int charCount);
- static bool WideToGenericCch(TCHAR* dest, const wchar_t* src, int charCount);
-
- static string ws2s(const wstring & s);
- static wstring s2ws(const string &s);
-};
-#line 2 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\ResourceManager\\Windows\\ResourceDirectory.h"
-
-
-class ResourceDir : public IResourceFile
-{
-protected:
-
- vector<WIN32_FIND_DATA> m_resourcesData;
- ContentMap m_directoryContent;
- wstring m_directory;
+ friend class ResourceCache;
 
 protected:
- void ReadResourceDirectory(const wstring & pattern);
+ Resource m_resource;
+ char* m_pBuffer;
+ unsigned int m_size;
+ shared_ptr<IResourceExtraData> m_pExtra;
+
+ ResourceCache* m_pCache;
 
 public:
+ __forceinline ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache);
+ __forceinline ~ResHandle();
 
- explicit ResourceDir(const wstring & dir);
+ __forceinline const string & GetName() const;
+ __forceinline unsigned int Size() const;
+ __forceinline char* Buffer() const;
 
- virtual bool VOpen() override;
- virtual int VGetRawResourceSize(const Resource & resource) override;
- virtual int VGetRawResource(const Resource & resource, char* pBuffer) override;
- __forceinline virtual int VGetNumResources() const override;
- __forceinline virtual string VGetResourceName(int num) const override;
-
- __forceinline virtual wstring VGetDirectory() const override;
-
- int Find(const string & name);
+ __forceinline shared_ptr<IResourceExtraData> GetExtra() const;
+ __forceinline void SetExtra(shared_ptr<IResourceExtraData> pExtra);
 };
 
-__forceinline int ResourceDir::VGetNumResources() const
-{
- return m_resourcesData.size();
-}
-
-__forceinline string ResourceDir::VGetResourceName(int num) const
-{
- wstring resName = m_resourcesData[num].cFileName;
- return StringHelper::ws2s(resName);
-}
-
-__forceinline wstring ResourceDir::VGetDirectory() const
-{
- return m_directory;
-}
-#line 10 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Renderer\\TiledRenderer.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Renderer/Renderer.h"
-
-
-class Mesh;
-class Light;
-class Camera;
-class Renderer
-{
-protected:
-
- vector<shared_ptr<Camera>> m_cameras;
-
-public:
- Renderer();
-
-
- virtual bool VInitialize(HWND hWnd, unsigned int width, unsigned int height);
-
-
- virtual void VPushMesh(shared_ptr<Mesh> pMesh) = 0;
- virtual void VPushLight(shared_ptr<Light> pLight) = 0;
-
-
- virtual void VAddCamera(shared_ptr<Camera> pCamera);
- virtual void VRemoveCamera(Camera* pCamera);
-
- virtual void VUpdate(unsigned int deltaMilliseconds) = 0;
-
-
- virtual void VRender() = 0;
-
-
- __forceinline bool LightningOn() const;
- __forceinline bool TexturingOn() const;
-};
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Renderer\\TiledRenderer.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Renderer/RenderQueue.h"
-
-
-class Mesh;
-class RenderQueue
-{
-private:
-
- typedef vector<shared_ptr<Mesh>> MeshList;
-
-
-
-
-
- MeshList m_queue;
- MeshList::const_iterator m_currMesh;
-
-
-
-
- unsigned int m_cur;
- unsigned int m_numMeshes;
-
-public:
-
- __forceinline RenderQueue();
-
-
-
-
-
-
- __forceinline virtual void VAdd(shared_ptr<Mesh> pMesh);
-
-
- __forceinline virtual void VSort();
-
-
- shared_ptr<Mesh> Next();
- shared_ptr<Mesh> NextWithDeletion();
-
- __forceinline void Reset();
-};
-
-__forceinline RenderQueue::RenderQueue()
- : m_numMeshes{ 0 }, m_cur{ 0 }
+__forceinline ResHandle::ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache)
+ : m_resource{ resource }, m_pBuffer{ pbuffer }, m_size{ uSize }, m_pCache{ pCache }
 {}
 
-__forceinline void RenderQueue::VAdd(shared_ptr<Mesh> pMesh)
+__forceinline ResHandle::~ResHandle()
 {
-
- m_queue.push_back(pMesh);
-
-
- m_numMeshes++;
+ if (m_pBuffer) delete [] m_pBuffer; m_pBuffer=0;;
+ m_pCache->MemoryHasBeenFreed(m_size);
 }
 
-__forceinline void RenderQueue::VSort()
-{}
-
-__forceinline void RenderQueue::Reset()
+__forceinline const string & ResHandle::GetName() const
 {
- m_currMesh = begin(m_queue);
+ return m_resource.m_name;
 }
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Renderer\\TiledRenderer.h"
 
-
-class Light;
-class TiledRenderer : public Renderer
+__forceinline unsigned int ResHandle::Size() const
 {
-protected:
+ return m_size;
+}
 
- RenderQueue m_queue;
- vector<shared_ptr<Light>> m_lights;
+__forceinline char* ResHandle::Buffer() const
+{
+ return m_pBuffer;
+}
+
+__forceinline shared_ptr<IResourceExtraData> ResHandle::GetExtra() const
+{
+ return m_pExtra;
+}
+
+__forceinline void ResHandle::SetExtra(shared_ptr<IResourceExtraData> pExtra)
+{
+ m_pExtra = pExtra;
+}
+#line 9 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.h"
 
 
- void ZPrepass();
- void LightCulling(Camera * pCamera);
- void FinalShading();
- void NullLightCounter();
 
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/../../ResourceManager/Loaders/MaterialLoader.h"
+
+
+
+
+
+
+
+class MaterialResourceExtraData : public IResourceExtraData
+{
 public:
+ shared_ptr<Material> m_pMaterial;
 
- TiledRenderer();
-
- virtual bool VInitialize(HWND hWnd, unsigned int width, unsigned int height) override;
-
- virtual void VPushMesh(shared_ptr<Mesh> pMesh) override;
- virtual void VPushLight(shared_ptr<Light> pLight) override;
-
- virtual void VUpdate(unsigned int deltaMilliseconds) override;
- virtual void VRender() override;
+ __forceinline MaterialResourceExtraData();
+ virtual string VToString() override;
 };
-#line 11 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
+
+__forceinline MaterialResourceExtraData::MaterialResourceExtraData()
+{
+ m_pMaterial = make_shared<Material>();
+}
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/Game\\RenderingDemo.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Game\\Game.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Game/GameStateMachine\\StateFactory.h"
-
-
-class State;
-class StateFactory
+class MaterialLoader : public IResourceLoader
 {
 public:
-
- virtual State* VCreateState(StateId id) const;
-};
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Game\\Game.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Game/GameStateMachine\\StateMachine.h"
-
-
-
-
-
-class Game;
-class State;
-class Renderer;
-class StateMachine
-{
-public:
-
-
- __forceinline StateMachine();
-
- void Release(Game * pGame);
-
-
-
-
- bool SetState(Game * pGame, State * pState, int stateId);
- bool ReleaseCurrentState(Game * pGame);
-
-
-
-
- void VUpdate(Game * pGame, double time, double elapsedTime);
- void VRender(Game * pGame, Renderer * pRenderer, double r64Time, double r64ElapsedTime);
+ __forceinline virtual string VGetPattern() override;
+ __forceinline virtual bool VUseRawFile() override;
+ __forceinline virtual bool VNeedFile() override;
+ __forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+ virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 
 private:
 
-
- State * m_pCurrentState;
+ void LoadTextures(ifstream & file, MaterialResourceExtraData* pData);
+ bool LoadShader(ifstream & file);
 };
 
-__forceinline StateMachine::StateMachine()
- : m_pCurrentState{ nullptr }
-{}
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Game\\Game.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Game/Entities\\EntityManager.h"
-
-
-
-
-
-
-
-class Entity;
-class Mat4x4;
-class IEntityManager
+__forceinline string MaterialLoader::VGetPattern()
 {
-public:
+ return "*.mtl";
+}
 
- virtual shared_ptr<Entity> VGetEntity(EntityId id) = 0;
-
-
- virtual void VAddEntity(shared_ptr<Entity> pEntity) = 0;
-
-
- virtual bool VRemoveEntity(EntityId id) = 0;
-
-
- virtual void VUpdate(double time, double elapsedTime) = 0;
-
-
- virtual void VUpdateEntity(EntityId id, const Mat4x4 & transform, double currentTime) = 0;
-};
-
-
-
-
-class EntityManager : public IEntityManager
+__forceinline bool MaterialLoader::VUseRawFile()
 {
-private:
+ return false;
+}
+
+__forceinline bool MaterialLoader::VNeedFile()
+{
+ return true;
+}
+
+__forceinline int MaterialLoader::VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize)
+{
+ return 10;
+}
+#line 12 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.h"
 
 
- typedef vector<shared_ptr<Entity>> Entities;
- Entities m_entities;
-
- unsigned int m_count;
-
-public:
-
- __forceinline EntityManager();
-
-
-
-
-
-
- virtual shared_ptr<Entity> VGetEntity(EntityId id) override;
-
- virtual void VAddEntity(shared_ptr<Entity> pEntity) override;
-
- virtual bool VRemoveEntity(EntityId id) override;
-
- virtual void VUpdate(double time, double elapsedTime) override;
-
- virtual void VUpdateEntity(EntityId id, const Mat4x4 & transform, double currentTime) override;
-};
-
-__forceinline EntityManager::EntityManager()
- : m_count{ 0 }
-{}
-#line 6 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Game\\Game.h"
-
-
-class Entity;
-class IView;
-class PlayerView;
-struct SystemMessage;
-class Mat4x4;
-class Game
+class Mesh : public IMovable
 {
 protected:
+ Mat4x4 m_objectTransform;
 
+ shared_ptr<VertexBuffer> m_pVertices;
+ shared_ptr<VertexBuffer> m_pTexCoords;
+ shared_ptr<VertexBuffer> m_pNormals;
 
-
- EntityId m_lastEntityId;
- unique_ptr<EntityManager> m_pEntityManager;
-
-
-
-
- unique_ptr<StateFactory> m_pStateFactory;
- StateMachine* m_pStateMachine;
-
-
- struct NextGameState
- {
-  int m_i32Id;
-  UINT_PTR m_uptrData;
-  bool m_bSetState;
- };
- NextGameState m_ngsState;
-
-
-
-
- vector<shared_ptr<IView>> m_views;
- vector<shared_ptr<PlayerView>> m_playerViews;
+ shared_ptr<Material> m_pMaterial;
 
 public:
 
+ __forceinline Mesh();
+ virtual ~Mesh();
 
+ __forceinline void SetMaterial(const string & materialName);
 
+ __forceinline void BindMaterial();
+ __forceinline void BindPositionBuffer();
+ __forceinline void BindTexCoordsBuffer();
+ __forceinline void BindNormalsBuffer();
 
-
- __forceinline Game();
- virtual ~Game();
-
-
- void SetStateFactory(unique_ptr<StateFactory> pStateFactory);
- void SetNextState(int i32StateId, UINT_PTR uptrData = 0);
-
-
-
-
- virtual LRESULT VMsgProc(const SystemMessage & msg);
-
-
-
-
- virtual void VUpdate(double totaltime, double elapsedtime);
-
-
-
-
- virtual void VRender(Renderer* pRenderer, double totaltime, double elapsedtime);
- virtual void VRenderDebug();
-
-
-
-
-
-
- virtual shared_ptr<Entity> VAddEntity(shared_ptr<Entity> pEntity);
- virtual shared_ptr<Entity> VGetEntity(EntityId id);
- virtual bool VRemoveEntity(EntityId id);
-
-
- virtual void VUpdateEntity(EntityId id, const Mat4x4 & transform, double currentTime);
- __forceinline EntityId GetNewEntityId();
-
-
-
-
- bool SetState(int i32StateId);
-
-
-
-
- virtual shared_ptr<IView> VAddGameView(shared_ptr<IView> pView);
- virtual void VRemoveGameView(shared_ptr<IView> pView);
-
-
- void AddPlayerView(shared_ptr<PlayerView> pView);
- shared_ptr<PlayerView> GetPlayerView(int player);
+ virtual void SetWorldTransform(const Mat4x4 & transform) override;
 };
 
-__forceinline Game::Game()
- : m_lastEntityId{ 0 }
+__forceinline Mesh::Mesh()
+{}
+
+__forceinline void Mesh::SetMaterial(const string & materialName)
 {
- m_pStateMachine = new StateMachine{};
- m_pEntityManager = make_unique<EntityManager>();
+ Resource materialResource(materialName);
+ shared_ptr<ResHandle> pMaterialHandle = ResourceCache::SafeGetHandle(&materialResource);
+ std::shared_ptr<MaterialResourceExtraData> pData = static_pointer_cast<MaterialResourceExtraData>(pMaterialHandle->GetExtra());
+
+ m_pMaterial = pData->m_pMaterial;
 }
 
-__forceinline EntityId Game::GetNewEntityId()
+__forceinline void Mesh::BindMaterial()
 {
- return ++m_lastEntityId;
+ m_pMaterial->VBind(0);
 }
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/Game\\RenderingDemo.h"
 
-
-class RenderingDemo : public Game
+__forceinline void Mesh::BindPositionBuffer()
 {
+ m_pVertices->Bind(0, 0);
+}
 
-};
-#line 13 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/Game\\DemoStateFactory.h"
-
-
-
-
-class State;
-class DemoStateFactory : public StateFactory
+__forceinline void Mesh::BindTexCoordsBuffer()
 {
-public:
+ m_pTexCoords->Bind(1, 0);
+}
 
- virtual State* VCreateState(StateId id) const override;
-};
-#line 14 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/RenderDemo/Source/winmain.cpp"
-
-
-
-
-
-int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
+__forceinline void Mesh::BindNormalsBuffer()
 {
- auto g_pEngine = make_unique<App>();
-
- g_pEngine->InitializeWindow(hInstance, nShowCmd, true);
-
-
+ m_pNormals->Bind(2, 0);
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Renderer/Meshes/Mesh.cpp"
 
 
- unique_ptr<RenderingDemo> g_Game = make_unique<RenderingDemo>();
+Mesh::~Mesh()
+{}
 
-
- g_Game->SetStateFactory(make_unique<DemoStateFactory>());
- g_Game->SetNextState(1);
-
-
- g_pEngine->InitializeGame(move(g_Game));
-
-
-
-
- unique_ptr<ResourceDir> g_pFile = make_unique<ResourceDir>(L"Resources");
- unique_ptr<ResourceCache> g_pCache = make_unique<ResourceCache>(300, move(g_pFile));
-
- g_pCache->Init();
-
-
-
-
-
- g_pEngine->InitializeComponents(make_unique<TiledRenderer>(), make_unique<NullPhysics>(),
-  make_unique<Messenger>(), move(g_pCache));
-
-
-
-
-
-
- auto g_iExit = g_pEngine->Run();
-
- return g_iExit;
+void Mesh::SetWorldTransform(const Mat4x4 & transform)
+{
+ m_worldTransform = m_objectTransform * transform;
 }

@@ -15,12 +15,13 @@ public:
 	unsigned int m_uNumMeshes;
 	Vec m_vExtents;
 
-	vector<shared_ptr<IndexedMesh>> m_pMeshes;
-	shared_ptr<VertexBuffer> m_pVertices;
-	shared_ptr<VertexBuffer> m_pTexCoords;
-	shared_ptr<VertexBuffer> m_pNormals;
-	shared_ptr<VertexBuffer> m_pTangents;
-	shared_ptr<IndexBuffer> m_pIndexBuffer;
+	shared_ptr<IndexedMesh> m_pMesh;
+	//vector<shared_ptr<IndexedMesh>> m_meshes;
+	//shared_ptr<VertexBuffer> m_pVertices;
+	//shared_ptr<VertexBuffer> m_pTexCoords;
+	//shared_ptr<VertexBuffer> m_pNormals;
+	//shared_ptr<VertexBuffer> m_pTangents;
+	//shared_ptr<IndexBuffer> m_pIndexBuffer;
 
 	__forceinline MeshResourceExtraData();
 
@@ -33,11 +34,11 @@ public:
 __forceinline MeshResourceExtraData::MeshResourceExtraData()
 	: m_uNumMeshes{ 0 }
 {
-	m_pVertices = make_shared<VertexBuffer>();
-	m_pTexCoords = make_shared<VertexBuffer>();
-	m_pNormals = make_shared<VertexBuffer>();
-	m_pTangents = make_shared<VertexBuffer>();
-	m_pIndexBuffer = make_shared<IndexBuffer>();
+	//m_pVertices = make_shared<VertexBuffer>();
+	//m_pTexCoords = make_shared<VertexBuffer>();
+	///m_pNormals = make_shared<VertexBuffer>();
+	//m_pTangents = make_shared<VertexBuffer>();
+	//m_pIndexBuffer = make_shared<IndexBuffer>();
 }
 
 __forceinline unsigned int MeshResourceExtraData::GetNumMeshes() const

@@ -105,12 +105,12 @@ void DX11API::BindGlobalRenderTargetView()
 
 void DX11API::BindGlobalRenderTargetView(DepthStencilView* pDepthStencilView)
 {
-	g_d3d11DeviceContext->OMSetRenderTargets(1, g_pBackBufferRTV->GetView(), *pDepthStencilView->GetView());
+	g_d3d11DeviceContext->OMSetRenderTargets(1, g_pBackBufferRTV->GetView(), pDepthStencilView->GetView());
 }
 
 void DX11API::BindGlobalDepthStencilView(DepthStencilView * pDepthStencilView)
 {
-	g_d3d11DeviceContext->OMSetRenderTargets(0, nullptr, *pDepthStencilView->GetView());
+	g_d3d11DeviceContext->OMSetRenderTargets(0, nullptr, pDepthStencilView->GetView());
 }
 
 void DX11API::BindGlobalViewport()
@@ -122,12 +122,10 @@ void DX11API::ClearRenderTargetView(const float * color, RenderTargetView * pVie
 {
 	if (!pView)
 	{
-		//ID3D11RenderTargetView* clearMe = g_pBackBufferRTV->GetView();
-		//DX11API::D3D11DeviceContext()->ClearRenderTargetView(*g_pBackBufferRTV->GetView(), color);
+		DX11API::D3D11DeviceContext()->ClearRenderTargetView(*g_pBackBufferRTV->GetView(), color);
 	}
 	else
 	{
-		//ID3D11RenderTargetView* clearMe = pView->GetView();
 		DX11API::D3D11DeviceContext()->ClearRenderTargetView(*pView->GetView(), color);
 	}
 }
@@ -138,11 +136,11 @@ void DX11API::ClearDepthStencilView(bool depth, bool stencil, float depthValue,
 	if (!pView) return;
 
 	if (depth && stencil)
-		DX11API::D3D11DeviceContext()->ClearDepthStencilView(*pView->GetView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depthValue, stencilValue);
+		DX11API::D3D11DeviceContext()->ClearDepthStencilView(pView->GetView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depthValue, stencilValue);
 	else if (depth && !stencil)
-		DX11API::D3D11DeviceContext()->ClearDepthStencilView(*pView->GetView(), D3D11_CLEAR_DEPTH, depthValue, stencilValue);
+		DX11API::D3D11DeviceContext()->ClearDepthStencilView(pView->GetView(), D3D11_CLEAR_DEPTH, depthValue, stencilValue);
 	else if (!depth && stencil)
-		DX11API::D3D11DeviceContext()->ClearDepthStencilView(*pView->GetView(), D3D11_CLEAR_STENCIL, depthValue, stencilValue);
+		DX11API::D3D11DeviceContext()->ClearDepthStencilView(pView->GetView(), D3D11_CLEAR_STENCIL, depthValue, stencilValue);
 }
 
 void DX11API::UnbindShaderResourceViews(unsigned int slot, unsigned int numviews, ShaderType shadertype)
@@ -170,6 +168,7 @@ void DX11API::UnbindShaderResourceViews(unsigned int slot, unsigned int numviews
 	case ST_Compute:
 		for (auto i = 0; i < numviews; i++)
 			DX11API::D3D11DeviceContext()->CSSetShaderResources(slot + i, 1, &pNullSRV);
+		break;
 	default:
 		assert(0);
 		break;

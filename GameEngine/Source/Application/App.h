@@ -41,7 +41,7 @@ private:
 	*/
 	bool m_bQuitting;
 
-	queue<SystemMessage> m_messageQueue;
+	queue<SystemMessage*> m_messageQueue;
 
 public:
 	App();
@@ -55,7 +55,7 @@ public:
 	void InitializeWindow(HINSTANCE hInstance, int showWnd, bool isWindowed);
 	void InitializeGame(unique_ptr<Game> pGame);
 
-	LRESULT MsgProc(const SystemMessage & msg);
+	LRESULT MsgProc(const SystemMessage * msg);
 
 	void Update(double totaltime, double elapsedtime);
 	void Render(double totaltime, double elapsedtime);

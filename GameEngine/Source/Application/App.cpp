@@ -125,9 +125,9 @@ void App::InitializeComponents(unique_ptr<Renderer> pRenderer, unique_ptr<IPhysi
 	m_pCache = pCache;
 }
 
-LRESULT App::MsgProc(const SystemMessage & msg)
+LRESULT App::MsgProc(const SystemMessage * msg)
 {
-	switch (msg.m_type)
+	switch (msg->m_type)
 	{
 		case SMT_KeyDown:
 		case SMT_KeyUp:
@@ -190,25 +190,25 @@ int App::Run()
 				Close();
 				return msg.wParam;
 			case WM_KEYDOWN:
-				m_messageQueue.push(KeyDownMessage{ static_cast<char>(msg.wParam) });
+				m_messageQueue.push(new KeyDownMessage{ static_cast<char>(msg.wParam) });
 				break;
 			case WM_KEYUP:
-				m_messageQueue.push(KeyUpMessage{ static_cast<char>(msg.wParam) });
+				m_messageQueue.push(new KeyUpMessage{ static_cast<char>(msg.wParam) });
 				break;
 			case WM_RBUTTONDOWN:
-				m_messageQueue.push(RMouseDownMessage{ static_cast<float>(LOWORD(msg.lParam)), static_cast<float>(HIWORD(msg.lParam)) });
+				m_messageQueue.push(new RMouseDownMessage{ static_cast<float>(LOWORD(msg.lParam)), static_cast<float>(HIWORD(msg.lParam)) });
 				break;
 			case WM_RBUTTONUP:
-				m_messageQueue.push(RMouseUpMessage{ static_cast<float>(LOWORD(msg.lParam)), static_cast<float>(HIWORD(msg.lParam)) });
+				m_messageQueue.push(new RMouseUpMessage{ static_cast<float>(LOWORD(msg.lParam)), static_cast<float>(HIWORD(msg.lParam)) });
 				break;
 			case WM_LBUTTONDOWN:
-				m_messageQueue.push(LMouseDownMessage{ static_cast<float>(LOWORD(msg.lParam)), static_cast<float>(HIWORD(msg.lParam)) });
+				m_messageQueue.push(new LMouseDownMessage{ static_cast<float>(LOWORD(msg.lParam)), static_cast<float>(HIWORD(msg.lParam)) });
 				break;
 			case WM_LBUTTONUP:
-				m_messageQueue.push(LMouseUpMessage{ static_cast<float>(LOWORD(msg.lParam)), static_cast<float>(HIWORD(msg.lParam)) });
+				m_messageQueue.push(new LMouseUpMessage{ static_cast<float>(LOWORD(msg.lParam)), static_cast<float>(HIWORD(msg.lParam)) });
 				break;
 			case WM_MOUSEMOVE:
-				m_messageQueue.push(MouseMoveMessage{ static_cast<float>(GET_X_LPARAM(msg.lParam)), static_cast<float>(GET_Y_LPARAM(msg.lParam)) });
+				m_messageQueue.push(new MouseMoveMessage{ static_cast<float>(GET_X_LPARAM(msg.lParam)), static_cast<float>(GET_Y_LPARAM(msg.lParam)) });
 				break;
 			};
 
@@ -217,10 +217,11 @@ int App::Run()
 
 			while (m_messageQueue.size())
 			{
-				SystemMessage msg = m_messageQueue.front();
+				const SystemMessage * msg = m_messageQueue.front();
 				MsgProc(msg);
 
 				m_messageQueue.pop();
+				delete msg;
 			};
 		}
 		else

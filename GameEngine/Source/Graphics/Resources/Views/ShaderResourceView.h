@@ -65,13 +65,13 @@ private:
 
 public:
 
-	__forceinline explicit ShaderResourceView(int numViews);
+	__forceinline explicit ShaderResourceView(int numViews = 1);
 
 	__forceinline ~ShaderResourceView();
 
 
 	/*** Getters ***/
-	__forceinline ID3D11ShaderResourceView** GetView(int index) const;
+	__forceinline ID3D11ShaderResourceView** GetView(int index = 0) const;
 
 	/* ==
 	Bind Unordered Access Views to the pipeline
@@ -81,7 +81,7 @@ public:
 };
 
 __forceinline ShaderResourceView::ShaderResourceView(int numViews)
-: m_ppViews{ nullptr }, m_numViews{ numViews }
+	: m_ppViews{ nullptr }, m_numViews{ numViews }
 {
 	m_ppViews = new ID3D11ShaderResourceView*[numViews];
 }

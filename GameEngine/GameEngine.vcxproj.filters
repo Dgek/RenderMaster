@@ -388,6 +388,9 @@
     <ClInclude Include="Source\ResourceManager\Loaders\ShaderLoader.h">
       <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Renderer\Meshes\SubMesh.h">
+      <Filter>Renderer\Meshes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">
