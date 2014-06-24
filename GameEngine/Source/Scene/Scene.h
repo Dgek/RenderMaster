@@ -77,7 +77,7 @@ __forceinline const Mat4x4 & Scene::GetTransform() const
 
 __forceinline void Scene::PopTransform()
 {
-	m_transforms.Get();
+	m_transforms.Pop();
 }
 
 __forceinline double Scene::GetFixedTimeStep() const 

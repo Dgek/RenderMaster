@@ -258,6 +258,13 @@ int App::Run()
 
 void App::Close()
 {
+	while (!m_messageQueue.empty())
+	{
+		SystemMessage * pMessage = m_messageQueue.back();
+		m_messageQueue.pop();
+
+		delete pMessage;
+	}
 	DestroyWindow(m_hWnd);
 }
 

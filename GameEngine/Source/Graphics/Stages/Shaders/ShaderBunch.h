@@ -29,10 +29,21 @@ public:
 	//Shaders
 	__forceinline void SetVertexShader(const string & shaderName, INPUT_LAYOUT* layout,
 		unsigned int num, unsigned int topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	__forceinline void SetHullShader(const string & shaderName);
 	__forceinline void SetDomainShader(const string & shaderName);
 	__forceinline void SetGeometryShader(const string & shaderName);
 	__forceinline void SetPixelShader(const string & shaderName);
+
+	__forceinline void SetVertexShader(shared_ptr<VertexShader> pShader);
+	//__forceinline void SetHullShader(shared_ptr<HullShader> pShader);
+	//__forceinline void SetDomainShader(shared_ptr<DomainShader> pShader);
+	__forceinline void SetGeometryShader(shared_ptr<GeometryShader> pShader);
+	__forceinline void SetPixelShader(shared_ptr<PixelShader> pShader);
+
+	__forceinline shared_ptr<VertexShader> GetVertexShader() const;
+	__forceinline shared_ptr<GeometryShader> GetGeometryShader() const;
+	__forceinline shared_ptr<PixelShader> GetPixelShader() const;
 
 	__forceinline void Bind();
 };
@@ -95,4 +106,35 @@ __forceinline void ShaderBunch::Bind()
 		m_pGeometryShader->Bind();
 
 	m_pPixelShader->Bind();
+}
+
+__forceinline void ShaderBunch::SetVertexShader(shared_ptr<VertexShader> pShader)
+{
+	m_pVertexShader = pShader;
+}
+
+__forceinline void ShaderBunch::SetGeometryShader(shared_ptr<GeometryShader> pShader)
+{
+	m_pGeometryShader = pShader;
+	m_bGeometryShader = true;
+}
+
+__forceinline void ShaderBunch::SetPixelShader(shared_ptr<PixelShader> pShader)
+{
+	m_pPixelShader = pShader;
+}
+
+__forceinline shared_ptr<VertexShader> ShaderBunch::GetVertexShader() const
+{
+	return m_pVertexShader;
+}
+
+__forceinline shared_ptr<GeometryShader> ShaderBunch::GetGeometryShader() const
+{
+	return m_pGeometryShader;
+}
+
+__forceinline shared_ptr<PixelShader> ShaderBunch::GetPixelShader() const
+{
+	return m_pPixelShader;
 }

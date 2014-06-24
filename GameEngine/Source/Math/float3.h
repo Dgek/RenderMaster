@@ -1,5 +1,6 @@
 #pragma once
 
+class float2;
 class float3 final
 {
 public:

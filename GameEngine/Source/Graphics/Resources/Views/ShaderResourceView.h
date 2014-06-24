@@ -5,7 +5,7 @@
 struct ShaderResourceViewParams : public D3D11_SHADER_RESOURCE_VIEW_DESC
 {
 public:
-	__forceinline ShaderResourceViewParams() = default;
+	__forceinline ShaderResourceViewParams();
 
 	__forceinline void InitForTexture2D(DXGI_FORMAT format, int miplevels, int mostdetailedmip, bool multiSampled);
 
@@ -15,6 +15,11 @@ public:
 	
 	__forceinline void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int elementWidth);
 };
+
+__forceinline ShaderResourceViewParams::ShaderResourceViewParams()
+{
+	ZeroMemory(this, sizeof(ShaderResourceViewParams));
+}
 
 __forceinline void ShaderResourceViewParams::InitForTexture2D(DXGI_FORMAT format, int miplevels, int mostdetailedmip, bool multiSampled)
 {

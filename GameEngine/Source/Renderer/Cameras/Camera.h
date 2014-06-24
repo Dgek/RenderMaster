@@ -193,11 +193,11 @@ __forceinline const Mat4x4 & Camera::GetView() const
 
 __forceinline const Mat4x4 & Camera::GetViewProjection()
 {
-	if (!m_bVPRecalc)
-	{
+	//if (!m_bVPRecalc)
+	//{
 		m_viewProj = m_view * m_projection;
-		m_bVPRecalc = true;
-	}
+	//	m_bVPRecalc = true;
+	//}
 
 	return m_viewProj;
 }
@@ -214,11 +214,11 @@ __forceinline const Mat4x4 & Camera::GetPrevProjection() const
 
 __forceinline const Mat4x4 & Camera::GetOrthoProjection()
 {
-	if (!m_bOrthoRecalc)
-	{
+	//if (!m_bOrthoRecalc)
+	//{
 		m_orthoProj = Mat4x4::CreateOrthoProjectionLH(SCREEN_WIDTH, SCREEN_HEIGHT, m_frustum.GetNearZ(), m_frustum.GetFarZ());
-		m_bOrthoRecalc = true;
-	}
+	//	m_bOrthoRecalc = true;
+	//}
 
 	return m_orthoProj;
 }

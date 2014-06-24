@@ -225,6 +225,8 @@ __forceinline DepthStencilState* Renderer::DepthEnableStencilDisableStandard()
 
 	DepthStencilParams depthStencilParams;
 	depthStencilParams.Init(true, D3D11_COMPARISON_LESS, false, 0, 0);
+
+	m_pDepthEnableStencilDisableStandard = make_unique<DepthStencilState>();
 	m_pDepthEnableStencilDisableStandard->Create(&depthStencilParams);
 
 	return m_pDepthEnableStencilDisableStandard.get();
@@ -237,6 +239,8 @@ __forceinline DepthStencilState* Renderer::DepthDisableStencilDisable()
 
 	DepthStencilParams depthStencilParams;
 	depthStencilParams.Init(false, D3D11_COMPARISON_LESS, false, 0, 0);
+
+	m_pDepthDisableStencilDisable = make_unique<DepthStencilState>();
 	m_pDepthDisableStencilDisable->Create(&depthStencilParams);
 
 	return m_pDepthDisableStencilDisable.get();

@@ -39,6 +39,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{71e2b049-c098-4b31-8a8a-1e17668cc51f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\GlobalIllumination">
+      <UniqueIdentifier>{ddb804a6-6fef-4aa6-a80a-3f27c404c69d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Source\Shaders\prepass_ps.hlsl">
@@ -56,10 +59,58 @@
     <FxCompile Include="Source\Shaders\tiled_shading_vs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\VoxelGridClearCS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\VoxelGridGS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\VoxelGridPS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\VoxelGridVS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\dirLightGridPS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\pointLightGridGS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\pointLightGridPS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\pointLightGridVS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\PropagateCS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\PropagateOcclusionCS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\VoxelGridRenderingPS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\VoxelGridRenderingVS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\applyGlobalIllumGS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\applyGlobalIllumPS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\Shaders\GlobalIllumination\applyGlobalIllumVS.hlsl">
+      <Filter>Shaders\GlobalIllumination</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\ShadingParams.hlsli">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Source\Shaders\GlobalIllumination\GlobalIllumination.hlsli">
+      <Filter>Shaders\GlobalIllumination</Filter>
     </None>
   </ItemGroup>
 </Project>

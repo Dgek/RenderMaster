@@ -50,10 +50,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_pCache->RegisterLoader(make_shared<MeshLoader>());
 	g_pCache->RegisterLoader(make_shared<TextureLoader>());
 	g_pCache->RegisterLoader(make_shared<VertexShaderLoader>());
+	g_pCache->RegisterLoader(make_shared<GeometryShaderLoader>());
 	g_pCache->RegisterLoader(make_shared<PixelShaderLoader>());
 	g_pCache->RegisterLoader(make_shared<ComputeShaderLoader>());
 
 	/* === Initialize main engine components === */
+	TiledRenderer::SetGlobalIllumination(true);
 	Global::g_pEngine->InitializeComponents(make_unique<TiledRenderer>(), make_unique<NullPhysics>(),
 		make_unique<Messenger>(), g_pCache);
 

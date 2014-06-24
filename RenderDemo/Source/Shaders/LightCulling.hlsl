@@ -44,7 +44,7 @@ cbuffer CullingData : register (cb1)
 
 
 #define pixels_in_tile 16
-#define LIGHTS_MAX 512
+#define LIGHTS_MAX 256
 
 //uint globalLightIdx[LIGHTS_MAX*100];
 //uint ptLowerBound[3600];
@@ -98,17 +98,22 @@ bool overlaps(in float4 frustum[4], in LightData data, in float minGroupDepth, i
 {
 	//float3 lightVS = data.pos - cameraPos;
 	//float dist = dot(lightVS, float3(frustum[0], frustum[1], frustum[2])) - frustum[3];
-
+	//return true;
 	//return abs(dist) <= data.range;
-	bool bOverlaps = false;
+	//bool bOverlaps = false;
 	//float3 lightVS = data.pos - cameraPos;
 	float4 lightVS = mul(float4(data.pos, 1.0f), cameraView);
 
-	//if (dot(lightVS.xyz, cameraDir) < 0) return false;
-	float distance = length(lightVS);
+		//if (dot(lightVS.xyz, cameraDir) < 0) return false;
+		float distance = length(lightVS);
+
 	//return false;
 	//float distance = lightVS.z;
-	if ((distance - data.range) > maxGroupDepth || (distance + data.range) < minGroupDepth)
+	//if ((distance - data.range) > maxGroupDepth || (distance + data.range) < minGroupDepth)
+	//	return false;
+	//if (abs(distance - minGroupDepth) > data.range && (distance < minGroupDepth))
+	//	return false;
+	if (abs(distance - maxGroupDepth) > data.range && (distance > maxGroupDepth))
 		return false;
 	//return true;
 	for (int i = 0; i < 4; i++)
@@ -160,8 +165,8 @@ void light_culling_cs(uint3 groupId	: SV_GroupID,
 	}
 	//minDepth -= 8.0f; if (minDepth < 0) minDepth = 0.5f;
 	//maxDepth += 8.0f;
-	//float minDepth = depthTexture.Load(dispatchThreadId.xy, 0).r;
-	//float maxDepth = depthTexture.Load(dispatchThreadId.xy, 0).r;
+	//float minDepth = depthTexture.Load(dispatchThreadId.xy, 0).w;
+	//float maxDepth = depthTexture.Load(dispatchThreadId.xy, 0).w;
 	//uint depthInt = asuint(depth);
 	uint minDepthIntThread = asuint(minDepth);
 	uint maxDepthIntThread = asuint(maxDepth);

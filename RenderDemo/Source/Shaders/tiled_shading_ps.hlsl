@@ -15,16 +15,13 @@ StructuredBuffer<int> nLights : register(t4);
 
 Texture2D<float4> diffuseMap	:	register(t5);
 Texture2D<float4> specularMap	:	register(t6);
-Texture2D<float4> glossMap		:	register(t7);
-Texture2D<float4> normalMap		:	register(t8);
-Texture2D<float4> heightMap		:	register(t9);
+//Texture2D<float4> glossMap		:	register(t7);
+Texture2D<float4> normalMap		:	register(t7);
+//Texture2D<float4> heightMap		:	register(t9);
 
 Texture2D<float> shadowMap : register(t10);
 
 SamplerState	anisotropicSampler : register(s0);
-
-
-//uint nLights = 3;
 
 cbuffer CameraBuffer	:	register(b0)
 {
@@ -118,10 +115,14 @@ float3 PhysicallyBasedLightning(in float3 position,
 
 	//get inverse light direction
 	//float3 l = light.pos - position;
-	float3 l = float3(-0.2403, 0.926800013, -0.28859999);
+	float3 l;
+	if (light.color.w == 3)
+		l = float3(-0.2403, 0.926800013, -0.28859999);
+	else
+		l = light.pos - position;
 
-		//distance to the light source
-		float distance = length(l);
+	//distance to the light source
+	float distance = length(l);
 
 	//normalize
 	l /= distance;
@@ -133,7 +134,7 @@ float3 PhysicallyBasedLightning(in float3 position,
 	//half vector
 	float3 h = normalize(l + v);
 
-		float n_dot_l = saturate(dot(normal, l));
+	float n_dot_l = saturate(dot(normal, l));
 	float n_dot_v = saturate(dot(normal, v));
 	float h_dot_l = saturate(dot(h, l));
 	float n_dot_h = saturate(dot(normal, h));
@@ -141,22 +142,20 @@ float3 PhysicallyBasedLightning(in float3 position,
 	//*****************************************
 	//Light attenuation
 	//*****************************************
-	float intencity = distance / light.range.x;
+	float intencity = distance / light.range;
 	//float atten = max(0.0f, 1.0f - (distance / lightRange.x));
 	float atten = pow(saturate(1.0f - pow(intencity, 4.0f)), 2.0f) / (pow(intencity, 2.0f) + 1.0f);
 	float3 attenColor = light.color.xyz * atten;
 
-		//return float3(intencity, intencity, intencity);
+	//*****************************************
+	//Specular Term
+	//
+	//specular = (Pi / 4.0f) * specular_term * cosine_term * fresnel_term * visibility_term * lightColor
+	//*****************************************
 
-		//*****************************************
-		//Specular Term
-		//
-		//specular = (Pi / 4.0f) * specular_term * cosine_term * fresnel_term * visibility_term * lightColor
-		//*****************************************
-
-		//calculate specular term
-		//float specular_term = BlinnPhongSpecular(specPower, n_dot_h);
-		float specular_term = TrowbridgeReitzSpecular(smoothness, n_dot_h);
+	//calculate specular term
+	//float specular_term = BlinnPhongSpecular(specPower, n_dot_h);
+	float specular_term = TrowbridgeReitzSpecular(smoothness, n_dot_h);
 
 	//cosine term
 	float cosine_term = n_dot_l;
@@ -166,70 +165,57 @@ float3 PhysicallyBasedLightning(in float3 position,
 	float exp = pow(base, 5.0f);
 	float3 fresnel_term = specular + (1.0f - specular) * exp;
 
-		//visibility term (Smith shadowing function)
-		//float visibility_term = 1.0f; 
-		float visibility_term = ShlickVisibility(specPower, n_dot_l, n_dot_v);
+	//visibility term (Smith shadowing function)
+	float visibility_term = ShlickVisibility(specPower, n_dot_l, n_dot_v);
 	//float visibility_term = 1.0f / (h_dot_l * h_dot_l);
 
 	//!!! - finally calculate specular reflectance
 	float3 finalSpecular = specular_term * cosine_term * fresnel_term * visibility_term * attenColor;
 
-		//*****************************************
-		//Diffuse Term - Energy Conserving!!!!!
-		//*****************************************
-		float3 finalDiffuse = n_dot_l * (1.0f - fresnel_term) * attenColor * diffuse;
-		//return float3(attenColor, attenColor, attenColor);
-		//return attenColor;
-		return (finalDiffuse + finalSpecular);
+	//*****************************************
+	//Diffuse Term - Energy Conserving!!!!!
+	//*****************************************
+	float3 finalDiffuse = n_dot_l * (1.0f - fresnel_term) * attenColor * diffuse;
+
+	return (finalDiffuse + finalSpecular);
 	//return finalDiffuse;
 	//return finalSpecular;
 }
 
 float4 shading_ps(ps_input input) : SV_TARGET
 {
-	float4 lightPosition = float4(0, 1500, 0, 1.0f);
+	//float4 lightPosition = float4(0, 1500, 0, 1.0f);
 
 	//get all material data for fragment
 	int3 sampleCoords = int3(input.pos.xy, 0);
 
 	float3 position = input.posWS.rgb;
-	//float3 normal	=	normalMap.Load(input.texCoords).xyz;
 
 	float3 normalWS = normalize(input.normal);
 	float3 tangentWS = normalize(input.tangent);
 	float3 binormalWS = normalize(input.binormal);
 
-	float3x3 TangentToWorldSpace = float3x3((float3)tangentWS,
-	(float3)binormalWS,
-	(float3)normalWS);
+	float3x3 TangentToWorldSpace = float3x3(
+		(float3)tangentWS,
+		(float3)binormalWS,
+		(float3)normalWS);
 
 	float3 normalTS = normalMap.Sample(anisotropicSampler, input.texCoords).xyz;
-		float3 normal = normalize(normalTS * 2.0f - 1.0f);
-		normal = mul(normal, TangentToWorldSpace);
+	float3 normal = normalize(normalTS * 2.0f - 1.0f);
+	normal = mul(normal, TangentToWorldSpace);
 	normal = normalize(normal);
 
-	//if (normalTS.x == 0 && normalTS.y == 0 && normalTS.z == 1.0f)
-	//	return float4(1.0f, 1.0f, 1.0f, 1.0f);
-	//else
-	//	return float4(0.0f, 0.0f, 0.0f, 1.0f);
-	//normal = normalWS;
-
-	//return float4(normal, 1.0f);
 
 	//depth		=	depthTexture.Load(sampleCoords).x;
 	//float3 diffuse	=	diffuseMap.Load(input.texCoords).xyz;
 	float3 diffuse = diffuseMap.Sample(anisotropicSampler, input.texCoords).xyz;
-		//return float4(diffuse, 1.0f);
-		//float3 diffuse	= float3(1.0f, 1.0f, 1.0f);
 
-		//float4 specular	=	specularMap.Load(input.texCoords);
-		//float4 specular	=	specularMap.Sample(anisotropicSampler, input.texCoords);
-		float4 specular = float4(0.5f, 0.5f, 0.5f, 1.0f);
+	float3 specular	=	specularMap.Sample(anisotropicSampler, input.texCoords).xyz;
 
-		//convert smoothness to specular power (2-2048)
-		//float smoothness = glossMap.Load(input.texCoords).x;
-		float smoothness = glossMap.Sample(anisotropicSampler, input.texCoords).x;
-	//float smoothness	= 0.8f;
+	//convert smoothness to specular power (2-2048)
+	//float smoothness = glossMap.Load(input.texCoords).x;
+	//float smoothness = glossMap.Sample(anisotropicSampler, input.texCoords).x;
+	float smoothness = 0.25f;
 	float specPower = pow(2, (10 * smoothness + 1));
 
 	uint tileIdx = GetTileIdx(input.pos.xy);
@@ -240,22 +226,20 @@ float4 shading_ps(ps_input input) : SV_TARGET
 	//if (numtiles < 80 && numtiles > 50) return float4(1.0f, 0.0f, 0.0f, 1.0f);
 	//return float4((float)numtiles / 5.0, (float)numtiles / 5.0, (float)numtiles / 5.0, 1.0f);
 	//if (numtiles == 2) return float4(1.0f, 0.0f, 0.0f, 1.0f);
-	//return float4((float)numtiles/3.0, (float)numtiles/3.0, (float)numtiles/3.0, 1.0f);
+	return float4((float)numtiles/2.0, (float)numtiles/2.0, (float)numtiles/2.0, 1.0f);
 	//else return float4(0.0f, 1.0f, 0.0f, 1.0f);
 	//if (tileIdx == 3599) return float4(1.0f, 0.0f, 0.0f, 1.0f);
 	//else return float4(0.0f, 1.0f, 0.0f, 1.0f);
 	//float numtiles = 1;
-	//return float4(numtiles / 256.0f, numtiles / 256.0f, numtiles / 256.0f, 1.0f);
-	return float4(numtiles, numtiles, numtiles, 1.0f);
+	//return float4(numtiles / 101.0f, numtiles / 101.0f, numtiles / 101.0f, 1.0f);
+	//return float4(numtiles, numtiles, numtiles, 1.0f);
 
 	//compute shadowing by using shadow map from direct illumination
-	float3 vecToLight = position - lightPosition.xyz;
-		float distanceToLight = length(vecToLight);
-	float shadow = ComputeShadow(float4(position, 1.0f), distanceToLight);
-
+	//float3 vecToLight = position - lightPosition.xyz;
+	//float distanceToLight = length(vecToLight);
+	//float shadow = ComputeShadow(float4(position, 1.0f), distanceToLight);
+	//return float4(diffuse, 1.0f);
 	float3 finalColor = float3(0.0f, 0.0f, 0.0f);
-		//for (uint lightListIdx = startIdx; lightListIdx <= endIdx; lightListIdx++)
-		return float4(diffuse, 1.0f);
 	for (uint lightListIdx = startIdx; lightListIdx < endIdx; lightListIdx++)
 	{
 		int lightIdx = LightIndexBuffer[lightListIdx];

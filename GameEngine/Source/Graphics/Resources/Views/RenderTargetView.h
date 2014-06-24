@@ -5,12 +5,17 @@
 struct RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
 {
 public:
-	__forceinline RenderTargetViewParams() =default;
+	__forceinline RenderTargetViewParams();
 
 	__forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
 
 	__forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
 };
+
+__forceinline RenderTargetViewParams::RenderTargetViewParams()
+{
+	ZeroMemory(this, sizeof(RenderTargetViewParams));
+}
 
 __forceinline void RenderTargetViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
 {

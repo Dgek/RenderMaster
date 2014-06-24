@@ -15,19 +15,17 @@ struct ps_output
 	float4 albedoGloss;
 };
 
-Texture2D normalMap : register(t0);
-Texture2D diffuseMap : register(t1);
+Texture2D diffuseMap : register(t0);
+texture2D specularMap : register(t1);
+Texture2D normalMap : register(t2);
+//Texture2D normalMap : register(t0);
+//Texture2D diffuseMap : register(t1);
 
 SamplerState normalSampler : register(s0);
 
 ps_output prepass_ps(ps_input input) : SV_Target
 {
 	ps_output output;
-
-	//output.depth = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	//output.normal = float4(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//return output;
 
 	float3x3 tangentMatrix;
 	tangentMatrix[0] = normalize(input.tangent);
@@ -53,8 +51,9 @@ ps_output prepass_ps(ps_input input) : SV_Target
 	//return float4(depth, depth, depth, 1.0f);
 	output.normalDepth = float4(bump, depth);
 
-	float4 diffuse = diffuseMap.Sample(normalSampler, input.texCoords);
-	output.albedoGloss = diffuse;
+	float3 diffuse = diffuseMap.Sample(normalSampler, input.texCoords).xyz;
+	float gloss = specularMap.Sample(normalSampler, input.texCoords).x;
+	output.albedoGloss = float4(diffuse, gloss);
 
 	return output;
 }

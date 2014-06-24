@@ -41,7 +41,10 @@ class TiledRenderer : public Renderer
 private:
 
 	static unsigned int m_iNumLights;
+	static unsigned int m_iNumTiles;
 	static unsigned int m_iLightsPerTile;
+	static bool m_bGlobalIllumination;
+	static unsigned int m_voxelGridSize;
 
 protected:
 
@@ -107,6 +110,10 @@ protected:
 
 	////////////////////////////////////
 	//Voxelized global illumination
+
+	//Voxelization
+	unique_ptr<ShaderBunch> m_voxelizationShaders;
+	unique_ptr<INPUT_LAYOUT[]> m_pVoxelizationLayout;
 	unique_ptr<StructuredBuffer> m_voxelGrid;
 	unique_ptr<ShaderResourceView> m_voxelGridSRV;
 	unique_ptr<UnorderedAccessView> m_voxelGridUAV;
@@ -114,7 +121,8 @@ protected:
 	unique_ptr<Texture2D> m_voxelTexture;
 	unique_ptr<RenderTargetView> m_voxelTextureRTV;
 
-	INPUT_LAYOUT* m_pLightGridLayout;
+	//Injection
+	unique_ptr<INPUT_LAYOUT[]> m_pLightGridLayout;
 	unique_ptr<VertexBuffer> m_pVoxelVB;
 	unique_ptr<Texture2D> m_redVoxelSH;
 	unique_ptr<Texture2D> m_greenVoxelSH;
@@ -126,25 +134,25 @@ protected:
 	unique_ptr<ShaderBunch> m_dirLightGridShaders;
 	Viewport m_gridViewport;
 
+	//Propagation
 	unique_ptr<Texture2D> m_redVoxelPropagateSH;
 	unique_ptr<Texture2D> m_greenVoxelPropagateSH;
 	unique_ptr<Texture2D> m_blueVoxelPropagateSH;
 	unique_ptr<UnorderedAccessView> m_voxelPropagateSHUAVs;
 	unique_ptr<ShaderResourceView> m_voxelPropagateSHSRVs;
-	unique_ptr<ComputeShader> m_propagateCS;
-	unique_ptr<ComputeShader> m_pPropagateOcclusionCS;
+	shared_ptr<ComputeShader> m_propagateCS;
+	shared_ptr<ComputeShader> m_pPropagateOcclusionCS;
 
+	//Application
 	unique_ptr<ShaderBunch> m_pGlobalIllumShaders;
 	unique_ptr<VertexBuffer> m_pGlobalIllumVB;
+	unique_ptr<BlendState> m_pGlobalIllumBlendState;
 
-	INPUT_LAYOUT*	m_pVoxelizationLayout;
-	unique_ptr<ShaderBunch> m_voxelizationShaders;
+	//Debug and clear
 	unique_ptr<ShaderBunch> m_voxelRenderingShaders;
 	Viewport m_voxelViewport;
 
-	unique_ptr<BlendState> m_pGlobalIllumBlendState;
-
-	unique_ptr<ComputeShader> m_pClearGridCS;
+	shared_ptr<ComputeShader> m_pClearGridCS;
 
 	/*** Tiled Shading Zone ***/
 	void PrepareForZPrepass();
@@ -183,4 +191,11 @@ public:
 
 	void PrepareForShadingPass();
 	void VFinishPass();
+
+	__forceinline static void SetGlobalIllumination(bool flag);
 };
+
+__forceinline void TiledRenderer::SetGlobalIllumination(bool flag)
+{
+	m_bGlobalIllumination = flag;
+}

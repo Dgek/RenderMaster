@@ -5,7 +5,7 @@
 struct UnorderedAccessViewParams : public D3D11_UNORDERED_ACCESS_VIEW_DESC
 {
 public:
-	__forceinline UnorderedAccessViewParams() = default;
+	__forceinline UnorderedAccessViewParams();
 
 	__forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice);
 
@@ -13,6 +13,11 @@ public:
 
 	__forceinline void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int numElements, D3D11_BUFFER_UAV_FLAG flag);
 };
+
+__forceinline UnorderedAccessViewParams::UnorderedAccessViewParams()
+{
+	ZeroMemory(this, sizeof(UnorderedAccessViewParams));
+}
 
 __forceinline void UnorderedAccessViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice)
 {

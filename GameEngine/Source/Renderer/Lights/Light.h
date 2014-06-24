@@ -52,6 +52,7 @@ __forceinline const Vec & Light::GetDir() const
 __forceinline const float Light::GetRange() const
 {
 	return m_range;
+	//return 100.0f;
 }
 
 __forceinline Mat4x4 Light::GetShadowViewProj() const
