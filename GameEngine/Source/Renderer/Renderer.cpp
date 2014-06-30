@@ -14,6 +14,8 @@ unsigned int Renderer::m_numSamples = 8;
 unsigned int Renderer::m_sampleQuality = 1;
 bool Renderer::m_bMSAA = true;
 
+Renderer::GIState Renderer::m_giState = Renderer::GI_Combined;
+
 Renderer::Renderer()
 {
 	m_pDepthTexture = make_unique<Texture2D>();

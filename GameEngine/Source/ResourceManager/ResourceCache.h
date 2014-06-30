@@ -43,22 +43,30 @@ public:
 	//Global resource cache methods
 	static shared_ptr<ResHandle> SafeGetHandle(Resource *pResource);
 
+	__forceinline ResourceCache();
 	ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
 	__forceinline ~ResourceCache();
 
-	__forceinline bool Init();
+	__forceinline bool Init(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
 	void RegisterLoader(shared_ptr<IResourceLoader> pLoader);
 
 	shared_ptr<ResHandle> GetHandle(Resource *pResource);
 	int Preload(const string & pattern, void(*progressCallback)(int, bool &));
 	void Flush();
 };
+__forceinline ResourceCache::ResourceCache()
+{}
 
 __forceinline ResourceCache::~ResourceCache()
 {}
 
-__forceinline bool ResourceCache::Init()
+__forceinline bool ResourceCache::Init(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile)
 {
+	m_uCacheSize = sizeInMb * 1024 * 1024;
+	m_uAllocated = 0;
+
+	m_pFile = move(pFile);
+
 	bool bResult = false;
 	if (m_pFile->VOpen())
 	{
@@ -67,4 +75,9 @@ __forceinline bool ResourceCache::Init()
 	}
 
 	return bResult;
+}
+
+namespace Global
+{
+	extern shared_ptr<ResourceCache> g_pCache;
 }

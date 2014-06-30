@@ -14,7 +14,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\RenderDemo.h" />
     <ClInclude Include="Source\Game\RenderingDemo.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -32,9 +31,6 @@
     </Filter>
     <Filter Include="Game\States">
       <UniqueIdentifier>{84ee5d38-a0d1-4bf5-b0fe-6a9278b1238d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{f91b4b8e-4d28-46de-bec7-892eb36ae740}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{71e2b049-c098-4b31-8a8a-1e17668cc51f}</UniqueIdentifier>

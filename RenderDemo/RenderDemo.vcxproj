@@ -71,12 +71,15 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Users\Dgek\Desktop\Dgek\GameEngine\GameEngine\GameEngine\Source\;D:\Users\Dgek\Desktop\Dgek\GameEngine\GameEngine\GameEngine\Source\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>RenderDemo_pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>GameEngine.lib;d3d11.lib;d3dx11d.lib;d3dcompiler.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Users\Dgek\Desktop\Dgek\GameEngine\GameEngine\Release;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;D:\Users\Dgek\Desktop\Dgek\ThirdParty\Assimp\lib\assimp_release-dll_win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -93,7 +96,6 @@
     <ClInclude Include="Source\Game\DemoStateFactory.h" />
     <ClInclude Include="Source\Game\RenderingDemo.h" />
     <ClInclude Include="Source\Game\States\TestState.h" />
-    <ClInclude Include="Source\RenderDemo.h" />
     <ClInclude Include="Source\RenderDemo_pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -143,7 +145,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Directory)Resources\shaders\%(Filename).gso</ObjectFileOutput>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">point_light_gridGS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Directory)Resources\shaders\%(Filename).gso</ObjectFileOutput>
     </FxCompile>

@@ -9,6 +9,8 @@ struct Math
 	static __forceinline float Sqrt(float value) { return sqrtf(value); }
 	static __forceinline float Pow(float a, float b) { return powf(a, b); }
 
+	static __forceinline float random(float min, float max, float seed);
+
 	static __forceinline float InvSqrt(float f)
 	{
 		return 1.f / sqrtf(f);
@@ -50,9 +52,17 @@ struct Math
 	}
 };
 
-//specilize for floating-point
+//specialize for floating-point
 template<>
 __forceinline float Math::Abs(const float a)
 {
 	return fabsf(a);
+}
+
+__forceinline float Math::random(float min, float max, float seed)
+{
+	srand(seed);
+
+	int diff = max - min;
+	return (rand() % diff) + min;
 }

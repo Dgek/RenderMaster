@@ -5,7 +5,7 @@
 #include "Resource.h"
 #include "../Help/Strings/Strings.h"
 
-static shared_ptr<ResourceCache> g_pCache;
+shared_ptr<ResourceCache> Global::g_pCache = make_shared<ResourceCache>();
 
 ResourceCache::ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile)
 {
@@ -13,12 +13,12 @@ ResourceCache::ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pF
 	m_uAllocated = 0;
 
 	m_pFile = move(pFile);
-	g_pCache = shared_ptr<ResourceCache>(this);
+	Global::g_pCache = shared_ptr<ResourceCache>(this);
 }
 
 ResourceCache * const ResourceCache::Get()
 {
-	return g_pCache.get();
+	return Global::g_pCache.get();
 }
 
 std::shared_ptr<ResHandle> ResourceCache::SafeGetHandle(Resource *pResource)

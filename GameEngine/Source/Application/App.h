@@ -12,7 +12,7 @@ class Renderer;
 class ResourceCache;
 class App
 {
-public:
+private:
 	unique_ptr<Game> m_pGame;
 	unique_ptr<Timer> m_pTimer;
 
@@ -74,6 +74,7 @@ public:
 	__forceinline double GetGameTimeInSeconds() const;
 
 	__forceinline IPhysics* GetPhysics() const;
+	__forceinline Renderer* GetRenderer() const;
 
 	static LRESULT CALLBACK WndProc(HWND hWnd, unsigned int msg, WPARAM wParam, LPARAM lParam);
 };
@@ -91,6 +92,11 @@ __forceinline double App::GetGameTimeInSeconds() const
 __forceinline IPhysics* App::GetPhysics() const
 {
 	return m_pPhysics.get();
+}
+
+__forceinline Renderer* App::GetRenderer() const
+{
+	return m_pRenderer.get();
 }
 
 namespace Global

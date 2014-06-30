@@ -45,6 +45,14 @@ protected:
 	static unsigned int m_sampleQuality;
 	static bool m_bMSAA;
 
+	enum GIState
+	{
+		GI_OnlyDirect,
+		GI_OnlyGlobal,
+		GI_Combined
+	};
+	static GIState m_giState;
+
 private:
 	/** ================================
 	Sampler States
@@ -117,6 +125,10 @@ public:
 
 	__forceinline DepthStencilState* DepthEnableStencilDisableStandard();
 	__forceinline DepthStencilState* DepthDisableStencilDisable();
+
+	__forceinline static void SetOnlyDirect();
+	__forceinline static void SetOnlyGlobal();
+	__forceinline static void SetCombined();
 };
 
 __forceinline RasterizerState* Renderer::AllDisabledBackCullingRasterizer()
@@ -127,7 +139,7 @@ __forceinline RasterizerState* Renderer::AllDisabledBackCullingRasterizer()
 	//not created yet
 	m_pAllDisabledBackCullingRasterizer = make_unique<RasterizerState>();
 	RasterizerParams params;
-	params.Init(false, false, false, true, 0.0f, 0.0f, 0.0f, false, false, true, true);
+	params.Init(false, false, true, false, 0.0f, 0.0f, 0.0f, false, false, true, true);
 	m_pAllDisabledBackCullingRasterizer->Create(&params);
 
 	return m_pAllDisabledBackCullingRasterizer.get();
@@ -244,4 +256,19 @@ __forceinline DepthStencilState* Renderer::DepthDisableStencilDisable()
 	m_pDepthDisableStencilDisable->Create(&depthStencilParams);
 
 	return m_pDepthDisableStencilDisable.get();
+}
+
+__forceinline void Renderer::SetOnlyDirect()
+{
+	m_giState = GI_OnlyDirect;
+}
+
+__forceinline void Renderer::SetOnlyGlobal()
+{
+	m_giState = GI_OnlyGlobal;
+}
+
+__forceinline void Renderer::SetCombined()
+{
+	m_giState = GI_Combined;
 }

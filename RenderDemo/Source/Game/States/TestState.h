@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Game\GameStateMachine\State.h"
+#include "Game\Entities\Entity.h"
 
 class TestState : public State
 {
 protected:
+	vector<shared_ptr<Entity>> m_lights;
 
 public:
 

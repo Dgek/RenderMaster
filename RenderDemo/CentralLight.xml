@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Actor>
+  <Transform>
+    <Position x="0" y="500" z="0" />
+    <Orientation axisx="0" axisy="1" axisz="0" degrees="0" />
+  </Transform>
+  <PhysicsComponent>
+  </PhysicsComponent> 
+  <GraphicsComponent>
+    <PointLightComponent range="180" >
+		<Color r="0.0" g="1.0" b="0.0" />
+	</PointLightComponent> 
+  </GraphicsComponent>
+</Actor>

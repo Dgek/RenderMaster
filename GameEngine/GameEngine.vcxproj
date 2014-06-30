@@ -66,6 +66,7 @@
       <AdditionalIncludeDirectories>D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>Core.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>Core.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -175,6 +176,7 @@
     <ClCompile Include="Source\Application\Timer.cpp" />
     <ClCompile Include="Source\Core.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\FileStream\XML\tinystr.cpp" />
     <ClCompile Include="Source\FileStream\XML\tinyxml.cpp" />

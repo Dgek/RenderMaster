@@ -73,7 +73,7 @@ void App::InitializeWindow(HINSTANCE hInstance, int showWnd, bool isWindowed)
 	m_hWnd = CreateWindowEx(
 		NULL,
 		m_windowClassName,
-		L"TestGame",
+		L"RenderTest",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		m_width, m_height,

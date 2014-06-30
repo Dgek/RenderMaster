@@ -15,9 +15,7 @@ StructuredBuffer<int> nLights : register(t4);
 
 Texture2D<float4> diffuseMap	:	register(t5);
 Texture2D<float4> specularMap	:	register(t6);
-//Texture2D<float4> glossMap		:	register(t7);
 Texture2D<float4> normalMap		:	register(t7);
-//Texture2D<float4> heightMap		:	register(t9);
 
 Texture2D<float> shadowMap : register(t10);
 
@@ -66,7 +64,6 @@ uint GetTileIdx(in float2 screenPos)
 	uint x = ceil(screenPos.x / pixels_in_tile) - 1;
 	uint y = ceil(screenPos.y / pixels_in_tile) - 1;
 
-	//return y;
 	return 80 * y + x;
 }
 
@@ -114,7 +111,6 @@ float3 PhysicallyBasedLightning(in float3 position,
 	const float Pi = 3.14159265f;
 
 	//get inverse light direction
-	//float3 l = light.pos - position;
 	float3 l;
 	if (light.color.w == 3)
 		l = float3(-0.2403, 0.926800013, -0.28859999);
@@ -178,14 +174,10 @@ float3 PhysicallyBasedLightning(in float3 position,
 	float3 finalDiffuse = n_dot_l * (1.0f - fresnel_term) * attenColor * diffuse;
 
 	return (finalDiffuse + finalSpecular);
-	//return finalDiffuse;
-	//return finalSpecular;
 }
 
 float4 shading_ps(ps_input input) : SV_TARGET
 {
-	//float4 lightPosition = float4(0, 1500, 0, 1.0f);
-
 	//get all material data for fragment
 	int3 sampleCoords = int3(input.pos.xy, 0);
 
@@ -206,8 +198,6 @@ float4 shading_ps(ps_input input) : SV_TARGET
 	normal = normalize(normal);
 
 
-	//depth		=	depthTexture.Load(sampleCoords).x;
-	//float3 diffuse	=	diffuseMap.Load(input.texCoords).xyz;
 	float3 diffuse = diffuseMap.Sample(anisotropicSampler, input.texCoords).xyz;
 
 	float3 specular	=	specularMap.Sample(anisotropicSampler, input.texCoords).xyz;
@@ -223,48 +213,16 @@ float4 shading_ps(ps_input input) : SV_TARGET
 	GetTileOffsets(tileIdx, startIdx, endIdx);
 
 	uint numtiles = endIdx - startIdx;
-	//if (numtiles < 80 && numtiles > 50) return float4(1.0f, 0.0f, 0.0f, 1.0f);
-	//return float4((float)numtiles / 5.0, (float)numtiles / 5.0, (float)numtiles / 5.0, 1.0f);
-	//if (numtiles == 2) return float4(1.0f, 0.0f, 0.0f, 1.0f);
-	return float4((float)numtiles/2.0, (float)numtiles/2.0, (float)numtiles/2.0, 1.0f);
-	//else return float4(0.0f, 1.0f, 0.0f, 1.0f);
-	//if (tileIdx == 3599) return float4(1.0f, 0.0f, 0.0f, 1.0f);
-	//else return float4(0.0f, 1.0f, 0.0f, 1.0f);
-	//float numtiles = 1;
-	//return float4(numtiles / 101.0f, numtiles / 101.0f, numtiles / 101.0f, 1.0f);
-	//return float4(numtiles, numtiles, numtiles, 1.0f);
 
 	//compute shadowing by using shadow map from direct illumination
-	//float3 vecToLight = position - lightPosition.xyz;
-	//float distanceToLight = length(vecToLight);
-	//float shadow = ComputeShadow(float4(position, 1.0f), distanceToLight);
-	//return float4(diffuse, 1.0f);
+
 	float3 finalColor = float3(0.0f, 0.0f, 0.0f);
 	for (uint lightListIdx = startIdx; lightListIdx < endIdx; lightListIdx++)
 	{
 		int lightIdx = LightIndexBuffer[lightListIdx];
 		LightParams directLight = gLights[lightIdx];
-		//LightParams indirectLight;
 
-		//FetchLight(lightIdx, directLight);
 		finalColor += PhysicallyBasedLightning(position, normal, 0.0f, diffuse, specular, specPower, smoothness, directLight);// *shadow;
-		//finalColor += float3(0.3f, 0.3f, 0.3f);
 	}
 	return float4(finalColor, 1.0f);
 }
-
-/*#define LIGHT_LOOP_BEGIN
-uint tileIdx = GetTileIdx(ScreenPos.xy);
-uint startIdx, endIdx;
-GetTileOffsets(tileIdx, startIdx, endIdx);
-
-for (uint lightListIdx = startIdx; lightListIdx <= endIdx; lightListIdx++)
-{
-int lightIdx = LightIndexBuffer[lightListIdx];
-LightParams directLight;
-//LightParams indirectLight;
-
-FetchLight(lightIdx, directLight);
-}
-
-#define LIGHT_LOOP_END */

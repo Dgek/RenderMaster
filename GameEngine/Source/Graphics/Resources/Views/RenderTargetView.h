@@ -66,6 +66,7 @@ public:
 	== */
 	//void Set(DepthStencilViewDX11 * pView) const;
 	//__forceinline void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum)
+	void Bind(DepthStencilView * pDepthView) const;
 	void Bind(const DepthStencilView & depthview) const;
 	void Bind() const;
 	void BindOneView(int index);

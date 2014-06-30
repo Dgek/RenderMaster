@@ -1,8 +1,5 @@
 #include "GlobalIllumination.hlsli"
 
-//Texture2DMS<float4> depthMap : register(t0);
-//Texture2DMS<float4> normalMap : register(t1);
-//Texture2DMS<float4> diffuseMap : register(t2);
 Texture2DMS<float4> depthNormalMap : register(t0);
 Texture2DMS<float4> albedoGlossMap : register(t1);
 
@@ -38,46 +35,25 @@ float4 DecodePosition(in float3 frustumRay, in float depth)
 
 float4 globalIllumPS(gs_output input, uint sampleIndex : SV_SampleIndex) : SV_TARGET
 {
-	//return float4(1.0f, 0.0f, 0.0f, 1.0f);
 	float3 gridCenter = float3(0.0f, 500.0f, 0.0f);
 	float  invCellSize = 1.0f / 60.5f;
 
-	//TODO:depth and position reconstruction
-	//float depth = depthMap.Sample(linearSampler, input.texCoords);
 	float depth = depthNormalMap.Load(int2(input.pos.x, input.pos.y), sampleIndex).w;
 
-	//if (depth == 0.0f)
-	//	return float4(0.0f, 0.0f, 0.5f, 1.0f);
-
 	float3 frustumRay = normalize(input.frustumRay);
-		//return float4(frustumRay, 1.0f);
 
-		float4 position = DecodePosition(input.frustumRay, depth);
-		//return position;
+	float4 position = DecodePosition(input.frustumRay, depth);
 
-		//return float4(position.x / 1000.0f, position.x / 1000.0f, position.x / 1000.0f, 1.0f);
+	
+	float3 albedo = albedoGlossMap.Load(int2(input.pos.x, input.pos.y), sampleIndex).xyz;
 
-		depth = depth / 10000.f;
-		//return float4(depth, depth, depth, 1.0f);
+	float3 normal = depthNormalMap.Load(int2(input.pos.x, input.pos.y), sampleIndex).xyz;
 
-		//TODO: albedo and normal loading
-		//float3 albedo = float3(1.0f, 1.0f, 1.0f);
-		float3 albedo = albedoGlossMap.Load(int2(input.pos.x, input.pos.y), sampleIndex).xyz;
-		//float3 normal = float3(0.0f, 1.0f, 0.0f);
-		//float3 normal = normalMap.Sample(linearSampler, input.texCoords);
-		float3 normal = depthNormalMap.Load(int2(input.pos.x, input.pos.y), sampleIndex).xyz;
-
-		//return float4(normal, 1.0f);
-
-		float3 offset = (position.xyz - gridCenter) * invCellSize;
-
-		//return float4(position.x / 2.0f, position.x / 2.0f, position.x / 2.0f, 1.0f);
+	float3 offset = (position.xyz - gridCenter) * invCellSize;
 
 	//calculate texture coordinates
 	float3 texCoords = float3(32.5f, 32.5f, 32.0) + offset;
 	texCoords.xy /= 64.0f;
-
-		//return float4(texCoords.z, texCoords.z, texCoords.z, 1.0f);
 
 	//calculate texture coordinates for trilinear filtering
 	int lowZ = floor(texCoords.z);
@@ -97,7 +73,6 @@ float4 globalIllumPS(gs_output input, uint sampleIndex : SV_SampleIndex) : SV_TA
 	float4 blueSHCoeffs =	lowZWeight * inputBlueSHTexture.Sample(linearSampler, tcLow) +
 							highZWeight * inputBlueSHTexture.Sample(linearSampler, tcHigh);
 
-	//return float4(redSHCoeffs.xyz, 1.0f);
 	//calculate SH for surface normal
 	float4 surfaceNormalLobe = ClampedCosineCoeffs(normal);
 
@@ -108,6 +83,5 @@ float4 globalIllumPS(gs_output input, uint sampleIndex : SV_SampleIndex) : SV_TA
 	diffuseGlobalIllum.b = dot(blueSHCoeffs, surfaceNormalLobe);
 	diffuseGlobalIllum /= PI;
 
-	//return float4(albedo, 1.0f);
-	return float4(diffuseGlobalIllum * albedo * 1.5f, 1.0f);
+	return float4(diffuseGlobalIllum*albedo, 1.0f);
 }

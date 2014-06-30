@@ -52,6 +52,7 @@ EntityResource::EntityResource(const string & filename)
 	}
 
 	m_vOffset = Vec{ 0.0f, 0.0f, 0.0f, 0.0f };
+	m_bChangedColor = false;
 }
 
 void EntityResource::InitGraphicsComponent(TiXmlElement* pComponent)
@@ -235,6 +236,7 @@ void EntityResource::InitGraphicsComponent(TiXmlElement* pComponent)
 			float blue = static_cast<float>(pTempAtt->DoubleValue());
 
 			pointLight->m_color = Vec{ red, green, blue, 1.0f };
+
 			pointLight->m_position = m_vPos;
 
 			m_graphics.push_back(pointLight);
@@ -546,7 +548,14 @@ void EntityResource::VCreateRepresentation(Scene * pScene, shared_ptr<Entity> pE
 			auto pointLight = static_pointer_cast<GraphicsPointLightComponent>(*component);
 
 			//Create point light
-			auto pLight = make_shared<PointLight>(pointLight->m_color, pointLight->m_position + m_vOffset, pointLight->m_range);
+			Vec color;
+			if (!m_bChangedColor)
+			{
+				color = pointLight->m_color;
+			}
+			else
+				color = m_changedColor;
+			auto pLight = make_shared<PointLight>(color, pointLight->m_position + m_vOffset, pointLight->m_range);
 			//PointLight* pLight = new PointLight(pointLight->m_color, Vector(0, 0, 0, 1), pointLight->m_range);
 			pRepresentation->VAddLight(pLight);
 		}

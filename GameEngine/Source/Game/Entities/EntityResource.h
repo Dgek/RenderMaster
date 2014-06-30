@@ -158,6 +158,9 @@ struct EntityResource
 	Vec m_vScale;
 	Quaternion m_qRot;
 
+	Vec m_changedColor;
+	bool m_bChangedColor;
+
 	////////////////////////////
 	//Entity Components
 	typedef vector<shared_ptr<GraphicsComponent>> Graphics;
@@ -181,9 +184,16 @@ struct EntityResource
 	//create its physics model
 	virtual void VCreatePhysicalBody(IPhysics * pPhysics, shared_ptr<Entity> pEntity);
 
+	__forceinline void ChangeColor(float red, float green, float blue);
+
 private:
 	void InitTransform(TiXmlElement* pComponent);
 	void InitPhysicsComponent(TiXmlElement* pComponent);
 	void InitGraphicsComponent(TiXmlElement* pComponent);
-
 };
+
+__forceinline void EntityResource::ChangeColor(float red, float green, float blue)
+{
+	m_changedColor = Vec{ red, green, blue, 1.0f };
+	m_bChangedColor = true;
+}

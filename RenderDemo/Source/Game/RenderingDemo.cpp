@@ -2,10 +2,13 @@
 
 #include "RenderingDemo.h"
 
+//#include "App.h"
+
 #include "../Game/Views.h"
 
 #include "../Math/Geometry/Frustum.h"
 #include "../Renderer/Cameras/Camera.h"
+#include "../Renderer/Renderer.h"
 
 #include "../Input/Controllers.h"
 
@@ -32,4 +35,26 @@ bool RenderingDemo::VInitialize()
 	pView->SetController(m_pFreeCameraController);
 
 	return Game::VInitialize();
+}
+
+LRESULT	RenderingDemo::VMsgProc(const SystemMessage * msg)
+{
+	if (msg->m_type == SMT_KeyDown)
+	{
+		const auto * pMsg = static_cast<const KeyDownMessage *>(msg);
+		switch (pMsg->m_key)
+		{
+		case 'I':
+			Global::g_pEngine->GetRenderer()->SetOnlyDirect();
+			break;
+		case 'O':
+			Global::g_pEngine->GetRenderer()->SetOnlyGlobal();
+			break;
+		case 'P':
+			Global::g_pEngine->GetRenderer()->SetCombined();
+			break;
+		}
+	}
+
+	return Game::VMsgProc(msg);
 }

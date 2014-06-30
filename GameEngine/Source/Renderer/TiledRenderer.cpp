@@ -113,6 +113,8 @@ TiledRenderer::TiledRenderer()
 		m_pGlobalIllumShaders = make_unique<ShaderBunch>();
 		m_pGlobalIllumVB = make_unique<VertexBuffer>();
 		m_pGlobalIllumBlendState = make_unique<BlendState>();
+		m_pOnlyDirectBlendState = make_unique<BlendState>();
+		m_pOnlyGlobalBlendState = make_unique<BlendState>();
 
 		//Debug and clear
 		m_voxelRenderingShaders = make_unique<ShaderBunch>();
@@ -132,7 +134,9 @@ bool TiledRenderer::VInitialize(HWND hWnd, unsigned int width, unsigned int heig
 	Texture2DParams texParams;
 	//texParams.Init(SCREEN_WIDTH, SCREEN_HEIGHT, 1, DXGI_FORMAT_R8G8B8A8_UNORM, true, false, true, false, m_numSamples, m_sampleQuality,
 	//	1, true, false, false);
-	texParams.Init(SCREEN_WIDTH, SCREEN_HEIGHT, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, true, false, true, false, m_numSamples, m_sampleQuality,
+	//texParams.Init(SCREEN_WIDTH, SCREEN_HEIGHT, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, true, false, true, false, m_numSamples, m_sampleQuality,
+	//	1, true, false, false);
+	texParams.Init(SCREEN_WIDTH, SCREEN_HEIGHT, 1, DXGI_FORMAT_R16G16B16A16_FLOAT, true, false, true, false, m_numSamples, m_sampleQuality,
 		1, true, false, false);
 	m_pDepthNormalTexture->Create(texParams);
 	m_pAlbedoGlossTexture->Create(texParams);
@@ -323,8 +327,6 @@ bool TiledRenderer::VInitialize(HWND hWnd, unsigned int width, unsigned int heig
 		m_pointLightGridShaders->SetGeometryShader("shaders/pointLightGridGS.gso");
 		m_pointLightGridShaders->SetPixelShader("shaders/pointLightGridPS.pso");
 
-		//m_dirLightGridShaders->SetVertexShader("shaders/pointLightGridVS.vso", m_pLightGridLayout.get(), 1, D3D_PRIMITIVE_TOPOLOGY_LINELIST);
-		//m_dirLightGridShaders->SetGeometryShader("shaders/pointLightGridGS.gso");
 		m_dirLightGridShaders->SetVertexShader(m_pointLightGridShaders->GetVertexShader());
 		m_dirLightGridShaders->SetGeometryShader(m_pointLightGridShaders->GetGeometryShader());
 		m_dirLightGridShaders->SetPixelShader("shaders/dirLightGridPS.pso");
@@ -415,11 +417,31 @@ bool TiledRenderer::VInitialize(HWND hWnd, unsigned int width, unsigned int heig
 		m_pPropagateOcclusionCS = pPropagateOCShaderData->m_pShader;
 
 		//Global Illumination step
+		RenderTargetBlendParams rtBlendParams;
+		rtBlendParams.Init(true, D3D11_BLEND_ONE, D3D11_BLEND_ONE, D3D11_BLEND_OP_ADD,
+			D3D11_BLEND_ONE, D3D11_BLEND_ONE, D3D11_BLEND_OP_ADD, 0x0f);
+		BlendStateParams blendParams;
+		blendParams.Init(false, false, &rtBlendParams, 1);
+
+		m_pGlobalIllumBlendState->Create(&blendParams);
+
+		rtBlendParams.Init(true, D3D11_BLEND_ZERO, D3D11_BLEND_ONE, D3D11_BLEND_OP_ADD,
+			D3D11_BLEND_ONE, D3D11_BLEND_ONE, D3D11_BLEND_OP_ADD, 0x0f);
+		blendParams.Init(false, false, &rtBlendParams, 1);
+
+		m_pOnlyDirectBlendState->Create(&blendParams);
+
+		rtBlendParams.Init(true, D3D11_BLEND_ONE, D3D11_BLEND_ZERO, D3D11_BLEND_OP_ADD,
+			D3D11_BLEND_ONE, D3D11_BLEND_ONE, D3D11_BLEND_OP_ADD, 0x0f);
+		blendParams.Init(false, false, &rtBlendParams, 1);
+
+		m_pOnlyGlobalBlendState->Create(&blendParams);
+
 		m_pGlobalIllumShaders->SetVertexShader("shaders/applyGlobalIllumVS.vso", m_pLightGridLayout.get(), 1, D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 		m_pGlobalIllumShaders->SetGeometryShader("shaders/applyGlobalIllumGS.gso");
 		m_pGlobalIllumShaders->SetPixelShader("shaders/applyGlobalIllumPS.pso");
 
-		m_voxelRenderingShaders->SetVertexShader("shaders/VoxelGridRenderingVS.vso", m_pPrepassLayout.get(), 1, D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+		m_voxelRenderingShaders->SetVertexShader("shaders/VoxelGridRenderingVS.vso", m_pPrepassLayout.get(), 1);
 		m_voxelRenderingShaders->SetPixelShader("shaders/VoxelGridRenderingPS.pso");
 
 		m_voxelViewport.Set(0, 0, m_voxelGridSize, m_voxelGridSize, 0.0f, 1.0f);
@@ -482,6 +504,8 @@ void TiledRenderer::VRender()
 		if (m_bGlobalIllumination)
 			Voxelize();
 
+		//RenderGrid();
+
 		///////////////////////////////////////////////////////////
 		//Inject light sources to the voxel grid
 		if (m_bGlobalIllumination)
@@ -491,7 +515,7 @@ void TiledRenderer::VRender()
 		//Propogate virtual point lights
 		if (m_bGlobalIllumination)
 		{
-			for (int i = 0; i < 9; i++)
+			for (int i = 0; i < 8; i++)
 				PropagateVPLs(i);
 		}
 
@@ -538,11 +562,12 @@ void TiledRenderer::VRender()
 
 void TiledRenderer::PrepareForZPrepass()
 {
+	DX11API::ClearDepthStencilView(true, false, 1.0f, 0xFF, m_pDepthDSV.get());
 	DepthEnableStencilDisableStandard()->Bind(0xFF);
 	AllDisabledBackCullingRasterizer()->Bind();
 	LinearTiledSampler()->Bind(0, ST_Pixel);
 
-	m_pPrepassRTVs->Bind();
+	m_pPrepassRTVs->Bind(m_pDepthDSV.get());
 
 	m_pPrepassShaders->Bind();
 }
@@ -680,9 +705,13 @@ void TiledRenderer::UpdateLightBuffers()
 void TiledRenderer::VFinishPass()
 {
 	m_pPrepassRTVs->Clear();
-	m_voxelTextureRTV->Clear();
 	NullLightCounter();
-	ClearVoxelGrid();
+
+	if (m_bGlobalIllumination)
+	{
+		m_voxelTextureRTV->Clear();
+		ClearVoxelGrid();
+	}
 }
 
 void TiledRenderer::LightCulling()
@@ -800,8 +829,6 @@ void TiledRenderer::Voxelize()
 
 	m_pcb192Bytes->Bind(0, ST_Geometry);
 
-	NoCullingStandardRasterizer()->Bind();
-
 	m_voxelTextureRTV->BindWithUAV(1, 1, m_voxelGridUAV->GetView(), nullptr);
 	m_voxelViewport.Bind();
 
@@ -891,6 +918,7 @@ void TiledRenderer::PropagateVPLs(unsigned int index)
 		m_voxelGridSRV->Bind(3, ST_Compute);
 		m_voxelSHUAVs->Bind(0, ST_Compute);
 		m_pPropagateOcclusionCS->Bind();
+		//m_propagateCS->Bind();
 	}
 
 	DX11API::D3D11DeviceContext()->Dispatch(8, 8, 8);
@@ -940,8 +968,19 @@ void TiledRenderer::ApplyGlobalIllumination()
 	m_pcb16Bytes->Bind(0, ST_Pixel);
 
 	NoCullingStandardRasterizer()->Bind();
-	//BlendAddStandard()->Set(0, 0);
-	m_pGlobalIllumBlendState->Bind(0, 0xffffffff);
+	
+	switch (m_giState)
+	{
+	case GI_OnlyDirect:
+		m_pOnlyDirectBlendState->Bind(0, 0xffffffff);
+		break;
+	case GI_OnlyGlobal:
+		m_pOnlyGlobalBlendState->Bind(0, 0xffffffff);
+		break;
+	case GI_Combined:
+		m_pGlobalIllumBlendState->Bind(0, 0xffffffff);
+		break;
+	}
 
 	//m_pVoxelVB->Set(0, 0);
 	m_pGlobalIllumVB->Bind(0, 0);
@@ -973,4 +1012,45 @@ void TiledRenderer::ClearVoxelGrid()
 	DX11API::D3D11DeviceContext()->Dispatch(8, 8, 8);
 
 	DX11API::UnbindUnorderedAccessViews(0, 7);
+}
+
+void TiledRenderer::RenderGrid()
+{
+	DX11API::ClearDepthStencilView(true, false, 1.0f, 0xFF, m_pDepthDSV.get());
+	DepthEnableStencilDisableStandard()->Bind(0xFF);
+	AllDisabledBackCullingRasterizer()->Bind();
+
+	m_voxelRenderingShaders->Bind();
+
+	m_voxelGridSRV->Bind(0, ST_Pixel);
+	DX11API::BindGlobalViewport();
+	DX11API::BindGlobalRenderTargetView(m_pDepthDSV.get());
+
+	Mesh * pMesh;
+	m_queue.Reset();
+
+	while (pMesh = m_queue.Next().get())
+	{
+		IndexedMesh* pIndexedMesh = static_cast<IndexedMesh*>(pMesh);
+
+		//pMesh->VVoxelize(this, viewproj);
+		struct Buffer { Mat4x4 world; Mat4x4 WVP; } buffer;
+		buffer.world = pIndexedMesh->GetWorldTransform();
+		buffer.WVP = buffer.world * m_pCurrentCamera->GetView() * m_pCurrentCamera->GetProjection();
+		buffer.world.Transpose(); buffer.WVP.Transpose();
+
+		m_pcb128Bytes->UpdateSubresource(0, nullptr, &buffer, 0, 0);
+		m_pcb128Bytes->Bind(0, ST_Vertex);
+
+		pIndexedMesh->BindVertices(0, 0);
+		pIndexedMesh->BindIndexBuffer(0);
+
+		for (auto iter = begin(pIndexedMesh->m_subMeshes); iter != end(pIndexedMesh->m_subMeshes); ++iter)
+		{
+			(*iter)->DrawIndexed();
+		}
+	};
+
+	DX11API::UnbindShaderResourceViews(0, 1, ST_Pixel);
+	DX11API::UnbindRenderTargetViews(1);
 }

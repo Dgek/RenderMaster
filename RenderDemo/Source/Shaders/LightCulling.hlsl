@@ -109,12 +109,12 @@ bool overlaps(in float4 frustum[4], in LightData data, in float minGroupDepth, i
 
 	//return false;
 	//float distance = lightVS.z;
-	//if ((distance - data.range) > maxGroupDepth || (distance + data.range) < minGroupDepth)
-	//	return false;
+	if ((distance - data.range) > maxGroupDepth || (distance + data.range) < minGroupDepth)
+		return false;
 	//if (abs(distance - minGroupDepth) > data.range && (distance < minGroupDepth))
 	//	return false;
-	if (abs(distance - maxGroupDepth) > data.range && (distance > maxGroupDepth))
-		return false;
+	//if (abs(distance - maxGroupDepth) > data.range && (distance > maxGroupDepth))
+	//	return false;
 	//return true;
 	for (int i = 0; i < 4; i++)
 	{

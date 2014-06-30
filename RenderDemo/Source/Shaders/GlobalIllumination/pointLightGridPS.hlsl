@@ -24,33 +24,6 @@ cbuffer LightParams : register ( cb0 )
 	float4 spotAngles;
 };
 
-/*
-float3 GetClosestNormal(in uint4 normalMasks, in float3 direction, out float dotProduct)
-{
-	float4x3 normalMatrix;
-	normalMatrix[0] = DecodeNormal(normalMasks.x);
-	normalMatrix[1] = DecodeNormal(normalMasks.y);
-	normalMatrix[2] = DecodeNormal(normalMasks.z);
-	normalMatrix[3] = DecodeNormal(normalMasks.w);
-
-	float4 dotProducts = mul(normalMatrix, direction);
-
-	float maximum = max(max(dotProducts.x, dotProducts.y), max(dotProducts.z, dotProducts.w));
-
-	int index;
-	if (maximum == dotProducts.x)
-		index = 0;
-	else if(maximum == dotProducts.y)
-		index = 1;
-	else if(maximum == dotProducts.z)
-		index = 2;
-	else 
-		index = 3;
-
-	dotProduct = dotProducts[index];
-	return normalMatrix[index];
-} */
-
 ps_output point_light_gridPS(gs_output input) : SV_TARGET
 {
 	ps_output output;

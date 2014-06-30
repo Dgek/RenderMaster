@@ -147,6 +147,8 @@ protected:
 	unique_ptr<ShaderBunch> m_pGlobalIllumShaders;
 	unique_ptr<VertexBuffer> m_pGlobalIllumVB;
 	unique_ptr<BlendState> m_pGlobalIllumBlendState;
+	unique_ptr<BlendState> m_pOnlyDirectBlendState;
+	unique_ptr<BlendState> m_pOnlyGlobalBlendState;
 
 	//Debug and clear
 	unique_ptr<ShaderBunch> m_voxelRenderingShaders;
@@ -172,6 +174,7 @@ protected:
 	void PropagateVPLs(unsigned int index);
 	void ApplyGlobalIllumination();
 	void ClearVoxelGrid();
+	void RenderGrid();
 
 public:
 

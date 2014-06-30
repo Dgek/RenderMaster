@@ -8,12 +8,6 @@ struct vs_output
 
 StructuredBuffer<VOXEL> voxelGrid : register( t0 );
 
-//cbuffer GridBuffer : register( b0 )
-//{
-	//float3 gridCenter;
-	//float  invCellSize;
-//};
-
 float4 showgrid_ps(vs_output input) : SV_TARGET
 {
 	float3 gridCenter = float3(0.0f, 500.0f, 0.0f);
@@ -35,7 +29,6 @@ float4 showgrid_ps(vs_output input) : SV_TARGET
 		color = float3(0.0f, 0.0f, 1.0f);
 	else
 		color = DecodeColor(voxelGrid[gridIndex].color);
-		
-	//return float4(1.0f, 1.0f, 1.0f, 1.0f);
+	
 	return float4(color, 1.0f);
 }

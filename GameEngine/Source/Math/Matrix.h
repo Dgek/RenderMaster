@@ -246,7 +246,7 @@ __forceinline Mat4x4 Mat4x4::CreateTranslation(const Vec & vec)
 __forceinline Mat4x4 Mat4x4::CreateRotationX(float angleInRadians)
 {
 	return Mat4x4{ 1.0f, 0.0f, 0.0f, 0.0f,
-		1.0f, Math::Cos(angleInRadians), Math::Sin(angleInRadians), 0.0f,
+		0.0f, Math::Cos(angleInRadians), Math::Sin(angleInRadians), 0.0f,
 		0.0f, -Math::Sin(angleInRadians), Math::Cos(angleInRadians), 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f };
 }

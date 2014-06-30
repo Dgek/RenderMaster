@@ -41,23 +41,22 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Initialize Engine Components
 	============================== */
 	unique_ptr<ResourceDir> g_pFile = make_unique<ResourceDir>(L"Resources");
-	shared_ptr<ResourceCache> g_pCache = make_shared<ResourceCache>(300, move(g_pFile));
+	//Global::g_pCache = make_shared<ResourceCache>(300, move(g_pFile));
 	//unique_ptr<ResourceCache> g_pCache = make_unique<ResourceCache>(300);
-	g_pCache->Init();
+	Global::g_pCache->Init(300, move(g_pFile));
 
-	//shared_ptr<IResourceLoader> pMeshLoader = make_shared<MeshLoader>();
-	g_pCache->RegisterLoader(make_shared<MaterialLoader>());
-	g_pCache->RegisterLoader(make_shared<MeshLoader>());
-	g_pCache->RegisterLoader(make_shared<TextureLoader>());
-	g_pCache->RegisterLoader(make_shared<VertexShaderLoader>());
-	g_pCache->RegisterLoader(make_shared<GeometryShaderLoader>());
-	g_pCache->RegisterLoader(make_shared<PixelShaderLoader>());
-	g_pCache->RegisterLoader(make_shared<ComputeShaderLoader>());
-
+	Global::g_pCache->RegisterLoader(make_shared<MaterialLoader>());
+	Global::g_pCache->RegisterLoader(make_shared<MeshLoader>());
+	Global::g_pCache->RegisterLoader(make_shared<TextureLoader>());
+	Global::g_pCache->RegisterLoader(make_shared<VertexShaderLoader>());
+	Global::g_pCache->RegisterLoader(make_shared<GeometryShaderLoader>());
+	Global::g_pCache->RegisterLoader(make_shared<PixelShaderLoader>());
+	Global::g_pCache->RegisterLoader(make_shared<ComputeShaderLoader>());
+	
 	/* === Initialize main engine components === */
 	TiledRenderer::SetGlobalIllumination(true);
 	Global::g_pEngine->InitializeComponents(make_unique<TiledRenderer>(), make_unique<NullPhysics>(),
-		make_unique<Messenger>(), g_pCache);
+		make_unique<Messenger>(), Global::g_pCache);
 
 	// **************************** //
 	// ===						=== //

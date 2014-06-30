@@ -64,12 +64,6 @@
     <Filter Include="Renderer\Meshes">
       <UniqueIdentifier>{5dae4ef8-6a5b-4f57-ae58-f96922abbe78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer\Other">
-      <UniqueIdentifier>{f9398903-9510-474e-bbc5-f6f1f6c2af51}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\Shaders">
-      <UniqueIdentifier>{9a4272b3-11f3-4c62-9137-3a4dbb971f42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics\DX11\Resources\Views">
       <UniqueIdentifier>{63fd5f56-928b-4ebe-82aa-d0cbebd25001}</UniqueIdentifier>
     </Filter>

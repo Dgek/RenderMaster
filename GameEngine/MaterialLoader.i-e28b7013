@@ -1,10 +1,10 @@
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MaterialLoader.cpp"
 #line 1 "<built-in>"
 #line 1 "<built-in>"
 #line 176 "<built-in>"
 #line 1 "<command line>"
 #line 1 "<built-in>"
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MaterialLoader.cpp"
 #line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 
@@ -153103,10 +153103,10 @@ enum LightType
  LT_Spot = 2,
  LT_Directional = 3,
 };
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MaterialLoader.cpp"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MaterialLoader.h"
 
 
 #line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../Resource.h"
@@ -153285,7 +153285,7 @@ __forceinline bool ResourceCache::Init(unsigned int sizeInMb, unique_ptr<IResour
 
 namespace Global
 {
- extern shared_ptr<ResourceCache> g_pCache;
+ shared_ptr<ResourceCache> g_pCache;
 }
 #line 22 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../Resource.h"
 
@@ -153348,1539 +153348,17 @@ __forceinline void ResHandle::SetExtra(shared_ptr<IResourceExtraData> pExtra)
 {
  m_pExtra = pExtra;
 }
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MaterialLoader.h"
 
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/Vector.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/Material.h"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/Math.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Textures/Texture2D.h"
 
 
-struct Math
-{
- static __forceinline float Sin(float value) { return sinf(value); }
- static __forceinline float Cos(float value) { return cosf(value); }
- static __forceinline float Tan(float value) { return tanf(value); }
- static __forceinline float Atan(float value) { return atanf(value); }
- static __forceinline float Sqrt(float value) { return sqrtf(value); }
- static __forceinline float Pow(float a, float b) { return powf(a, b); }
-
- static __forceinline float random(float min, float max, float seed);
-
- static __forceinline float InvSqrt(float f)
- {
-  return 1.f / sqrtf(f);
- }
-
- template<typename T>
- static __forceinline T Abs(const T a)
- {
-  return (a > (T)0) ? a : -a;
- }
-
- template<typename T>
- static __forceinline T Max(const T a, const T b)
- {
-  return (a >= b) : a : b;
- }
-
- template<typename T>
- static __forceinline T Min(const T a, const T b)
- {
-  return (a <= b) ? a : b;
- }
-
- template<typename T>
- static __forceinline T Lerp(const T & a, const T & b, double coeff)
- {
-  return (T)(a + (a - b)*coeff);
- }
-
- template<typename T>
- static __forceinline T Clamp(T value, T min, T max)
- {
-  if (value <= min)
-   return min;
-  if (value >= max)
-   return max;
-
-  return value;
- }
-};
-
-
-template<>
-__forceinline float Math::Abs(const float a)
-{
- return fabsf(a);
-}
-
-__forceinline float Math::random(float min, float max, float seed)
-{
- srand(seed);
-
- int diff = max - min;
- return (rand() % diff) + min;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/Vector.h"
-
-
-class Vec
-{
-public:
-
- float x, y, z, w;
-
- static const Vec g_up4;
- static const Vec g_right4;
- static const Vec g_left4;
- static const Vec g_forward4;
- static const Vec g_back4;
-
- __forceinline static Vec Normalize(const Vec & v);
-
-public:
-
-
-
- __forceinline Vec() = default;
-#line 33 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/Vector.h"
- __forceinline Vec(float inX, float inY, float inZ, float inW);
-
-
-
-
-
-
-
- __forceinline Vec(const Vec & v, float w);
-
- __forceinline float & operator[](int index);
-
- __forceinline float operator[](int index) const;
-
- __forceinline void Set(float inX, float inY, float inZ, float inW);
-
- __forceinline Vec operator-() const;
-
- __forceinline Vec & operator+=(const Vec & v);
-
- __forceinline Vec & operator-=(const Vec & v);
-
- __forceinline Vec & operator*=(const Vec & v);
-
- __forceinline Vec & operator/=(const Vec & v);
-
- __forceinline Vec operator*(float scale) const;
-
- __forceinline Vec & operator*=(float scale);
-
- __forceinline Vec operator/(float scale) const;
-
-
- __forceinline bool operator==(const Vec & v) const;
-
- __forceinline bool operator!=(const Vec & v) const;
-
- __forceinline const Vec & Normalize();
-
- __forceinline float Length() const;
-
- __forceinline Vec Reflect(const Vec & normal) const;
-};
-
-const Vec g_up4 = Vec{ 0.0f, 1.0f, 0.0f, 0.0f };
-const Vec g_right4 = Vec{ 1.0f, 0.0f, 0.0f, 0.0f };
-const Vec g_left4 = Vec{ -1.0f, 0.0f, 0.0f, 0.0f };
-const Vec g_forward4 = Vec{ 0.0f, 0.0f, 1.0f, 0.0f };
-const Vec g_back4 = Vec{ 0.0f, 0.0f, -1.0f, 0.0f };
-
-__forceinline Vec Vec::Normalize(const Vec & v)
-{
- const float scale = Math::InvSqrt(v.x*v.x + v.y*v.y + v.z*v.z);
-
- return Vec{ v.x * scale, v.y * scale, v.z * scale, v.w * scale };
-}
-
-__forceinline Vec::Vec(float inX, float inY, float inZ, float inW)
- : x{ inX }, y{ inY }, z{ inZ }, w{ inW }
-{}
-
-__forceinline Vec::Vec(const Vec & v, float w)
- : x{ v.x }, y{ v.y }, z{ v.z }, w{ w }
-{}
-
-__forceinline float & Vec::operator[](int index)
-{
- return (&x)[index];
-}
-
-__forceinline float Vec::operator[](int index) const
-{
- return (&x)[index];
-}
-
-__forceinline void Vec::Set(float inX, float inY, float inZ, float inW)
-{
- x = inX;
- y = inY;
- z = inZ;
- w = inW;
-}
-
-__forceinline Vec Vec::operator-() const
-{
- return Vec{ -x, -y, -z, -w };
-}
-
-__forceinline Vec & Vec::operator+=(const Vec & v)
-{
- x += v.x;
- y += v.y;
- z += v.z;
- w += v.w;
-
- return *this;
-}
-
-__forceinline Vec & Vec::operator-=(const Vec & v)
-{
- x -= v.x;
- y -= v.y;
- z -= v.z;
- w -= v.w;
-
- return *this;
-}
-
-__forceinline Vec & Vec::operator*=(const Vec & v)
-{
- x *= v.x;
- y *= v.y;
- z *= v.z;
- w *= v.w;
-
- return *this;
-}
-
-__forceinline Vec & Vec::operator/=(const Vec & v)
-{
- x /= v.x;
- y /= v.y;
- z /= v.z;
- w /= v.w;
-
- return *this;
-}
-
-__forceinline Vec Vec::operator*(float scale) const
-{
- return Vec{ x * scale, y * scale, z * scale, w * scale };
-}
-
-__forceinline Vec & Vec::operator*=(float scale)
-{
- x *= scale;
- y *= scale;
- z *= scale;
- w *= scale;
-
- return *this;
-}
-
-__forceinline Vec Vec::operator/(float scale) const
-{
- float rscale = 1.f / scale;
- return Vec{ x * scale, y * scale, z * scale, w * scale };
-}
-
-__forceinline bool Vec::operator==(const Vec & v) const
-{
- return ((x == v.x) && (y == v.y) && (z == v.z) && (w == v.w));
-}
-
-__forceinline bool Vec::operator!=(const Vec & v) const
-{
- return ((x != v.x) || (y != v.y) || (z != v.z) || (w != v.w));
-}
-
-__forceinline const Vec & Vec::Normalize()
-{
- const float scale = Math::InvSqrt(x*x + y*y + z*z);
-
- x *= scale;
- y *= scale;
- z *= scale;
- w *= scale;
-
- return *this;
-}
-
-__forceinline float Vec::Length() const
-{
- return Math::Sqrt(x*x + y*y + z*z);
-}
-
-__forceinline Vec operator+(Vec v1, const Vec & v2)
-{
- v1 += v2;
- return v1;
-}
-
-__forceinline Vec operator-(Vec v1, const Vec & v2)
-{
- v1 -= v2;
- return v1;
-}
-
-__forceinline Vec operator*(Vec v1, const Vec & v2)
-{
- v1 *= v2;
- return v1;
-}
-
-__forceinline Vec operator/(Vec v1, const Vec & v2)
-{
- v1 /= v2;
- return v1;
-}
-
-__forceinline Vec operator^(Vec v1, const Vec & v2)
-{
- return Vec
-  {
-   v1.y * v2.z - v1.z * v2.y,
-   v1.z * v2.x - v1.x * v2.z,
-   v1.x * v2.y - v1.y * v2.x,
-   0.0f
-  };
-}
-
-
-
-
-
-
-__forceinline float Dot3(const Vec & v1, const Vec & v2)
-{
- return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-}
-
-__forceinline float Dot4(const Vec & v1, const Vec & v2)
-{
- return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
-}
-#line 6 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/VertexBuffer.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/Buffers.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../General.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/RenderTargetView.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/DepthStencilView.h"
-
-
-struct DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
-{
-public:
- __forceinline DepthStencilViewParams();
-
- __forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
-
- __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
-};
-
-__forceinline DepthStencilViewParams::DepthStencilViewParams()
-{
- memset((this),0,(sizeof(DepthStencilViewParams)));
-}
-
-__forceinline void DepthStencilViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
-{
- Format = format;
- Texture2D.MipSlice = mipslice;
-
- ViewDimension = multiSampled ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
-}
-
-__forceinline void DepthStencilViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
-{
- Format = format;
-
- if (multiSampled)
- {
-  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
-  Texture2DMSArray.ArraySize = arraySize;
-  Texture2DMSArray.FirstArraySlice = firstArraySlice;
- }
- else
- {
-  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
-  Texture2DArray.ArraySize = arraySize;
-  Texture2DArray.MipSlice = mipslice;
-  Texture2DArray.FirstArraySlice = firstArraySlice;
- }
-}
-
-
-class DepthStencilView
-{
- friend class Renderer;
-
-private:
- ID3D11DepthStencilView* m_pView;
-
-public:
-
- __forceinline DepthStencilView();
-
- __forceinline ~DepthStencilView();
-
-
-
- __forceinline ID3D11DepthStencilView * GetView() const;
-};
-
-__forceinline DepthStencilView::DepthStencilView()
- : m_pView{ nullptr }
-{}
-
-__forceinline DepthStencilView::~DepthStencilView()
-{
- if(m_pView) m_pView->Release(); m_pView=0;;
-}
-
-__forceinline ID3D11DepthStencilView *DepthStencilView::GetView() const
-{
- return m_pView;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/RenderTargetView.h"
-
-
-struct RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
-{
-public:
- __forceinline RenderTargetViewParams();
-
- __forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
-
- __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
-};
-
-__forceinline RenderTargetViewParams::RenderTargetViewParams()
-{
- memset((this),0,(sizeof(RenderTargetViewParams)));
-}
-
-__forceinline void RenderTargetViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
-{
- Format = format;
- Texture2D.MipSlice = mipslice;
-
- ViewDimension = multiSampled ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
-}
-
-__forceinline void RenderTargetViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
-{
- Format = format;
-
- if (multiSampled)
- {
-  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY;
-  Texture2DMSArray.ArraySize = arraySize;
-  Texture2DMSArray.FirstArraySlice = firstArraySlice;
- }
- else
- {
-  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
-  Texture2DArray.ArraySize = arraySize;
-  Texture2DArray.MipSlice = mipslice;
-  Texture2DArray.FirstArraySlice = firstArraySlice;
- }
-}
-
-class RenderTargetView
-{
-private:
- ID3D11RenderTargetView** m_ppViews;
- int m_numViews;
-
-public:
- __forceinline explicit RenderTargetView(int numViews = 1);
-
- __forceinline explicit RenderTargetView(ID3D11RenderTargetView * View);
-
- __forceinline ~RenderTargetView();
-
-
-
- __forceinline ID3D11RenderTargetView** GetView(int index = 0) const;
-
-
-
-
-
-
- void Bind(DepthStencilView * pDepthView) const;
- void Bind(const DepthStencilView & depthview) const;
- void Bind() const;
- void BindOneView(int index);
- void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
-  ID3D11UnorderedAccessView * const *, const unsigned int *);
-
- void Clear(float bgColor[4]);
- void Clear();
-};
-
-__forceinline RenderTargetView::RenderTargetView(int numViews)
- : m_ppViews{ nullptr }, m_numViews{ numViews }
-{
- m_ppViews = new ID3D11RenderTargetView*[numViews];
-}
-
-__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
- : m_numViews{ 1 }
-{
- m_ppViews = new ID3D11RenderTargetView*[m_numViews];
- m_ppViews[0] = pView;
-}
-
-__forceinline ID3D11RenderTargetView** RenderTargetView::GetView(int index) const
-{
- return &m_ppViews[index];
-}
-
-__forceinline RenderTargetView::~RenderTargetView()
-{
- auto i = m_numViews - 1;
- for (; i > 0; i--)
-  if(m_ppViews[i]) m_ppViews[i]->Release(); m_ppViews[i]=0;;
-
- if (m_ppViews) delete [] m_ppViews; m_ppViews=0;;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../General.h"
-
-
-struct Viewport;
-class DepthStencilView;
-class DX11API
-{
-private:
-
- static ID3D11Device* g_d3d11Device;
- static ID3D11DeviceContext* g_d3d11DeviceContext;
- static IDXGISwapChain* g_pSwapChain;
-
- static RenderTargetView* g_pBackBufferRTV;
- static DepthStencilView* g_pDepthStencilView;
- static Viewport* g_pViewport;
-
-public:
-
-
-
-
-
-
- static bool InitializeGraphics(HWND hWnd);
-
- static void Dispatch(int groupCountX, int groupCountY, int groupCountZ);
- static void Draw(int vertexCount, int startVertexLocation);
- static void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation);
-
- static ID3D11Device* D3D11Device();
- static ID3D11DeviceContext* D3D11DeviceContext();
-
- static void BindGlobalRenderTargetView();
- static void BindGlobalRenderTargetView(DepthStencilView* pDepthStencilView);
- static void BindGlobalDepthStencilView(DepthStencilView * pDepthStencilView);
- static void BindGlobalViewport();
-
-
-
-
-
-
- static void ClearRenderTargetView(const float * color, RenderTargetView * pView);
-#line 55 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../General.h"
- static void ClearDepthStencilView(bool depth, bool stencil, float depthValue,
-  unsigned int stencilValue, DepthStencilView * pView);
-
-
-
-
-
-
-
- static void UnbindShaderResourceViews(unsigned int slot, unsigned int numviews, ShaderType shadertype);
-
-
-
-
-
-
- static void UnbindUnorderedAccessViews(unsigned int slot, unsigned int numviews);
-
-
-
-
-
- static void UnbindRenderTargetViews(unsigned int numviews);
-
-
-
-
-
- static void UnbindGeometryShader();
-
-
-
-
- static void PresentBackBuffer();
-};
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/Buffers.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../GraphicsResource.h"
-
-
-struct GraphicsBox : public D3D11_BOX
-{
-public:
-
- __forceinline GraphicsBox(unsigned int left, unsigned int top, unsigned int front,
-  unsigned int right, unsigned int bottom, unsigned int back);
-};
-
-__forceinline GraphicsBox::GraphicsBox(unsigned int left, unsigned int top, unsigned int front,
- unsigned int right, unsigned int bottom, unsigned int back)
-{
- this->left = left;
- this->top = top;
- this->front = front;
- this->right = right;
- this->bottom = bottom;
- this->back = back;
-}
-
-struct SubresourceData : public D3D11_SUBRESOURCE_DATA
-{
- __forceinline void SetData(const void* pData, unsigned int sysMemPitch = 0, unsigned int sysMemSlicePitch = 0);
-};
-
-__forceinline void SubresourceData::SetData(const void* pData, unsigned int sysMemPitch, unsigned int sysMemSlicePitch)
-{
- pSysMem = pData;
- sysMemPitch = sysMemPitch;
- sysMemSlicePitch = sysMemSlicePitch;
-}
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/Buffers.h"
-
-
-class Buffer
-{
-protected:
- ID3D11Buffer* m_pBuffer;
-
-public:
-
- __forceinline Buffer();
- virtual ~Buffer();
-
- __forceinline ID3D11Resource* GetResourcePointer() const;
-
- __forceinline void UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
-  const void * pSrcData, unsigned int srcRowPitch, unsigned int srcDepthPitch);
-
- __forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData *, unsigned int numElements = 0);
-};
-
-__forceinline Buffer::Buffer()
- : m_pBuffer{ nullptr }
-{}
-
-__forceinline ID3D11Resource* Buffer::GetResourcePointer() const
-{
- return static_cast<ID3D11Resource*>(m_pBuffer);
-}
-
-__forceinline void Buffer::UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
- const void * pSrcData, unsigned int srcRowPitch, unsigned int srcDepthPitch)
-{
- DX11API::D3D11DeviceContext()->UpdateSubresource(m_pBuffer, destSubresource, pBox, pSrcData, srcRowPitch, srcDepthPitch);
-}
-
-__forceinline bool Buffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements)
-{
- HRESULT hr = DX11API::D3D11Device()->CreateBuffer(&desc, pData, &m_pBuffer);
-
- if (hr == ((HRESULT)0L)) return true; else { switch (hr) { case ((HRESULT)0L): break; case ((HRESULT)1L): OutputDebugStringA("Completed without error, but only partial results were obtained. 							If a buffer is not large enough to hold the information that is returned 							to it, the returned information is often truncated to fit into the buffer 							and S_FALSE is returned from the method."); break; case ((HRESULT)0x80004005L): OutputDebugStringA("Operation couldn't be performed."); break; case ((HRESULT)0x80070057L): OutputDebugStringA("One of the arguments passed in was invalid."); break; case ((HRESULT)0x80004002L): OutputDebugStringA("The object searched for was not found."); break; case ((HRESULT)0x8007000EL): OutputDebugStringA("A memory allocation attempt failed."); break; case ((HRESULT)0x8000FFFFL): OutputDebugStringA("The target was not accessible, ot the engine was not in a state 							where the function or method could be processed."); break; case ((HRESULT)0x80004001L): OutputDebugStringA("Not implemented."); break; default: OutputDebugStringA("File not found."); break; }; __asm { int 3 };; return false; };;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/VertexBuffer.h"
-
-
-class VertexBuffer : public Buffer
-{
-protected:
- unsigned int m_vertexSize;
- unsigned int m_vertexCount;
-
-public:
- __forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize);
- __forceinline void Bind(unsigned int startSlot, unsigned int offset) const;
- __forceinline void Bind(unsigned int startSlot, unsigned int offset, unsigned int vertexSize) const;
- __forceinline unsigned int Count() const;
-};
-
-__forceinline bool VertexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize)
-{
- m_vertexCount = numElements;
- m_vertexSize = elementSize;
-
- return Buffer::Create(desc, pData, numElements);
-}
-
-__forceinline void VertexBuffer::Bind(unsigned int startSlot, unsigned int offset) const
-{
- DX11API::D3D11DeviceContext()->IASetVertexBuffers(startSlot, 1, &m_pBuffer, &m_vertexSize, &offset);
-}
-
-__forceinline void VertexBuffer::Bind(unsigned int startSlot, unsigned int offset, unsigned int vertexSize) const
-{
- DX11API::D3D11DeviceContext()->IASetVertexBuffers(startSlot, 1, &m_pBuffer, &vertexSize, &offset);
-}
-
-__forceinline unsigned int VertexBuffer::Count() const
-{
- return m_vertexCount;
-}
-#line 8 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/IndexBuffer.h"
-
-
-
-
-class IndexBuffer : public Buffer
-{
-protected:
- DXGI_FORMAT m_format;
- unsigned int m_indexSize;
- unsigned int m_indexCount;
-
-public:
-
- __forceinline void Bind(unsigned int offset) const;
-
- __forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
-  unsigned int numElements, unsigned int elementSize);
-
- __forceinline unsigned int Count() const;
-};
-
-__forceinline void IndexBuffer::Bind(unsigned int offset) const
-{
- DX11API::D3D11DeviceContext()->IASetIndexBuffer(m_pBuffer, m_format, offset);
-}
-
-__forceinline bool IndexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
- unsigned int numElements, unsigned int elementSize)
-{
- m_indexCount = numElements;
- m_indexSize = elementSize;
-
- if (elementSize == 4)
- {
-  m_format = DXGI_FORMAT_R32_UINT;
- }
- else if (elementSize == 2)
- {
-  m_format = DXGI_FORMAT_R16_UINT;
- }
- else
- {
-  (void)( (!!(0 && "Index size should be size of 2 or 4 bytes!")) || (_wassert(L"0 && \"Index size should be size of 2 or 4 bytes!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/IndexBuffer.h", 43), 0) );
- }
-
- return Buffer::Create(desc, pData, numElements);
-}
-
-__forceinline unsigned int IndexBuffer::Count() const
-{
- return m_indexCount;
-}
-#line 9 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
-
-
-class IndexedMesh;
-class MeshResourceExtraData : public IResourceExtraData
-{
-public:
- unsigned int m_uNumMeshes;
- Vec m_vExtents;
-
- shared_ptr<IndexedMesh> m_pMesh;
-
-
-
-
-
-
-
- __forceinline MeshResourceExtraData();
-
- __forceinline unsigned int GetNumMeshes() const;
- __forceinline const Vec & GetExtents() const;
-
- virtual string VToString() override;
-};
-
-__forceinline MeshResourceExtraData::MeshResourceExtraData()
- : m_uNumMeshes{ 0 }
-{
-
-
-
-
-
-}
-
-__forceinline unsigned int MeshResourceExtraData::GetNumMeshes() const
-{
- return m_uNumMeshes;
-}
-
-__forceinline const Vec & MeshResourceExtraData::GetExtents() const
-{
- return m_vExtents;
-}
-
-class MeshLoader : public IResourceLoader
-{
-public:
- __forceinline virtual string VGetPattern() override;
- __forceinline virtual bool VUseRawFile() override;
- __forceinline virtual bool VNeedFile() override;
- __forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
- virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
-};
-
-__forceinline string MeshLoader::VGetPattern()
-{
- return "*.mesh";
-}
-
-__forceinline bool MeshLoader::VUseRawFile()
-{
- return false;
-}
-
-__forceinline bool MeshLoader::VNeedFile()
-{
- return true;
-}
-
-__forceinline int MeshLoader::VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize)
-{
- return 10;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/BufferParams.h"
-
-
-struct BufferParams : public D3D11_BUFFER_DESC
-{
-public:
- __forceinline bool FillVertexBufferParams(unsigned int vertexSize, unsigned int count,
-  bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream);
-
- __forceinline bool FillIndexBufferParams(unsigned int indexSize, unsigned int count,
-  bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream);
-
- __forceinline bool FillConstantBufferParams(unsigned int size,
-  bool gpuWrite, bool cpuRead, bool cpuWrite);
-
- __forceinline bool FillStructredBufferParams(unsigned int structsize, unsigned int count, bool CPUWritable,
-  bool GPUWritable);
-
-
-
-
-
- __forceinline void SetSize(unsigned int size);
-};
-
-__forceinline bool BufferParams::FillVertexBufferParams(unsigned int vertexSize, unsigned int count,
- bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream)
-{
- memset((this),0,(sizeof(D3D11_BUFFER_DESC)));
- ByteWidth = vertexSize * count;
-
- if (cpuRead && cpuWrite && gpuWrite)
- {
-  Usage = D3D11_USAGE_STAGING;
-  CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
- }
- else if (gpuWrite && !cpuRead && !cpuWrite)
- {
-  Usage = D3D11_USAGE_DEFAULT;
- }
- else if (cpuWrite && !cpuRead && !gpuWrite)
- {
-  Usage = D3D11_USAGE_DYNAMIC;
-  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- }
- else
- {
-  Usage = D3D11_USAGE_IMMUTABLE;
- }
-
- if (stream)
-  BindFlags = D3D11_BIND_VERTEX_BUFFER | D3D11_BIND_STREAM_OUTPUT;
- else
-  BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
- return true;
-}
-
-__forceinline bool BufferParams::FillIndexBufferParams(unsigned int indexSize, unsigned int count,
- bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream)
-{
- memset((this),0,(sizeof(D3D11_BUFFER_DESC)));
- ByteWidth = indexSize * count;
-
- if (cpuRead && cpuWrite && gpuWrite)
- {
-  Usage = D3D11_USAGE_STAGING;
-  CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
- }
- else if (gpuWrite && !cpuRead && !cpuWrite)
- {
-  Usage = D3D11_USAGE_DEFAULT;
- }
- else if (cpuWrite && !cpuRead && !gpuWrite)
- {
-  Usage = D3D11_USAGE_DYNAMIC;
-  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- }
- else
- {
-  Usage = D3D11_USAGE_IMMUTABLE;
- }
-
- if (stream)
-  BindFlags = D3D11_BIND_INDEX_BUFFER | D3D11_BIND_STREAM_OUTPUT;
- else
-  BindFlags = D3D11_BIND_INDEX_BUFFER;
-
- return true;
-}
-
-__forceinline bool BufferParams::FillConstantBufferParams(unsigned int size,
- bool gpuWrite, bool cpuRead, bool cpuWrite)
-{
- memset((this),0,(sizeof(D3D11_BUFFER_DESC)));
- ByteWidth = size;
-
- if (cpuRead && cpuWrite && gpuWrite)
- {
-  Usage = D3D11_USAGE_STAGING;
-  CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
- }
- else if (gpuWrite && !cpuRead && !cpuWrite)
- {
-  Usage = D3D11_USAGE_DEFAULT;
- }
- else if (cpuWrite && !cpuRead && !gpuWrite)
- {
-  Usage = D3D11_USAGE_DYNAMIC;
-  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- }
- else
- {
-  Usage = D3D11_USAGE_IMMUTABLE;
- }
-
- BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-
- return true;
-}
-
-__forceinline bool BufferParams::FillStructredBufferParams(unsigned int structsize, unsigned int count, bool CPUWritable,
- bool GPUWritable)
-{
- memset((this),0,(sizeof(D3D11_BUFFER_DESC)));
- ByteWidth = structsize * count;
- MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
- StructureByteStride = structsize;
-
- if (!CPUWritable && !GPUWritable)
- {
-  BindFlags = D3D11_BIND_SHADER_RESOURCE;
-  Usage = D3D11_USAGE_IMMUTABLE;
-  CPUAccessFlags = 0;
- }
- else if (CPUWritable && !GPUWritable)
- {
-  BindFlags = D3D11_BIND_SHADER_RESOURCE;
-  Usage = D3D11_USAGE_DYNAMIC;
-  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- }
- else if (!CPUWritable && GPUWritable)
- {
-  BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
-  Usage = D3D11_USAGE_DEFAULT;
-  CPUAccessFlags = 0;
- }
- else if (CPUWritable && GPUWritable)
- {
-  (void)( (!!(0 && "Error: Resource cannot be simultanuously writable by CPU and GPU")) || (_wassert(L"0 && \"Error: Resource cannot be simultanuously writable by CPU and GPU\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/BufferParams.h", 149), 0) );
- }
-
- return true;
-}
-
-__forceinline void BufferParams::SetSize(unsigned int size)
-{
- ByteWidth = size;
-}
-#line 5 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float2.h"
-
-
-class float2 final
-{
-public:
- float x, y;
-
-
- __forceinline float2();
-
-
-
-
-
-
- explicit __forceinline float2(float value);
-
-
-
-
-
-
-
- __forceinline float2(float inX, float inY);
-#line 35 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float2.h"
-};
-
-__forceinline float2::float2()
- : x{ 0 }, y{ 0 }
-{}
-
-__forceinline float2::float2(float value)
- : x{ value }, y{ value }
-{}
-
-__forceinline float2::float2(float inX, float inY)
- : x{ inX }, y{ inY }
-{}
-#line 8 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float3.h"
-
-
-class float2;
-class float3 final
-{
-public:
- float x, y, z;
-
-
- __forceinline float3();
-
-
-
-
-
-
- explicit __forceinline float3(float value);
-#line 26 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float3.h"
- __forceinline float3(float inX, float inY, float inZ);
-
-
-
-
-
-
-
- explicit float3(const float2 & v, float inZ);
-#line 44 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float3.h"
- __forceinline static float3 cross(const float3 & v1, const float3 & v2);
-#line 54 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float3.h"
- __forceinline static float dot(const float3 & v1, const float3 & v2);
-};
-
-__forceinline float3 operator^(float3 v1, const float3 & v2)
-{
- return float3
- {
- v1.y * v2.z - v1.z * v2.y,
- v1.z * v2.x - v1.x * v2.z,
- v1.x * v2.y - v1.y * v2.x,
-};
-}
-
-__forceinline float3::float3()
-{}
-
-__forceinline float3::float3(float value)
- : x{ value }
-{}
-
-__forceinline float3::float3(float inX, float inY, float inZ)
- : x{ inX }, y{ inY }, z{ inZ }
-{}
-
-__forceinline float3 float3::cross(const float3 & v1, const float3 & v2)
-{
- return v1 ^ v2;
-}
-#line 9 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/IndexedMesh.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/Mesh.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Objects/IMovable.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Objects/../../Math/Matrix.h"
-
-
-
-
-class Mat4x4
-{
-public:
- union
- {
-  float m[4][4];
- };
-
- static const Mat4x4 Identity;
-
- __forceinline static Mat4x4 CreateViewMatrixLH(const Vec & pos, const Vec & lookDir, const Vec & up);
- __forceinline static Mat4x4 CreatePerspectiveProjectionLH(float fov, float aspect, float nearZ, float farZ);
- __forceinline static Mat4x4 CreateOrthoProjectionLH(float width, float height, float nearZ, float farZ);
- __forceinline static Mat4x4 CreateTranslation(const Vec & vec);
- __forceinline static Mat4x4 CreateRotationX(float angleInRadians);
- __forceinline static Mat4x4 CreateRotationY(float angleInRadians);
- __forceinline static Mat4x4 CreateRotationZ(float angleInRadians);
- __forceinline static Mat4x4 CreateScaling(const Vec & scale);
- __forceinline static Mat4x4 CreateScaling(float x, float y, float z);
- __forceinline static Mat4x4 CreateRollPitchYaw(float rollInRadians, float pitchInRadians, float yawInRadians);
-
-
-
-
-
- __forceinline Mat4x4();
-
- __forceinline Mat4x4(float m11, float m12, float m13, float m14,
-  float m21, float m22, float m23, float m24,
-  float m31, float m32, float m33, float m34,
-  float m41, float m42, float m43, float m44);
-
- __forceinline Mat4x4(const Vec & v1, const Vec & v2, const Vec & v3, const Vec & v4);
-
- __forceinline void SetIdentity();
-
- __forceinline Mat4x4 GetTransposed() const;
-
- __forceinline void Transpose();
-
- __forceinline Mat4x4 & operator*=(const Mat4x4 & other);
-
- __forceinline Mat4x4 & operator*=(float other);
-
- __forceinline Mat4x4 & operator+=(const Mat4x4 & other);
-
- __forceinline Mat4x4 & operator-=(const Mat4x4 & other);
-
- __forceinline bool operator==(const Mat4x4 & other) const;
-
- __forceinline bool operator!=(const Mat4x4 & other) const;
-};
-
-__forceinline Mat4x4::Mat4x4()
-{
- m[0][0] = 1.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
- m[1][0] = 0.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = 0.0f;
- m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = 0.0f;
- m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
-}
-
-__forceinline Mat4x4::Mat4x4(float m11, float m12, float m13, float m14,
- float m21, float m22, float m23, float m24,
- float m31, float m32, float m33, float m34,
- float m41, float m42, float m43, float m44)
-{
- m[0][0] = m11; m[0][1] = m12; m[0][2] = m13; m[0][3] = m14;
- m[1][0] = m21; m[1][1] = m22; m[1][2] = m23; m[1][3] = m24;
- m[2][0] = m31; m[2][1] = m32; m[2][2] = m33; m[2][3] = m34;
- m[3][0] = m41; m[3][1] = m42; m[3][2] = m43; m[3][3] = m44;
-}
-
-__forceinline Mat4x4::Mat4x4(const Vec & v1, const Vec & v2, const Vec & v3, const Vec & v4)
-{
- m[0][0] = v1.x; m[0][1] = v1.y; m[0][2] = v1.z; m[0][3] = v1.w;
- m[1][0] = v2.x; m[1][1] = v2.y; m[1][2] = v2.z; m[1][3] = v2.w;
- m[2][0] = v3.x; m[2][1] = v3.y; m[2][2] = v3.z; m[2][3] = v3.w;
- m[3][0] = v4.x; m[3][1] = v4.y; m[3][2] = v4.z; m[3][3] = v4.w;
-}
-
-__forceinline Vec operator*(const Vec & v, const Mat4x4 & M)
-{
- return Vec(v.x * M.m[0][0] + v.y * M.m[1][0] + v.z * M.m[2][0] + v.w * M.m[3][0],
-  v.x * M.m[0][1] + v.y * M.m[1][1] + v.z * M.m[2][1] + v.w * M.m[3][1],
-  v.x * M.m[0][2] + v.y * M.m[1][2] + v.z * M.m[2][2] + v.w * M.m[3][2],
-  v.x * M.m[0][3] + v.y * M.m[1][3] + v.z * M.m[2][3] + v.w * M.m[3][3]);
-}
-
-__forceinline Mat4x4 & Mat4x4::operator*=(const Mat4x4 & other)
-{
- Vec row0 = Vec{ m[0][0], m[0][1], m[0][2], m[0][3] } *other;
- Vec row1 = Vec{ m[1][0], m[1][1], m[1][2], m[1][3] } *other;
- Vec row2 = Vec{ m[2][0], m[2][1], m[2][2], m[2][3] } *other;
- Vec row3 = Vec{ m[3][0], m[3][1], m[3][2], m[3][3] } *other;
-
- m[0][0] = row0.x; m[0][1] = row0.y; m[0][2] = row0.z; m[0][3] = row0.w;
- m[1][0] = row1.x; m[1][1] = row1.y; m[1][2] = row1.z; m[1][3] = row1.w;
- m[2][0] = row2.x; m[2][1] = row2.y; m[2][2] = row2.z; m[2][3] = row2.w;
- m[3][0] = row3.x; m[3][1] = row3.y; m[3][2] = row3.z; m[3][3] = row3.w;
-
- return *this;
-}
-
-__forceinline Mat4x4 & Mat4x4::operator+=(const Mat4x4 & other)
-{
- for (int i = 0; i < 4; i++)
- {
-  for (int j = 0; j < 4; j++)
-  {
-   m[i][j] += other.m[i][j];
-  }
- }
-
- return *this;
-}
-
-__forceinline Mat4x4 & Mat4x4::operator-=(const Mat4x4 & other)
-{
- for (int i = 0; i < 4; i++)
- {
-  for (int j = 0; j < 4; j++)
-  {
-   m[i][j] -= other.m[i][j];
-  }
- }
-
- return *this;
-}
-
-__forceinline Mat4x4 & Mat4x4::operator*=(float other)
-{
- for (int i = 0; i < 4; i++)
- {
-  for (int j = 0; j < 4; j++)
-  {
-   m[i][j] *= other;
-  }
- }
-
- return *this;
-}
-
-__forceinline Mat4x4 operator*(Mat4x4 m1, const Mat4x4 & m2)
-{
- m1 *= m2;
- return m1;
-}
-
-__forceinline Mat4x4 operator*(Mat4x4 m, float other)
-{
- m *= other;
- return m;
-}
-
-__forceinline Mat4x4 operator+(Mat4x4 m1, const Mat4x4 & m2)
-{
- m1 += m2;
- return m1;
-}
-
-__forceinline Mat4x4 operator-(Mat4x4 m1, const Mat4x4 & m2)
-{
- m1 -= m2;
- return m1;
-}
-
-__forceinline bool Mat4x4::operator==(const Mat4x4 & other) const
-{
- for (int i = 0; i < 4; i++)
- {
-  for (int j = 0; j < 4; j++)
-  {
-   if (m[i][j] != other.m[i][j])
-   {
-    return false;
-   }
-  }
- }
-
- return true;
-}
-
-__forceinline bool Mat4x4::operator!=(const Mat4x4 & other) const
-{
- for (int i = 0; i < 4; i++)
- {
-  for (int j = 0; j < 4; j++)
-  {
-   if (m[i][j] != other.m[i][j])
-   {
-    return true;
-   }
-  }
- }
-
- return false;
-}
-
-
-__forceinline Mat4x4 Mat4x4::CreateViewMatrixLH(const Vec & pos, const Vec & lookDir, const Vec & up)
-{
- Vec & zaxis = Vec::Normalize(lookDir);
- Vec & xaxis = Vec::Normalize(up ^ zaxis);
- Vec & yaxis = zaxis ^ xaxis;
-
- return Mat4x4{ xaxis.x, yaxis.x, zaxis.x, 0.0f,
-     xaxis.y, yaxis.y, zaxis.y, 0.0f,
-     xaxis.z, yaxis.z, zaxis.z, 0.0f,
-     -Dot4(xaxis, pos), -Dot4(yaxis, pos), -Dot4(zaxis, pos), 1.0f };
-}
-
-__forceinline Mat4x4 Mat4x4::CreatePerspectiveProjectionLH(float fov, float aspect, float nearZ, float farZ)
-{
- float SinFov = Math::Sin(fov * 0.5f);
- float CosFov = Math::Cos(fov * 0.5f);
-
- float height = CosFov / SinFov;
- float width = height / aspect;
-
- return Mat4x4{ width, 0.0f, 0.0f, 0.0f,
-     0.0f, height, 0.0f, 0.0f,
-     0.0f, 0.0f, farZ / (farZ - nearZ), 1.0f,
-     0.0f, 0.0f, -nearZ*farZ / (farZ - nearZ), 0.0f };
-}
-
-__forceinline Mat4x4 Mat4x4::CreateOrthoProjectionLH(float width, float height, float nearZ, float farZ)
-{
- return Mat4x4{ 2.0f / width, 0.0f, 0.0f, 0.0f,
-     0.0f, 2.0f / height, 0.0f, 0.0f,
-     0.0f, 0.0f, 1.0f / (farZ - nearZ), 0.0f,
-     0.0f, 0.0f, nearZ / (nearZ - farZ), 1.0f };
-}
-
-__forceinline Mat4x4 Mat4x4::CreateTranslation(const Vec & vec)
-{
- return Mat4x4{ 1.0f, 0.0f, 0.0f, 0.0f,
-     0.0f, 1.0f, 0.0f, 0.0f,
-     0.0f, 0.0f, 1.0f, 0.0f,
-     vec.x, vec.y, vec.z, vec.w };
-}
-
-__forceinline Mat4x4 Mat4x4::CreateRotationX(float angleInRadians)
-{
- return Mat4x4{ 1.0f, 0.0f, 0.0f, 0.0f,
-  0.0f, Math::Cos(angleInRadians), Math::Sin(angleInRadians), 0.0f,
-  0.0f, -Math::Sin(angleInRadians), Math::Cos(angleInRadians), 0.0f,
-  0.0f, 0.0f, 0.0f, 1.0f };
-}
-
-__forceinline Mat4x4 Mat4x4::CreateRotationY(float angleInRadians)
-{
- return Mat4x4{ Math::Cos(angleInRadians), 0.0f, -Math::Sin(angleInRadians), 0.0f,
-  0.0f, 1.0f, 0.0f, 0.0f,
-  Math::Sin(angleInRadians), 0.0f, Math::Cos(angleInRadians), 0.0f,
-  0.0f, 0.0f, 0.0f, 1.0f };
-}
-
-__forceinline Mat4x4 Mat4x4::CreateRotationZ(float angleInRadians)
-{
- return Mat4x4{ Math::Cos(angleInRadians), Math::Sin(angleInRadians), 0.0f, 0.0f,
-  -Math::Sin(angleInRadians), Math::Cos(angleInRadians), 0.0f, 0.0f,
-  0.0f, 0.0f, 1.0f, 0.0f,
-  0.0f, 0.0f, 0.0f, 1.0f };
-}
-
-__forceinline Mat4x4 Mat4x4::CreateScaling(const Vec & scale)
-{
- return Mat4x4{ scale.x, 0.0f, 0.0f, 0.0f,
-  0.0f, scale.y, 0.0f, 0.0f,
-  0.0f, 0.0f, scale.z, 0.0f,
-  0.0f, 0.0f, 0.0f, 1.0f };
-}
-
-__forceinline Mat4x4 Mat4x4::CreateScaling(float x, float y, float z)
-{
- return Mat4x4{ x, 0.0f, 0.0f, 0.0f,
-  0.0f, y, 0.0f, 0.0f,
-  0.0f, 0.0f, z, 0.0f,
-  0.0f, 0.0f, 0.0f, 1.0f };
-}
-
-__forceinline Mat4x4 Mat4x4::CreateRollPitchYaw(float rollInRadians, float pitchInRadians, float yawInRadians)
-{
- return CreateRotationZ(rollInRadians) * CreateRotationX(pitchInRadians) * CreateRotationY(yawInRadians);
-}
-
-__forceinline Mat4x4 Mat4x4::GetTransposed() const
-{
- Mat4x4 mat;
-
- mat.m[0][0] = m[0][0];
- mat.m[0][1] = m[1][0];
- mat.m[0][2] = m[2][0];
- mat.m[0][3] = m[3][0];
-
- mat.m[1][0] = m[0][1];
- mat.m[1][1] = m[1][1];
- mat.m[1][2] = m[2][1];
- mat.m[1][3] = m[3][1];
-
- mat.m[2][0] = m[0][2];
- mat.m[2][1] = m[1][2];
- mat.m[2][2] = m[2][2];
- mat.m[2][3] = m[3][2];
-
- mat.m[3][0] = m[0][3];
- mat.m[3][1] = m[1][3];
- mat.m[3][2] = m[2][3];
- mat.m[3][3] = m[3][3];
-
- return mat;
-}
-
-__forceinline void Mat4x4::Transpose()
-{
- Mat4x4 temp = GetTransposed();
- *this = temp;
-}
-
-class MatrixStack
-{
-private:
- vector<Mat4x4> m_matrices;
- unsigned char m_count;
-
-public:
-
- __forceinline MatrixStack();
-
-
- __forceinline const Mat4x4 & Get() const;
-
-
- __forceinline unsigned char Count() const;
-
-
- __forceinline void Pop();
-
-
- __forceinline void PushTransform(const Mat4x4 & mat);
-};
-
-__forceinline MatrixStack::MatrixStack()
- : m_count{ 1 }
-{
- m_matrices.reserve(10);
- m_matrices.emplace_back();
-}
-
-
-__forceinline const Mat4x4 & MatrixStack::Get() const
-{
- return m_matrices.back();
-}
-
-
-__forceinline unsigned char MatrixStack::Count() const
-{
- return m_count;
-}
-
-
-__forceinline void MatrixStack::Pop()
-{
- m_matrices.pop_back();
- --m_count;
-}
-
-
-__forceinline void MatrixStack::PushTransform(const Mat4x4 & mat)
-{
- m_matrices.push_back(m_matrices.back() * mat);
- ++m_count;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Objects/IMovable.h"
-
-
-class IMovable
-{
-protected:
-
- Mat4x4 m_worldTransform;
-
-public:
-
- virtual void SetWorldTransform(const Mat4x4 & transform) = 0;
- __forceinline const Mat4x4 & GetWorldTransform() const;
-};
-
-__forceinline const Mat4x4 & IMovable::GetWorldTransform() const
-{
- return m_worldTransform;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/Mesh.h"
-
-
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/Material.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture2D.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Textures/Texture.h"
 
 
 struct ShaderResourceViewParams;
@@ -154944,7 +153422,7 @@ public:
   const DepthStencilViewParams & params) const = 0;
 
 };
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture2D.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Textures/Texture2D.h"
 
 
 struct ShaderResourceViewParams;
@@ -155089,11 +153567,279 @@ protected:
 __forceinline Texture2D::Texture2D()
  : m_pTexture{ nullptr }
 {}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/Material.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/Material.h"
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/../../Graphics/Resources/Views/ShaderResourceView.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Views/ShaderResourceView.h"
 
 
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Views/../../General.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Views/../../../Graphics/Resources/Views/RenderTargetView.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Views/DepthStencilView.h"
+
+
+struct DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
+{
+public:
+ __forceinline DepthStencilViewParams();
+
+ __forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
+
+ __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
+};
+
+__forceinline DepthStencilViewParams::DepthStencilViewParams()
+{
+ memset((this),0,(sizeof(DepthStencilViewParams)));
+}
+
+__forceinline void DepthStencilViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
+{
+ Format = format;
+ Texture2D.MipSlice = mipslice;
+
+ ViewDimension = multiSampled ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+}
+
+__forceinline void DepthStencilViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
+{
+ Format = format;
+
+ if (multiSampled)
+ {
+  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
+  Texture2DMSArray.ArraySize = arraySize;
+  Texture2DMSArray.FirstArraySlice = firstArraySlice;
+ }
+ else
+ {
+  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
+  Texture2DArray.ArraySize = arraySize;
+  Texture2DArray.MipSlice = mipslice;
+  Texture2DArray.FirstArraySlice = firstArraySlice;
+ }
+}
+
+
+class DepthStencilView
+{
+ friend class Renderer;
+
+private:
+ ID3D11DepthStencilView* m_pView;
+
+public:
+
+ __forceinline DepthStencilView();
+
+ __forceinline ~DepthStencilView();
+
+
+
+ __forceinline ID3D11DepthStencilView * GetView() const;
+};
+
+__forceinline DepthStencilView::DepthStencilView()
+ : m_pView{ nullptr }
+{}
+
+__forceinline DepthStencilView::~DepthStencilView()
+{
+ if(m_pView) m_pView->Release(); m_pView=0;;
+}
+
+__forceinline ID3D11DepthStencilView *DepthStencilView::GetView() const
+{
+ return m_pView;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Views/../../../Graphics/Resources/Views/RenderTargetView.h"
+
+
+struct RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
+{
+public:
+ __forceinline RenderTargetViewParams();
+
+ __forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
+
+ __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
+};
+
+__forceinline RenderTargetViewParams::RenderTargetViewParams()
+{
+ memset((this),0,(sizeof(RenderTargetViewParams)));
+}
+
+__forceinline void RenderTargetViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
+{
+ Format = format;
+ Texture2D.MipSlice = mipslice;
+
+ ViewDimension = multiSampled ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
+}
+
+__forceinline void RenderTargetViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
+{
+ Format = format;
+
+ if (multiSampled)
+ {
+  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY;
+  Texture2DMSArray.ArraySize = arraySize;
+  Texture2DMSArray.FirstArraySlice = firstArraySlice;
+ }
+ else
+ {
+  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
+  Texture2DArray.ArraySize = arraySize;
+  Texture2DArray.MipSlice = mipslice;
+  Texture2DArray.FirstArraySlice = firstArraySlice;
+ }
+}
+
+class RenderTargetView
+{
+private:
+ ID3D11RenderTargetView** m_ppViews;
+ int m_numViews;
+
+public:
+ __forceinline explicit RenderTargetView(int numViews = 1);
+
+ __forceinline explicit RenderTargetView(ID3D11RenderTargetView * View);
+
+ __forceinline ~RenderTargetView();
+
+
+
+ __forceinline ID3D11RenderTargetView** GetView(int index = 0) const;
+
+
+
+
+
+
+ void Bind(DepthStencilView * pDepthView) const;
+ void Bind(const DepthStencilView & depthview) const;
+ void Bind() const;
+ void BindOneView(int index);
+ void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
+  ID3D11UnorderedAccessView * const *, const unsigned int *);
+
+ void Clear(float bgColor[4]);
+ void Clear();
+};
+
+__forceinline RenderTargetView::RenderTargetView(int numViews)
+ : m_ppViews{ nullptr }, m_numViews{ numViews }
+{
+ m_ppViews = new ID3D11RenderTargetView*[numViews];
+}
+
+__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
+ : m_numViews{ 1 }
+{
+ m_ppViews = new ID3D11RenderTargetView*[m_numViews];
+ m_ppViews[0] = pView;
+}
+
+__forceinline ID3D11RenderTargetView** RenderTargetView::GetView(int index) const
+{
+ return &m_ppViews[index];
+}
+
+__forceinline RenderTargetView::~RenderTargetView()
+{
+ auto i = m_numViews - 1;
+ for (; i > 0; i--)
+  if(m_ppViews[i]) m_ppViews[i]->Release(); m_ppViews[i]=0;;
+
+ if (m_ppViews) delete [] m_ppViews; m_ppViews=0;;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Views/../../General.h"
+
+
+struct Viewport;
+class DepthStencilView;
+class DX11API
+{
+private:
+
+ static ID3D11Device* g_d3d11Device;
+ static ID3D11DeviceContext* g_d3d11DeviceContext;
+ static IDXGISwapChain* g_pSwapChain;
+
+ static RenderTargetView* g_pBackBufferRTV;
+ static DepthStencilView* g_pDepthStencilView;
+ static Viewport* g_pViewport;
+
+public:
+
+
+
+
+
+
+ static bool InitializeGraphics(HWND hWnd);
+
+ static void Dispatch(int groupCountX, int groupCountY, int groupCountZ);
+ static void Draw(int vertexCount, int startVertexLocation);
+ static void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation);
+
+ static ID3D11Device* D3D11Device();
+ static ID3D11DeviceContext* D3D11DeviceContext();
+
+ static void BindGlobalRenderTargetView();
+ static void BindGlobalRenderTargetView(DepthStencilView* pDepthStencilView);
+ static void BindGlobalDepthStencilView(DepthStencilView * pDepthStencilView);
+ static void BindGlobalViewport();
+
+
+
+
+
+
+ static void ClearRenderTargetView(const float * color, RenderTargetView * pView);
+#line 55 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Views/../../General.h"
+ static void ClearDepthStencilView(bool depth, bool stencil, float depthValue,
+  unsigned int stencilValue, DepthStencilView * pView);
+
+
+
+
+
+
+
+ static void UnbindShaderResourceViews(unsigned int slot, unsigned int numviews, ShaderType shadertype);
+
+
+
+
+
+
+ static void UnbindUnorderedAccessViews(unsigned int slot, unsigned int numviews);
+
+
+
+
+
+ static void UnbindRenderTargetViews(unsigned int numviews);
+
+
+
+
+
+ static void UnbindGeometryShader();
+
+
+
+
+ static void PresentBackBuffer();
+};
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/../../Graphics/Resources/Views/ShaderResourceView.h"
 
 
 struct ShaderResourceViewParams : public D3D11_SHADER_RESOURCE_VIEW_DESC
@@ -155243,7 +153989,7 @@ __forceinline void ShaderResourceView::BindView(int index, int slot, ShaderType 
   break;
  };
 }
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/Material.h"
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Materials/Material.h"
 
 
 class Material
@@ -155364,18 +154110,7 @@ __forceinline void Material::UnbindNormal()
  DX11API::UnbindShaderResourceViews(m_normalSlot, 1, ST_Pixel);
  m_normalSlot = -1;
 }
-#line 7 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/Mesh.h"
-
-
-
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../../ResourceManager/Loaders/MaterialLoader.h"
-
-
-
-
-
+#line 6 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MaterialLoader.h"
 
 
 class MaterialResourceExtraData : public IResourceExtraData
@@ -155427,365 +154162,142 @@ __forceinline int MaterialLoader::VGetLoadedResourceSize(char* pRawBuffer, unsig
 {
  return 10;
 }
-#line 12 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/Mesh.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MaterialLoader.cpp"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/TextureLoader.h"
 
 
-class Mesh : public IMovable
+
+
+
+
+
+class TextureResourceExtraData : public IResourceExtraData
 {
-protected:
- Mat4x4 m_objectTransform;
-
- shared_ptr<VertexBuffer> m_pVertices;
- shared_ptr<VertexBuffer> m_pTexCoords;
- shared_ptr<VertexBuffer> m_pNormals;
- shared_ptr<VertexBuffer> m_pTangents;
-
- shared_ptr<Material> m_pMaterial;
-
 public:
+ shared_ptr<Texture2D> m_pTexture;
 
- __forceinline Mesh();
- virtual ~Mesh();
-
- __forceinline void SetMaterial(const string & materialName);
-
- __forceinline void BindMaterial();
- __forceinline void BindVertices(unsigned int startSlot, unsigned int offset);
- __forceinline void BindTexCoords(unsigned int startSlot, unsigned int offset);
- __forceinline void BindNormals(unsigned int startSlot, unsigned int offset);
- __forceinline void BindTangents(unsigned int startSlot, unsigned int offset);
-
- virtual void SetWorldTransform(const Mat4x4 & transform) override;
+ __forceinline TextureResourceExtraData();
+ virtual string VToString() override;
 };
 
-__forceinline Mesh::Mesh()
-{}
-
-__forceinline void Mesh::SetMaterial(const string & materialName)
+__forceinline TextureResourceExtraData::TextureResourceExtraData()
 {
- Resource materialResource(materialName);
- shared_ptr<ResHandle> pMaterialHandle = ResourceCache::SafeGetHandle(&materialResource);
- std::shared_ptr<MaterialResourceExtraData> pData = static_pointer_cast<MaterialResourceExtraData>(pMaterialHandle->GetExtra());
-
- m_pMaterial = pData->m_pMaterial;
+ m_pTexture = make_shared<Texture2D>();
 }
 
-__forceinline void Mesh::BindMaterial()
-{
- m_pMaterial->VBind(0);
-}
 
-__forceinline void Mesh::BindVertices(unsigned int startSlot, unsigned int offset)
-{
- m_pVertices->Bind(startSlot, offset);
-}
-
-__forceinline void Mesh::BindTexCoords(unsigned int startSlot, unsigned int offset)
-{
- m_pTexCoords->Bind(startSlot, offset);
-}
-
-__forceinline void Mesh::BindNormals(unsigned int startSlot, unsigned int offset)
-{
- m_pNormals->Bind(startSlot, offset);
-}
-
-__forceinline void Mesh::BindTangents(unsigned int startSlot, unsigned int offset)
-{
- m_pTangents->Bind(startSlot, offset);
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/IndexedMesh.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/SubMesh.h"
-
-
-
-
-class SubMesh
+class TextureLoader : public IResourceLoader
 {
 public:
-
- shared_ptr<Material> m_pMaterial;
- int m_firstIndex;
- int m_numIndices;
-
- __forceinline SubMesh();
-
- __forceinline void SetMaterial(const string & materialName);
-
- __forceinline void BindMaterial(unsigned int slot);
- __forceinline void BindMaterialDiffuse(unsigned int slot);
- __forceinline void BindMaterialNormal(unsigned int slot);
- __forceinline void BindMaterialSpecular(unsigned int slot);
-
- __forceinline void DrawIndexed();
-
- __forceinline void UnbindMaterial();
- __forceinline void UnBindMaterialDiffuse();
- __forceinline void UnBindMaterialNormal();
- __forceinline void UnBindMaterialSpecular();
+ __forceinline virtual string VGetPattern() override;
+ __forceinline virtual bool VUseRawFile() override;
+ __forceinline virtual bool VNeedFile() override;
+ __forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+ virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 };
 
-__forceinline SubMesh::SubMesh()
- : m_firstIndex{ 0 }, m_numIndices{ 0 }
-{}
-
-__forceinline void SubMesh::SetMaterial(const string & materialName)
+__forceinline string TextureLoader::VGetPattern()
 {
- Resource materialResource(materialName);
- shared_ptr<ResHandle> pMaterialHandle = ResourceCache::SafeGetHandle(&materialResource);
- std::shared_ptr<MaterialResourceExtraData> pData = static_pointer_cast<MaterialResourceExtraData>(pMaterialHandle->GetExtra());
-
- m_pMaterial = pData->m_pMaterial;
+ return "*.dds";
 }
 
-__forceinline void SubMesh::BindMaterial(unsigned int slot)
+__forceinline bool TextureLoader::VUseRawFile()
 {
- m_pMaterial->VBind(slot);
+ return false;
 }
 
-__forceinline void SubMesh::BindMaterialDiffuse(unsigned int slot)
+__forceinline bool TextureLoader::VNeedFile()
 {
- m_pMaterial->BindDiffuse(slot);
+ return true;
 }
 
-__forceinline void SubMesh::BindMaterialNormal(unsigned int slot)
+__forceinline int TextureLoader::VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize)
 {
- m_pMaterial->BindNormal(slot);
+ return 10;
+}
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MaterialLoader.cpp"
+
+
+string MaterialResourceExtraData::VToString()
+{
+ return "MaterialResourceExtraData";
 }
 
-__forceinline void SubMesh::BindMaterialSpecular(unsigned int slot)
+bool MaterialLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle)
 {
- m_pMaterial->BindSpecular(slot);
-}
-
-__forceinline void SubMesh::DrawIndexed()
-{
- DX11API::D3D11DeviceContext()->DrawIndexed(m_numIndices, m_firstIndex, 0);
-}
-
-__forceinline void SubMesh::UnbindMaterial()
-{
- m_pMaterial->VUnbind();
-}
-
-__forceinline void SubMesh::UnBindMaterialDiffuse()
-{
- m_pMaterial->UnbindDiffuse();
-}
-
-__forceinline void SubMesh::UnBindMaterialNormal()
-{
- m_pMaterial->UnbindNormal();
-}
-
-__forceinline void SubMesh::UnBindMaterialSpecular()
-{
- m_pMaterial->UnbindSpecular();
-}
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/IndexedMesh.h"
-
-
-class IndexedMesh : public Mesh
-{
- friend class MeshLoader;
-
-public:
- shared_ptr<IndexBuffer> m_pIndexBuffer;
- vector<shared_ptr<SubMesh>> m_subMeshes;
-
-public:
-
- __forceinline void SetIndexedBuffer();
-
- __forceinline void AddSubMesh(shared_ptr<SubMesh> pSubMesh);
-
- __forceinline void BindIndexBuffer(unsigned int offset);
-};
-
-
-__forceinline void IndexedMesh::AddSubMesh(shared_ptr<SubMesh> pSubMesh)
-{
- m_subMeshes.push_back(pSubMesh);
-}
-
-__forceinline void IndexedMesh::BindIndexBuffer(unsigned int offset)
-{
- m_pIndexBuffer->Bind(offset);
-}
-#line 11 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-
-string MeshResourceExtraData::VToString()
-{
- return "MeshResourceExtraData";
-}
-
-bool MeshLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle)
-{
- auto pExtra = make_shared<MeshResourceExtraData>();
+ auto pExtra = make_shared<MaterialResourceExtraData>();
  pHandle->SetExtra(pExtra);
 
- pExtra->m_pMesh = make_shared<IndexedMesh>();
-
- FILE *file;
- fopen_s(&file, pRawBuffer, "rb");
- if (!file)
+ ifstream file(pRawBuffer, ios::in);
+ if (!file.is_open())
   return false;
 
-
- char idString[5];
- memset(idString, 0, 5);
- fread(idString, sizeof(char), 4, file);
- if (strcmp(idString, "DMSH") != 0)
+ string str, token;
+ file >> str;
+ while (!file.eof())
  {
-  fclose(file);
-  return false;
+  if (str == "Textures")
+  {
+   LoadTextures(file, pExtra.get());
+  }
+  else if (str == "Shader")
+  {
+   if (!LoadShader(file))
+   {
+    file.close();
+    return false;
+   }
+  }
+
+  file >> str;
  }
 
+ file.close();
 
- int version;
- fread(&version, sizeof(int), 1, file);
- if (version != 1)
+ return true;
+}
+
+void MaterialLoader::LoadTextures(ifstream & file, MaterialResourceExtraData* pData)
+{
+ string str, token;
+ file >> token;
+ while (true)
  {
-  fclose(file);
-  return false;
+  file >> str;
+  if ((str == "}") || (file.eof()))
+   break;
+  else if (str == "ColorTexture")
+  {
+   file >> str;
+   Resource textureResource{ str };
+   shared_ptr<ResHandle> pTextureHandle = ResourceCache::SafeGetHandle(&textureResource);
+   shared_ptr<TextureResourceExtraData> pTextureData = static_pointer_cast<TextureResourceExtraData>(pTextureHandle->GetExtra());
+
+   pData->m_pMaterial->SetDiffuse(pTextureData->m_pTexture);
+  }
+  else if (str == "NormalTexture")
+  {
+   file >> str;
+   Resource textureResource{ str };
+   shared_ptr<ResHandle> pTextureHandle = ResourceCache::SafeGetHandle(&textureResource);
+   shared_ptr<TextureResourceExtraData> pTextureData = static_pointer_cast<TextureResourceExtraData>(pTextureHandle->GetExtra());
+
+   pData->m_pMaterial->SetNormal(pTextureData->m_pTexture);
+  }
+  else if (str == "SpecularTexture")
+  {
+   file >> str;
+   Resource textureResource{ str };
+   shared_ptr<ResHandle> pTextureHandle = ResourceCache::SafeGetHandle(&textureResource);
+   shared_ptr<TextureResourceExtraData> pTextureData = static_pointer_cast<TextureResourceExtraData>(pTextureHandle->GetExtra());
+
+   pData->m_pMaterial->SetSpecular(pTextureData->m_pTexture);
+  }
  }
+}
 
-
- int numVertices;
- fread(&numVertices, sizeof(int), 1, file);
- if (numVertices < 3)
- {
-  fclose(file);
-  return false;
- }
-
- struct GEOMETRY_VERTEX
- {
-  float3 position;
-  float2 texCoords;
-  float3 normal;
-  Vec tangent;
- };
-
- GEOMETRY_VERTEX *vertices = new GEOMETRY_VERTEX[numVertices];
- if (!vertices)
- {
-  fclose(file);
-  return false;
- }
- fread(vertices, sizeof(GEOMETRY_VERTEX), numVertices, file);
-
-
- float3* pos = new float3[numVertices];
- float2* texCoords = new float2[numVertices];
- float3* normals = new float3[numVertices];
- Vec* tangents = new Vec[numVertices];
-
- for (auto i = 0; i < numVertices; ++i)
- {
-  pos[i] = vertices[i].position;
-  texCoords[i] = vertices[i].texCoords;
-  normals[i] = vertices[i].normal;
-  tangents[i] = vertices[i].tangent;
- }
-
- BufferParams params;
- params.FillVertexBufferParams(sizeof(float3), numVertices, true, false, false, false);
-
- SubresourceData data;
- data.SetData(pos);
-
- pExtra->m_pMesh->m_pVertices = make_shared<VertexBuffer>();
- if (!pExtra->m_pMesh->m_pVertices->Create(params, &data, numVertices, sizeof(float3)))
- {
-  (void)( (!!(0 && "Error creating vertex buffer!")) || (_wassert(L"0 && \"Error creating vertex buffer!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp", 97), 0) );
- }
-
- params.FillVertexBufferParams(sizeof(float2), numVertices, true, false, false, false);
- data.SetData(texCoords);
-
- pExtra->m_pMesh->m_pTexCoords = make_shared<VertexBuffer>();
- if (!pExtra->m_pMesh->m_pTexCoords->Create(params, &data, numVertices, sizeof(float2)))
- {
-  (void)( (!!(0 && "Error creating vertex buffer!")) || (_wassert(L"0 && \"Error creating vertex buffer!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp", 106), 0) );
- }
-
- params.FillVertexBufferParams(sizeof(float3), numVertices, true, false, false, false);
- data.SetData(normals);
-
- pExtra->m_pMesh->m_pNormals = make_shared<VertexBuffer>();
- if (!pExtra->m_pMesh->m_pNormals->Create(params, &data, numVertices, sizeof(float3)))
- {
-  (void)( (!!(0 && "Error creating vertex buffer!")) || (_wassert(L"0 && \"Error creating vertex buffer!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp", 115), 0) );
- }
-
- params.FillVertexBufferParams(sizeof(Vec), numVertices, true, false, false, false);
- data.SetData(tangents);
-
- pExtra->m_pMesh->m_pTangents = make_shared<VertexBuffer>();
- if (!pExtra->m_pMesh->m_pTangents->Create(params, &data, numVertices, sizeof(Vec)))
- {
-  (void)( (!!(0 && "Error creating vertex buffer!")) || (_wassert(L"0 && \"Error creating vertex buffer!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp", 124), 0) );
- }
-
- if (tangents) delete [] tangents; tangents=0;;
- if (normals) delete [] normals; normals=0;;
- if (texCoords) delete [] texCoords; texCoords=0;;
- if (pos) delete [] pos; pos=0;;
- if (vertices) delete [] vertices; vertices=0;;
-
-
- int numIndices;
- fread(&numIndices, sizeof(int), 1, file);
- if (numIndices<3)
- {
-  fclose(file);
-  return false;
- }
-
-
- int *indices = new int[numIndices];
- if (!indices)
- {
-  fclose(file);
-  return false;
- }
- fread(indices, sizeof(int), numIndices, file);
-
- params.FillIndexBufferParams(sizeof(int), numIndices, true, false, false, false);
- data.SetData(indices);
-
- pExtra->m_pMesh->m_pIndexBuffer = make_shared<IndexBuffer>();
- pExtra->m_pMesh->m_pIndexBuffer->Create(params, &data, numIndices, sizeof(int));
-
- if (indices) delete [] indices; indices=0;;
-
-
- int numSubMeshes;
- fread(&numSubMeshes, sizeof(int), 1, file);
- if (numSubMeshes<1)
- {
-  fclose(file);
-  return false;
- }
-
-
- pExtra->m_pMesh->m_subMeshes.reserve(numSubMeshes);
- pExtra->m_uNumMeshes = numSubMeshes;
- for (int i = 0; i < numSubMeshes; ++i)
- {
-  auto pMesh = make_shared<SubMesh>();
-  char materialName[256];
-  fread(materialName, sizeof(char), 256, file);
-  pMesh->SetMaterial(materialName);
-
-  fread(&pMesh->m_firstIndex, sizeof(int), 1, file);
-  fread(&pMesh->m_numIndices, sizeof(int), 1, file);
-
-  pExtra->m_pMesh->AddSubMesh(pMesh);
- }
-
+bool MaterialLoader::LoadShader(ifstream & file)
+{
  return true;
 }
