@@ -137,6 +137,7 @@
     <ClInclude Include="Source\Math\Matrix.h" />
     <ClInclude Include="Source\Math\Point.h" />
     <ClInclude Include="Source\Math\Quaternion.h" />
+    <ClInclude Include="Source\Math\SphericalHarmonics.h" />
     <ClInclude Include="Source\Math\Vector.h" />
     <ClInclude Include="Source\Messenger\Messenger.h" />
     <ClInclude Include="Source\Physics\NullPhysics.h" />

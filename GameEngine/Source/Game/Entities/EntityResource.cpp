@@ -491,7 +491,7 @@ void EntityResource::VCreateRepresentation(Scene * pScene, shared_ptr<Entity> pE
 	pScene->AddRepresentation(pRepresentation);
 
 	//Now add all graphics components to its representation
-	for (auto component = m_graphics.begin(); component != m_graphics.end(); component++)
+	for (auto component = m_graphics.begin(); component != m_graphics.end(); ++component)
 	{
 		string type = (*component)->VGetType();
 		if (type == "Box")

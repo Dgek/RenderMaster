@@ -6,6 +6,9 @@ struct Math
 	static __forceinline float Cos(float value) { return cosf(value); }
 	static __forceinline float Tan(float value) { return tanf(value); }
 	static __forceinline float Atan(float value) { return atanf(value); }
+	static __forceinline float Atan2(float y, float x) { return atan2f(y, x); }
+	static __forceinline float ASin(float value) { return asinf((value < -1.f) ? -1.f : ((value < 1.f) ? value : 1.f)); }
+	static __forceinline float ACos(float value) { return acosf((value < -1.f) ? -1.f : ((value < 1.f) ? value : 1.f)); }
 	static __forceinline float Sqrt(float value) { return sqrtf(value); }
 	static __forceinline float Pow(float a, float b) { return powf(a, b); }
 

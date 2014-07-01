@@ -385,6 +385,9 @@
     <ClInclude Include="Source\Renderer\Meshes\SubMesh.h">
       <Filter>Renderer\Meshes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Math\SphericalHarmonics.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">
