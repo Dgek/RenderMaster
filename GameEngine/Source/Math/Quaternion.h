@@ -55,6 +55,8 @@ public:
 
 	__forceinline const Quaternion & Inverse();
 
+	__forceinline const Quaternion & Power(float t);
+
 	__forceinline bool ContainsNan() const;
 };
 
@@ -168,6 +170,25 @@ __forceinline bool Quaternion::operator!=(const Quaternion & v) const
 __forceinline const Quaternion & Quaternion::Inverse()
 {
 	return Quaternion{ -x, -y, -z, w };
+}
+
+__forceinline const Quaternion & Quaternion::Power(float t)
+{
+	//if identity then protect against zero divide
+	if (Math::Abs(w) < 0.9999f)
+	{
+		//alpha = theta / 2
+		auto alpha = Math::ACos(w);
+
+		auto newAlpha = alpha * t;
+
+		w = Math::Cos(newAlpha);
+
+		auto mult = Math::Sin(newAlpha) / Math::Sin(alpha);
+		x *= mult;
+		y *= mult;
+		z *= mult;
+	}
 }
 
 __forceinline bool Quaternion::ContainsNan() const

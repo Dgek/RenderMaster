@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Quaternion.h"
+
 struct Math
 {
 	static __forceinline float Sin(float value) { return sinf(value); }
@@ -53,6 +55,8 @@ struct Math
 
 		return value;
 	}
+
+	static __forceinline Quaternion Slerp(const Quaternion & q0, const Quaternion & q1);
 };
 
 //specialize for floating-point
@@ -68,4 +72,36 @@ __forceinline float Math::random(float min, float max, float seed)
 
 	int diff = max - min;
 	return (rand() % diff) + min;
+}
+
+__forceinline Quaternion Math::Slerp(const Quaternion & q0, const Quaternion & q1);
+{
+	auto cosOmega = q0 * q1;
+
+	if (cosOmega < 0.0f)
+	{
+		q1 = -q1;
+		cosOmega *= -1;
+	}
+
+	//if very close just use linear interpolation
+	float k0, k1;
+	if (cosOmega > 0.9999f)
+	{
+		k0 = 1.0f - t;
+		k1 = t;
+	}
+	else
+	{
+		auto sinOmega = Math::Sqrt(1.0f - cosOmega * cosOmega);
+
+		auto omega = Math::Atan2(sinOmega, cosOmega);
+
+		auto invSinOmega = 1.0f / sinOmega;
+
+		k0 = Math::Sin((1.0f - t)*omega)*invSinOmega;
+		k1 = Math::Sin(t*omega) *invSinOmega;
+	}
+
+	return Quaternion{ q0.x*k0 + q1.x*k1, q0.y*k0 + q1.y*k1, q0.z*k0 + q1.z*k1, q0.w*k0 + q1.w*k1 };
 }
