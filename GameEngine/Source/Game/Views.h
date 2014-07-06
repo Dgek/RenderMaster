@@ -31,7 +31,7 @@ protected:
 	shared_ptr<MovementController> m_pController;
 
 public:
-	__forceinline PlayerView();
+	PlayerView();
 
 	virtual bool VInit() override;
 	virtual bool VRestore() override;
@@ -61,15 +61,15 @@ public:
 
 	//Game Rendering
 	virtual void VSetCamera(shared_ptr<Camera> pCamera);
-	__forceinline virtual shared_ptr<Camera> VGetCamera() const;
-	__forceinline virtual bool VHasCamera() const;
+	virtual shared_ptr<Camera> VGetCamera() const;
+	virtual bool VHasCamera() const;
 
-	__forceinline void SetMouseHandler(shared_ptr<IMouseHandler> pHandler);
-	__forceinline void SetKeyboardHandler(shared_ptr<IKeyboardHandler> pHandler);
-	__forceinline void SetController(shared_ptr<MovementController> pController);
+	void SetMouseHandler(shared_ptr<IMouseHandler> pHandler);
+	void SetKeyboardHandler(shared_ptr<IKeyboardHandler> pHandler);
+	void SetController(shared_ptr<MovementController> pController);
 
 	//Accessors
-	__forceinline shared_ptr<MovementController> GetController() const;
+	shared_ptr<MovementController> GetController() const;
 };
 
 __forceinline PlayerView::PlayerView()

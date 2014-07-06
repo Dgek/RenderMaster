@@ -4,30 +4,30 @@ struct SystemMessage
 {
 	SystemMessageType m_type;
 
-	__forceinline explicit SystemMessage(SystemMessageType type);
+	explicit SystemMessage(SystemMessageType type);
 	virtual ~SystemMessage() {}
 };
 
 struct QuitMessage : public SystemMessage
 {
-	__forceinline QuitMessage();
+	QuitMessage();
 };
 
 struct KeyboardMessage : public SystemMessage
 {
 	char m_key;
 
-	__forceinline KeyboardMessage(SystemMessageType type, char key);
+	KeyboardMessage(SystemMessageType type, char key);
 };
 
 struct KeyDownMessage : public KeyboardMessage
 {
-	__forceinline explicit KeyDownMessage(char key);
+	explicit KeyDownMessage(char key);
 };
 
 struct KeyUpMessage : public KeyboardMessage
 {
-	__forceinline explicit KeyUpMessage(char key);
+	explicit KeyUpMessage(char key);
 };
 
 struct MouseMessage : public SystemMessage
@@ -35,32 +35,32 @@ struct MouseMessage : public SystemMessage
 	float	m_posx;
 	float	m_posy;
 
-	__forceinline MouseMessage(SystemMessageType type, float x, float y);
+	MouseMessage(SystemMessageType type, float x, float y);
 };
 
 struct LMouseDownMessage : public MouseMessage
 {
-	__forceinline LMouseDownMessage(float x, float y);
+	LMouseDownMessage(float x, float y);
 };
 
 struct LMouseUpMessage : public MouseMessage
 {
-	__forceinline LMouseUpMessage(float x, float y);
+	LMouseUpMessage(float x, float y);
 };
 
 struct RMouseDownMessage : public MouseMessage
 {
-	__forceinline RMouseDownMessage(float x, float y);
+	RMouseDownMessage(float x, float y);
 };
 
 struct RMouseUpMessage : public MouseMessage
 {
-	__forceinline RMouseUpMessage(float x, float y);
+	RMouseUpMessage(float x, float y);
 };
 
 struct MouseMoveMessage : public MouseMessage
 {
-	__forceinline MouseMoveMessage(float x, float y);
+	MouseMoveMessage(float x, float y);
 };
 
 __forceinline SystemMessage::SystemMessage(SystemMessageType type)

@@ -9,18 +9,18 @@ class Light : public IMovable
 {
 public:
 
-	__forceinline Light(const Vec & color, const Vec & pos,
+	Light(const Vec & color, const Vec & pos,
 		const Vec & dir, float range);
 
 	virtual void SetWorldTransform(const Mat4x4 & transform) override;
 	virtual LightType VGetType() const = 0;
 
-	__forceinline const Vec & GetColor() const;
-	__forceinline const Vec & GetPos() const;
-	__forceinline const Vec & GetDir() const;
-	__forceinline const float GetRange() const;
+	const Vec & GetColor() const;
+	const Vec & GetPos() const;
+	const Vec & GetDir() const;
+	const float GetRange() const;
 
-	__forceinline Mat4x4 GetShadowViewProj() const;
+	Mat4x4 GetShadowViewProj() const;
 
 protected:
 	Vec m_color;

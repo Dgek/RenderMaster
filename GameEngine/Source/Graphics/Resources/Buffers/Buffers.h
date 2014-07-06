@@ -10,15 +10,15 @@ protected:
 
 public:
 
-	__forceinline Buffer();
+	Buffer();
 	virtual ~Buffer();
 
-	__forceinline ID3D11Resource* GetResourcePointer() const;
+	ID3D11Resource* GetResourcePointer() const;
 
-	__forceinline void UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
+	void UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
 		const void * pSrcData, unsigned int srcRowPitch, unsigned int srcDepthPitch);
 
-	__forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData *, unsigned int numElements = 0);
+	bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData *, unsigned int numElements = 0);
 };
 
 __forceinline Buffer::Buffer()

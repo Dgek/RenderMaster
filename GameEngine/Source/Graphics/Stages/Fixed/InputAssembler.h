@@ -12,10 +12,10 @@ protected:
 
 public:
 
-	__forceinline InputAssemblerState();
-	__forceinline ~InputAssemblerState();
+	InputAssemblerState();
+	~InputAssemblerState();
 
-	__forceinline void BindInputLayoutAndTopology() const;
+	void BindInputLayoutAndTopology() const;
 };
 
 __forceinline InputAssemblerState::InputAssemblerState()

@@ -25,13 +25,13 @@ struct Viewport : public D3D11_VIEWPORT
 	* @param minDepth minimum depth to render
 	* @param maxDepth maximum depth to render
 	*/
-	__forceinline Viewport(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth);
+	Viewport(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth);
 	
 	~Viewport();
 
-	__forceinline void Set(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth);
+	void Set(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth);
 	
-	__forceinline void Bind();
+	void Bind();
 };
 
 __forceinline Viewport::Viewport(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth)

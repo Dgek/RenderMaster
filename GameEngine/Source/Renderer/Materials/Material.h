@@ -32,28 +32,28 @@ protected:
 
 public:
 
-	__forceinline Material();
+	Material();
 
 	virtual bool VInitialize(const string & name);
 
 	// ===== Set textures ===== //
-	__forceinline void SetDiffuse(shared_ptr<Texture2D> pDiffuse);
-	__forceinline void SetSpecular(shared_ptr<Texture2D> pSpecular);
-	__forceinline void SetNormal(shared_ptr<Texture2D> pNormal);
+	void SetDiffuse(shared_ptr<Texture2D> pDiffuse);
+	void SetSpecular(shared_ptr<Texture2D> pSpecular);
+	void SetNormal(shared_ptr<Texture2D> pNormal);
 
 	// ===== Bind material to the pipeline ===== //
 
-	__forceinline void BindDiffuse(unsigned int slot);
-	__forceinline void BindSpecular(unsigned int slot);
-	__forceinline void BindNormal(unsigned int slot);
+	void BindDiffuse(unsigned int slot);
+	void BindSpecular(unsigned int slot);
+	void BindNormal(unsigned int slot);
 
 	virtual void VBind(unsigned int slot);
 
 	// ===== Unbind material form the pipeline ===== //
 
-	__forceinline void UnbindDiffuse();
-	__forceinline void UnbindSpecular();
-	__forceinline void UnbindNormal();
+	void UnbindDiffuse();
+	void UnbindSpecular();
+	void UnbindNormal();
 
 	virtual void VUnbind(); //always unbind from the pixel shader
 };

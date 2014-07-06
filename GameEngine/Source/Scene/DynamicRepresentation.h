@@ -9,7 +9,7 @@ protected:
 
 public:
 
-	__forceinline DynamicRepresentation(EntityRepresentationId id);
+	DynamicRepresentation(EntityRepresentationId id);
 
 	DynamicRepresentation(EntityRepresentationId id, const string & resourceMeshName);
 	

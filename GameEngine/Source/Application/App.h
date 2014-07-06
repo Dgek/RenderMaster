@@ -70,11 +70,11 @@ public:
 	=============================================*/
 	void Close();
 
-	__forceinline double GetTimeStep() const;
-	__forceinline double GetGameTimeInSeconds() const;
+	double GetTimeStep() const;
+	double GetGameTimeInSeconds() const;
 
-	__forceinline IPhysics* GetPhysics() const;
-	__forceinline Renderer* GetRenderer() const;
+	IPhysics* GetPhysics() const;
+	Renderer* GetRenderer() const;
 
 	static LRESULT CALLBACK WndProc(HWND hWnd, unsigned int msg, WPARAM wParam, LPARAM lParam);
 };

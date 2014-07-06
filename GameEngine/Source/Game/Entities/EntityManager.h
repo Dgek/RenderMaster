@@ -41,7 +41,7 @@ private:
 
 public:
 
-	__forceinline EntityManager();
+	EntityManager();
 
 	///////////////////////////////////////
 	/*** IEntityManager Implementation ***/

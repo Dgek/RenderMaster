@@ -69,51 +69,51 @@ public:
 	/*==
 	Mutators
 	==*/
-	__forceinline void SetActive(bool isActive);
+	void SetActive(bool isActive);
 
-	__forceinline void SetPosition(const Vec & pos);
-	__forceinline void SetLookAt(const Vec & lookAt);
-	__forceinline void SetDir(const Vec & dir);
+	void SetPosition(const Vec & pos);
+	void SetLookAt(const Vec & lookAt);
+	void SetDir(const Vec & dir);
 
-	__forceinline void SetRoll(float roll);
-	__forceinline void SetPitch(float pitch);
-	__forceinline void SetYaw(float yaw);
+	void SetRoll(float roll);
+	void SetPitch(float pitch);
+	void SetYaw(float yaw);
 
-	__forceinline void SetTarget(shared_ptr<Entity> pTarget);
+	void SetTarget(shared_ptr<Entity> pTarget);
 	/*==
 	Accessors
 	==*/
 
-	__forceinline bool IsActive() const;
+	bool IsActive() const;
 
 	//AVIRTUAL HRESULT SetViewTransform(Scene *pScene);
 
-	__forceinline const Frustum &GetFrustum();
+	const Frustum &GetFrustum();
 
-	__forceinline const Mat4x4 & GetProjection() const;
-	__forceinline const Mat4x4 & GetView() const;
-	__forceinline const Mat4x4 & GetViewProjection();
-	__forceinline const Mat4x4 & GetPrevView() const;
-	__forceinline const Mat4x4 & GetPrevProjection() const;
+	const Mat4x4 & GetProjection() const;
+	const Mat4x4 & GetView() const;
+	const Mat4x4 & GetViewProjection();
+	const Mat4x4 & GetPrevView() const;
+	const Mat4x4 & GetPrevProjection() const;
 
-	__forceinline const Mat4x4 & GetOrthoProjection();
+	const Mat4x4 & GetOrthoProjection();
 
-	__forceinline Vec GetPosition() const;
-	__forceinline Vec GetLookAt() const;
-	__forceinline Vec GetDir() const;
+	Vec GetPosition() const;
+	Vec GetLookAt() const;
+	Vec GetDir() const;
 
-	__forceinline float	GetRoll() const;
-	__forceinline float	GetPitch() const;
-	__forceinline float	GetYaw() const;
+	float GetRoll() const;
+	float GetPitch() const;
+	float GetYaw() const;
 
-	__forceinline float	GetNearZ() const;
-	__forceinline float	GetFarZ() const;
+	float GetNearZ() const;
+	float GetFarZ() const;
 
-	__forceinline float GetViewportWidth() const;
-	__forceinline float GetViewportHeight() const;
+	float GetViewportWidth() const;
+	float GetViewportHeight() const;
 
-	__forceinline shared_ptr<Entity> GetTarget() const;
-	__forceinline bool HasTarget() const;
+	shared_ptr<Entity> GetTarget() const;
+	bool HasTarget() const;
 
 	/*==
 	Methods

@@ -29,18 +29,18 @@ public:
 	==========================	**/
 
 	//Add new mesh to the queue
-	__forceinline virtual void VAdd(shared_ptr<Mesh> pMesh);
+	virtual void VAdd(shared_ptr<Mesh> pMesh);
 
 	//Sort all meshes in effective order
-	__forceinline virtual void VSort();
+	virtual void VSort();
 
 	//get the next mesh to render
 	shared_ptr<Mesh> Next();
 	shared_ptr<Mesh> NextWithDeletion();
 
-	__forceinline void Reset();
+	void Reset();
 
-	__forceinline void Clear();
+	void Clear();
 };
 
 __forceinline RenderQueue::RenderQueue()

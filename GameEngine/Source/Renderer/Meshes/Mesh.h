@@ -25,16 +25,16 @@ protected:
 
 public:
 
-	__forceinline Mesh();
+	Mesh();
 	virtual ~Mesh();
 
-	__forceinline void SetMaterial(const string & materialName);
+	void SetMaterial(const string & materialName);
 
-	__forceinline void BindMaterial();
-	__forceinline void BindVertices(unsigned int startSlot, unsigned int offset);
-	__forceinline void BindTexCoords(unsigned int startSlot, unsigned int offset);
-	__forceinline void BindNormals(unsigned int startSlot, unsigned int offset);
-	__forceinline void BindTangents(unsigned int startSlot, unsigned int offset);
+	void BindMaterial();
+	void BindVertices(unsigned int startSlot, unsigned int offset);
+	void BindTexCoords(unsigned int startSlot, unsigned int offset);
+	void BindNormals(unsigned int startSlot, unsigned int offset);
+	void BindTangents(unsigned int startSlot, unsigned int offset);
 
 	virtual void SetWorldTransform(const Mat4x4 & transform) override;
 };

@@ -9,10 +9,10 @@ protected:
 	ID3D11GeometryShader* m_pShader;
 
 public:
-	__forceinline GeometryShader();
-	__forceinline ~GeometryShader();
+	GeometryShader();
+	~GeometryShader();
 
-	__forceinline void Bind() const;
+	void Bind() const;
 
 	bool Create(Blob & shaderbuffer);
 	bool CreateFromFile(const char * filename);

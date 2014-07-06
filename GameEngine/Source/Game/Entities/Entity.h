@@ -22,12 +22,12 @@ public:
 	*
 	* @param id unique entity id
 	*/
-	__forceinline Entity(EntityId id);
+	Entity(EntityId id);
 
-	__forceinline EntityId GetId() const;
-	__forceinline Mat4x4 GetCurrentTransform() const;
+	EntityId GetId() const;
+	Mat4x4 GetCurrentTransform() const;
 	
-	__forceinline void SetRepresentation(shared_ptr<EntityRepresentation>);
+	void SetRepresentation(shared_ptr<EntityRepresentation>);
 	void SetCurrentTransform(const Mat4x4 & transform, double currentTime);
 
 	virtual void VUpdate(double time, double elapsedtime);

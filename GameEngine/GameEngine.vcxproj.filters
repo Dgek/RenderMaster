@@ -166,9 +166,6 @@
     <ClInclude Include="Source\Scene\Representation.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene\Root.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Renderer\Cameras\Camera.h">
       <Filter>Renderer\Cameras</Filter>
     </ClInclude>
@@ -388,6 +385,10 @@
     <ClInclude Include="Source\Math\SphericalHarmonics.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Scene\Root.h" />
+    <ClInclude Include="Source\Math\Collision.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">
@@ -543,6 +544,12 @@
     </ClCompile>
     <ClCompile Include="Source\ResourceManager\Loaders\ShaderLoader.cpp">
       <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Stages\Shaders\DomainShader.cpp">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Stages\Shaders\HullShader.cpp">
+      <Filter>Graphics\DX11\Stages\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

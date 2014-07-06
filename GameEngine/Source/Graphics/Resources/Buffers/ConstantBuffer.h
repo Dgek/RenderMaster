@@ -8,7 +8,7 @@ public:
 
 	virtual ~ConstantBuffer();
 
-	__forceinline void Bind(unsigned int slot, ShaderType type);
+	void Bind(unsigned int slot, ShaderType type);
 };
 
 __forceinline void ConstantBuffer::Bind(unsigned int slot, ShaderType type)

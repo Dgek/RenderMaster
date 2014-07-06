@@ -29,9 +29,9 @@ protected:
 
 public:
 
-	__forceinline EntityRepresentation(EntityRepresentationId id);
+	EntityRepresentation(EntityRepresentationId id);
 
-	__forceinline EntityRepresentation(EntityRepresentationId id, const Vec & size);
+	EntityRepresentation(EntityRepresentationId id, const Vec & size);
 
 	EntityRepresentation(EntityRepresentationId id, const string & resourceMeshName);
 
@@ -46,10 +46,10 @@ public:
 	//put all low-level mesh data to the renderer
 	virtual void VRender(Scene * pScene, Renderer * pRenderer, double currentTime);
 
-	__forceinline EntityRepresentationId GetId() const;
+	EntityRepresentationId GetId() const;
 
 	void SetCurrentTransform(const Mat4x4 & mat, double currentTime);
-	__forceinline void SetSize(float sizex, float sizey, float sizez);
+	void SetSize(float sizex, float sizey, float sizez);
 
 protected:
 

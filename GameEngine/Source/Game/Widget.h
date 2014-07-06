@@ -14,7 +14,7 @@ public:
 	virtual void VSetVisible(bool visible) = 0;
 	virtual bool VGetVisible() const = 0;
 
-	__forceinline bool operator<(const Widget & widget);
+	bool operator<(const Widget & widget);
 };
 
 __forceinline bool Widget::operator<(const Widget & widget)

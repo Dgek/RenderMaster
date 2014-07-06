@@ -5,7 +5,7 @@
 class Sprite : public Mesh
 {
 public:
-	__forceinline Sprite(float scalex, float scaley);
+	Sprite(float scalex, float scaley);
 };
 
 __forceinline Sprite::Sprite(float scalex, float scaley)

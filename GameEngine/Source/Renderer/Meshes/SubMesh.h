@@ -10,21 +10,21 @@ public:
 	int m_firstIndex;
 	int m_numIndices;
 
-	__forceinline SubMesh();
+	SubMesh();
 
-	__forceinline void SetMaterial(const string & materialName);
+	void SetMaterial(const string & materialName);
 
-	__forceinline void BindMaterial(unsigned int slot);
-	__forceinline void BindMaterialDiffuse(unsigned int slot);
-	__forceinline void BindMaterialNormal(unsigned int slot);
-	__forceinline void BindMaterialSpecular(unsigned int slot);
+	void BindMaterial(unsigned int slot);
+	void BindMaterialDiffuse(unsigned int slot);
+	void BindMaterialNormal(unsigned int slot);
+	void BindMaterialSpecular(unsigned int slot);
 
-	__forceinline void DrawIndexed();
+	void DrawIndexed();
 
-	__forceinline void UnbindMaterial();
-	__forceinline void UnBindMaterialDiffuse();
-	__forceinline void UnBindMaterialNormal();
-	__forceinline void UnBindMaterialSpecular();
+	void UnbindMaterial();
+	void UnBindMaterialDiffuse();
+	void UnBindMaterialNormal();
+	void UnBindMaterialSpecular();
 };
 
 __forceinline SubMesh::SubMesh()

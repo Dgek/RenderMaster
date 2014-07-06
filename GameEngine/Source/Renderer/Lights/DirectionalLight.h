@@ -6,7 +6,7 @@ class DirectionalLight : public Light
 {
 public:
 
-	__forceinline DirectionalLight(const Vec & color, const Vec & pos, const Vec & dir,
+	DirectionalLight(const Vec & color, const Vec & pos, const Vec & dir,
 		float range = INFINITY);
 
 	virtual LightType VGetType() const override;

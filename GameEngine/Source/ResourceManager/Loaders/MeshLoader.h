@@ -23,10 +23,10 @@ public:
 	//shared_ptr<VertexBuffer> m_pTangents;
 	//shared_ptr<IndexBuffer> m_pIndexBuffer;
 
-	__forceinline MeshResourceExtraData();
+	MeshResourceExtraData();
 
-	__forceinline unsigned int GetNumMeshes() const;
-	__forceinline const Vec & GetExtents() const;
+	unsigned int GetNumMeshes() const;
+	const Vec & GetExtents() const;
 
 	virtual string VToString() override;
 };
@@ -54,10 +54,10 @@ __forceinline const Vec & MeshResourceExtraData::GetExtents() const
 class MeshLoader : public IResourceLoader
 {
 public:
-	__forceinline virtual string VGetPattern() override;
-	__forceinline virtual bool VUseRawFile() override;
-	__forceinline  virtual bool VNeedFile() override;
-	__forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+	virtual string VGetPattern() override;
+	virtual bool VUseRawFile() override;
+	virtual bool VNeedFile() override;
+	virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
 	virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 };
 

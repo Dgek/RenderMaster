@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Quaternion.h"
-
 struct Math
 {
 	static __forceinline float Sin(float value) { return sinf(value); }
@@ -56,7 +54,7 @@ struct Math
 		return value;
 	}
 
-	static __forceinline Quaternion Slerp(const Quaternion & q0, const Quaternion & q1);
+	static Quaternion Slerp(const Quaternion & q0, const Quaternion & q1);
 };
 
 //specialize for floating-point
@@ -104,4 +102,4 @@ __forceinline Quaternion Math::Slerp(const Quaternion & q0, const Quaternion & q
 	}
 
 	return Quaternion{ q0.x*k0 + q1.x*k1, q0.y*k0 + q1.y*k1, q0.z*k0 + q1.z*k1, q0.w*k0 + q1.w*k1 };
-}
+} 

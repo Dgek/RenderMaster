@@ -5,7 +5,7 @@
 class PlaneMesh : public Mesh
 {
 public:
-	__forceinline PlaneMesh(float scalex, float scaley, float scalez);
+	PlaneMesh(float scalex, float scaley, float scalez);
 };
 
 __forceinline PlaneMesh::PlaneMesh(float scalex, float scaley, float scalez)

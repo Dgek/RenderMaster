@@ -17,7 +17,7 @@ public:
 	*
 	* @param coeff Vector of plane coefficients
 	*/
-	__forceinline Plane(const Vec & coeff);
+	Plane(const Vec & coeff);
 
 	/*
 	* Constructor
@@ -28,13 +28,13 @@ public:
 	*/
 	Plane(const Vec & p1, const Vec & p2, const Vec & p3);
 
-	__forceinline void Normalize();
+	void Normalize();
 
-	__forceinline bool Inside(const Vec & point) const;
-	__forceinline bool Inside(const Vec & point, float radius) const;
+	bool Inside(const Vec & point) const;
+	bool Inside(const Vec & point, float radius) const;
 
-	__forceinline Vec GetNormal() const;
-	__forceinline float GetD() const;
+	Vec GetNormal() const;
+	float GetD() const;
 };
 
 __forceinline Plane::Plane(const Vec & coeff)

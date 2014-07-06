@@ -9,13 +9,13 @@ public:
 
 	float x, y, z, w;
 
-	__forceinline Quaternion();
+	Quaternion();
 
-	__forceinline Quaternion(const Quaternion & q);
+	Quaternion(const Quaternion & q);
 
-	__forceinline Quaternion(float inX, float inY, float inZ, float inW);
+	Quaternion(float inX, float inY, float inZ, float inW);
 
-	__forceinline Quaternion(float3 axis, float angleInRad);
+	Quaternion(float3 axis, float angleInRad);
 
 	static Quaternion CreateFromEuler(const Vec & euler);
 
@@ -26,38 +26,38 @@ public:
 	* 
 	* @param M a rotation matrix
 	*/
-	__forceinline explicit Quaternion(const Mat4x4 & M);
+	explicit Quaternion(const Mat4x4 & M);
 
-	__forceinline float & operator[](int index);
+	float & operator[](int index);
 
-	__forceinline float operator[](int index) const;
+	float operator[](int index) const;
 
-	__forceinline void Set(float inX, float inY, float inZ, float inW);
+	void Set(float inX, float inY, float inZ, float inW);
 
-	__forceinline Quaternion operator-() const;
+	Quaternion operator-() const;
 
-	__forceinline Quaternion & operator*=(const Quaternion & v);
+	Quaternion & operator*=(const Quaternion & v);
 
-	__forceinline Quaternion & operator^=(const Quaternion & v);
+	Quaternion & operator^=(const Quaternion & v);
 
-	__forceinline Quaternion operator*(float scale) const;
+	Quaternion operator*(float scale) const;
 
-	__forceinline Quaternion & operator*=(float scale);
+	Quaternion & operator*=(float scale);
 
-	__forceinline Quaternion operator/(float scale) const;
+	Quaternion operator/(float scale) const;
 
 
-	__forceinline bool operator==(const Quaternion & v) const;
+	bool operator==(const Quaternion & v) const;
 
-	__forceinline bool operator!=(const Quaternion & v) const;
+	bool operator!=(const Quaternion & v) const;
 
-	__forceinline const Quaternion & Normalize();
+	const Quaternion & Normalize();
 
-	__forceinline const Quaternion & Inverse();
+	const Quaternion & Inverse();
 
-	__forceinline const Quaternion & Power(float t);
+	const Quaternion & Power(float t);
 
-	__forceinline bool ContainsNan() const;
+	bool ContainsNan() const;
 };
 
 __forceinline Quaternion::Quaternion()

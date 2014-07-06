@@ -10,7 +10,7 @@ class TextureResourceExtraData : public IResourceExtraData
 public:
 	shared_ptr<Texture2D> m_pTexture;
 
-	__forceinline TextureResourceExtraData();
+	TextureResourceExtraData();
 	virtual string VToString() override;
 };
 
@@ -23,10 +23,10 @@ __forceinline TextureResourceExtraData::TextureResourceExtraData()
 class TextureLoader : public IResourceLoader
 {
 public:
-	__forceinline virtual string VGetPattern() override;
-	__forceinline virtual bool VUseRawFile() override;
-	__forceinline  virtual bool VNeedFile() override;
-	__forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+	virtual string VGetPattern() override;
+	virtual bool VUseRawFile() override;
+	virtual bool VNeedFile() override;
+	virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
 	virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 };
 

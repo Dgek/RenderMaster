@@ -39,18 +39,18 @@ protected:
 
 	public:
 
-	__forceinline PCPlayerController();
+	PCPlayerController();
 
-	__forceinline bool VOnLButtonDown(float x, float y) { return true; }
-	__forceinline bool VOnLButtonUp(float x, float y)	{ return true; }
+	bool VOnLButtonDown(float x, float y) { return true; }
+	bool VOnLButtonUp(float x, float y)	{ return true; }
 
-	__forceinline bool VOnRButtonDown(float x, float y) { return true; }
-	__forceinline bool VOnRButtonUp(float x, float y) { return true; }
+	bool VOnRButtonDown(float x, float y) { return true; }
+	bool VOnRButtonUp(float x, float y) { return true; }
 
-	__forceinline bool VOnMouseMove(float x, float y) { return true; }
+	bool VOnMouseMove(float x, float y) { return true; }
 
-	__forceinline bool VOnKeyDown(Key key);
-	__forceinline bool VOnKeyUp(Key key);
+	bool VOnKeyDown(Key key);
+	bool VOnKeyUp(Key key);
 };
 
 __forceinline PCPlayerController::PCPlayerController()
@@ -101,7 +101,7 @@ protected:
 public:
 
 	//Contructor
-	__forceinline FreeCameraController();
+	FreeCameraController();
 
 	// Mouse Handler Implementation //
 	virtual bool VOnMouseMove(float x, float y) override

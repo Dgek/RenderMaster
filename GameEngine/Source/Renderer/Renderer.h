@@ -107,28 +107,28 @@ public:
 	virtual void VRender() = 0;
 
 	/*** Accessors ***/
-	__forceinline bool LightningOn() const;
-	__forceinline bool TexturingOn() const;
+	bool LightningOn() const;
+	bool TexturingOn() const;
 
 	SamplerState* LinearTiledSampler();
 	SamplerState* AnisotropySampler16();
 	SamplerState* PointClampSampler();
 	SamplerState* LinearLessEqualSampler();
 
-	__forceinline RasterizerState* AllEnabledBackCullingRasterizer();
-	__forceinline RasterizerState* NoCullingStandardRasterizer();
-	__forceinline RasterizerState* AllDisabledBackCullingRasterizer();
+	RasterizerState* AllEnabledBackCullingRasterizer();
+	RasterizerState* NoCullingStandardRasterizer();
+	RasterizerState* AllDisabledBackCullingRasterizer();
 
-	__forceinline BlendState* NoBlending();
-	__forceinline BlendState* BlendAddStandard();
-	__forceinline BlendState* BlendLightPass();
+	BlendState* NoBlending();
+	BlendState* BlendAddStandard();
+	BlendState* BlendLightPass();
 
-	__forceinline DepthStencilState* DepthEnableStencilDisableStandard();
-	__forceinline DepthStencilState* DepthDisableStencilDisable();
+	DepthStencilState* DepthEnableStencilDisableStandard();
+	DepthStencilState* DepthDisableStencilDisable();
 
-	__forceinline static void SetOnlyDirect();
-	__forceinline static void SetOnlyGlobal();
-	__forceinline static void SetCombined();
+	static void SetOnlyDirect();
+	static void SetOnlyGlobal();
+	static void SetCombined();
 };
 
 __forceinline RasterizerState* Renderer::AllDisabledBackCullingRasterizer()

@@ -7,14 +7,14 @@ public:
 	float x, y, z;
 
 	/** default constructor **/
-	__forceinline float3();
+	float3();
 
 	/*
 	#Constructor
 	*
 	* @param value to set for all components
 	*/
-	explicit __forceinline float3(float value);
+	explicit float3(float value);
 
 	/*
 	#Constructor
@@ -23,7 +23,7 @@ public:
 	* @param inY - y
 	* @param inZ - z
 	*/
-	__forceinline float3(float inX, float inY, float inZ);
+	float3(float inX, float inY, float inZ);
 
 	/*
 	*Constructor
@@ -41,7 +41,7 @@ public:
 	*
 	* @return Cross Product
 	*/
-	__forceinline static float3 cross(const float3 & v1, const float3 & v2);
+	static float3 cross(const float3 & v1, const float3 & v2);
 
 	/*
 	*Dot Product of two vectors
@@ -51,7 +51,7 @@ public:
 	*
 	* @return Dot Product
 	*/
-	__forceinline static float dot(const float3 & v1, const float3 & v2);
+	static float dot(const float3 & v1, const float3 & v2);
 };
 
 __forceinline float3 operator^(float3 v1, const float3 & v2)

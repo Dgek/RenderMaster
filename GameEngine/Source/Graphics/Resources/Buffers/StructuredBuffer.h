@@ -8,12 +8,12 @@ class StructuredBuffer : public Buffer
 {
 public:
 
-	__forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData);
+	bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData);
 
-	__forceinline bool CreateShaderResourceView(ID3D11ShaderResourceView** ppView,
+	bool CreateShaderResourceView(ID3D11ShaderResourceView** ppView,
 		const ShaderResourceViewParams & params) const;
 
-	__forceinline bool CreateUnorderedAccessView(ID3D11UnorderedAccessView** ppView,
+	bool CreateUnorderedAccessView(ID3D11UnorderedAccessView** ppView,
 		const UnorderedAccessViewParams & params) const;
 };
 

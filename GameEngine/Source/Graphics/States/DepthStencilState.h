@@ -5,8 +5,8 @@
 class DepthStencilParams : public D3D11_DEPTH_STENCIL_DESC
 {
 public:
-	__forceinline DepthStencilParams();
-	__forceinline bool Init(bool depthEnable, D3D11_COMPARISON_FUNC depthFunc,
+	DepthStencilParams();
+	bool Init(bool depthEnable, D3D11_COMPARISON_FUNC depthFunc,
 		bool stencilEnable, unsigned int stencilReadMask, unsigned int stencilWriteMask);
 };
 
@@ -34,12 +34,12 @@ protected:
 	ID3D11DepthStencilState*	m_pState;
 
 public:
-	__forceinline DepthStencilState();
-	__forceinline ~DepthStencilState();
+	DepthStencilState();
+	~DepthStencilState();
 
-	__forceinline bool Create(const D3D11_DEPTH_STENCIL_DESC * params);
+	bool Create(const D3D11_DEPTH_STENCIL_DESC * params);
 
-	__forceinline void Bind(unsigned int stencilRef) const;
+	void Bind(unsigned int stencilRef) const;
 };
 
 __forceinline DepthStencilState::DepthStencilState() 

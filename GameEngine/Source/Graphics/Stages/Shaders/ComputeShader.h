@@ -9,10 +9,10 @@ private:
 	ID3D11ComputeShader* m_pShader;
 
 public:
-	__forceinline ComputeShader();
-	__forceinline ~ComputeShader();
+	ComputeShader();
+	~ComputeShader();
 
-	__forceinline void Bind() const;
+	void Bind() const;
 
 	bool Create(Blob & shaderbuffer);
 	bool CreateFromFile(const char * filename);

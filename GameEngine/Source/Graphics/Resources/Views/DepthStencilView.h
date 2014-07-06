@@ -3,11 +3,11 @@
 struct DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
 {
 public:
-	__forceinline DepthStencilViewParams();
+	DepthStencilViewParams();
 
-	__forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
+	void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
 
-	__forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
+	void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
 };
 
 __forceinline DepthStencilViewParams::DepthStencilViewParams()
@@ -52,13 +52,13 @@ private:
 
 public:
 
-	__forceinline DepthStencilView();
+	DepthStencilView();
 
-	__forceinline ~DepthStencilView();
+	~DepthStencilView();
 
 
 	/*** Getters ***/
-	__forceinline ID3D11DepthStencilView * GetView() const;
+	ID3D11DepthStencilView * GetView() const;
 };
 
 __forceinline DepthStencilView::DepthStencilView()

@@ -5,7 +5,7 @@
 
 struct EntityComponent
 {
-	__forceinline virtual string VGetType() const =0 { return "Component"; }
+	virtual string VGetType() const =0 { return "Component"; }
 };
 
 ///////////////////////////////////////////////////////////
@@ -184,7 +184,7 @@ struct EntityResource
 	//create its physics model
 	virtual void VCreatePhysicalBody(IPhysics * pPhysics, shared_ptr<Entity> pEntity);
 
-	__forceinline void ChangeColor(float red, float green, float blue);
+	void ChangeColor(float red, float green, float blue);
 
 private:
 	void InitTransform(TiXmlElement* pComponent);

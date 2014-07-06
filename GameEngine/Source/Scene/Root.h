@@ -19,7 +19,7 @@ protected:
 
 public:
 	//constructor
-	__forceinline RootRepresentation();
+	RootRepresentation();
 
 	virtual void VAddChild(shared_ptr<EntityRepresentation> pRep, RenderPass pass, EntityRepresentationId parentId);
 	virtual void VRemoveChild(EntityRepresentation* pRep) override;

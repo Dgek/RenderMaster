@@ -23,38 +23,38 @@ public:
 public:
 
 	//constructor
-	__forceinline Frustum();
+	Frustum();
 
 	void Init(float fov, float aspect, float near, float far);
 
 	/**
 	Methods
 	**/
-	__forceinline bool Inside(const Vec & point) const;
-	__forceinline bool Inside(const Vec & point, float radius) const;
+	bool Inside(const Vec & point) const;
+	bool Inside(const Vec & point, float radius) const;
 
 	/**
 	Getters
 	**/
-	__forceinline const Plane & Get(Side side) const;
-	__forceinline float GetFOV() const;
-	__forceinline float GetAspectRatio() const;
-	__forceinline float GetNearZ() const;
-	__forceinline float GetFarZ() const;
-	__forceinline float GetNearWidth() const;
-	__forceinline float GetNearHeight() const;
-	__forceinline const Vec & GetLowerLeftRay() const;
-	__forceinline const Vec & GetLowerRightRay() const;
-	__forceinline const Vec & GetUpperLeftRay() const;
-	__forceinline const Vec & GetUpperRightRay() const;
+	const Plane & Get(Side side) const;
+	float GetFOV() const;
+	float GetAspectRatio() const;
+	float GetNearZ() const;
+	float GetFarZ() const;
+	float GetNearWidth() const;
+	float GetNearHeight() const;
+	const Vec & GetLowerLeftRay() const;
+	const Vec & GetLowerRightRay() const;
+	const Vec & GetUpperLeftRay() const;
+	const Vec & GetUpperRightRay() const;
 
 	/**
 	Mutators
 	**/
-	__forceinline void SetFOV(float fov);
-	__forceinline void SetAspect(float aspect);
-	__forceinline void SetNear(float nearClip);
-	__forceinline void SetFar(float farClip);
+	void SetFOV(float fov);
+	void SetAspect(float aspect);
+	void SetNear(float nearClip);
+	void SetFar(float farClip);
 
 	void Render();
 };

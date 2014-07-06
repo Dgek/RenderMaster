@@ -6,7 +6,7 @@ class BoxMesh : public Mesh
 {
 public:
 
-	__forceinline BoxMesh(float scalex, float scaley, float scalez);
+	BoxMesh(float scalex, float scaley, float scalez);
 };
 
 __forceinline BoxMesh::BoxMesh(float scalex, float scaley, float scalez)

@@ -17,31 +17,31 @@ protected:
 
 public:
 
-	__forceinline Scene();
+	Scene();
 
 	virtual void VUpdate(double time, double elapsedTime);
 
 	virtual void VRender(Renderer * pRenderer, double currentTime);
 
 	//Representations management
-	__forceinline shared_ptr<EntityRepresentation> GetRepresentation(EntityRepresentationId id);
-	__forceinline void AddRepresentation(shared_ptr<EntityRepresentation> pRepresentation, RenderPass pass = RenderPass_Actors, EntityRepresentationId parentId = 0);
+	shared_ptr<EntityRepresentation> GetRepresentation(EntityRepresentationId id);
+	void AddRepresentation(shared_ptr<EntityRepresentation> pRepresentation, RenderPass pass = RenderPass_Actors, EntityRepresentationId parentId = 0);
 
-	__forceinline void AddStaticObject(shared_ptr<EntityRepresentation> pStatic);
+	void AddStaticObject(shared_ptr<EntityRepresentation> pStatic);
 
 	//update current world transform
-	__forceinline void PushTransform(const Mat4x4 & mat);
+	void PushTransform(const Mat4x4 & mat);
 
 	//get current tranform
-	__forceinline const Mat4x4 & GetTransform() const;
+	const Mat4x4 & GetTransform() const;
 
 	//remove last transform
-	__forceinline void PopTransform();
+	void PopTransform();
 
 	//	=============  //
 	//	Accessors
 	//	=============  //
-	__forceinline double GetFixedTimeStep() const;
+	double GetFixedTimeStep() const;
 };
 
 __forceinline Scene::Scene()

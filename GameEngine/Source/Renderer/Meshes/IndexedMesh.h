@@ -13,11 +13,11 @@ public:
 
 public:
 
-	__forceinline void SetIndexedBuffer();
+	void SetIndexedBuffer();
 
-	__forceinline void AddSubMesh(shared_ptr<SubMesh> pSubMesh);
+	void AddSubMesh(shared_ptr<SubMesh> pSubMesh);
 
-	__forceinline void BindIndexBuffer(unsigned int offset);
+	void BindIndexBuffer(unsigned int offset);
 };
 
 

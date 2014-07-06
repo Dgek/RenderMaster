@@ -19,10 +19,10 @@ public:
 	virtual bool VOpen() override;
 	virtual int VGetRawResourceSize(const Resource & resource) override;
 	virtual int VGetRawResource(const Resource & resource, char* pBuffer) override;
-	__forceinline virtual int VGetNumResources() const override;
-	__forceinline virtual string VGetResourceName(int num) const override;
+	virtual int VGetNumResources() const override;
+	virtual string VGetResourceName(int num) const override;
 
-	__forceinline virtual wstring VGetDirectory() const override;
+	virtual wstring VGetDirectory() const override;
 
 	int Find(const string & name);
 };

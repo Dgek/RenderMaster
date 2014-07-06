@@ -6,7 +6,7 @@ public:
 	string m_name;
 
 public:
-	__forceinline explicit Resource(const string & name);
+	explicit Resource(const string & name);
 };
 
 __forceinline Resource::Resource(const string & name)
@@ -34,15 +34,15 @@ protected:
 	ResourceCache* m_pCache;
 
 public:
-	__forceinline ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache);
-	__forceinline ~ResHandle();
+	ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache);
+	~ResHandle();
 
-	__forceinline const string & GetName() const;
-	__forceinline unsigned int Size() const;
-	__forceinline char* Buffer() const;
+	const string & GetName() const;
+	unsigned int Size() const;
+	char* Buffer() const;
 
-	__forceinline shared_ptr<IResourceExtraData> GetExtra() const;
-	__forceinline void SetExtra(shared_ptr<IResourceExtraData> pExtra);
+	shared_ptr<IResourceExtraData> GetExtra() const;
+	void SetExtra(shared_ptr<IResourceExtraData> pExtra);
 };
 
 __forceinline ResHandle::ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache)

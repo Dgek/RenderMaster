@@ -6,13 +6,13 @@ class SpotLight : public Light
 {
 public:
 
-	__forceinline SpotLight(const Vec & color, const Vec & pos, const Vec & dir,
+	SpotLight(const Vec & color, const Vec & pos, const Vec & dir,
 		float range, float innerAngleInRadians, float outerAngleInRadians);
 
 	virtual LightType VGetType() const override;
 
-	__forceinline float GetInnerAngle() const;
-	__forceinline float GetOuterAngle() const;
+	float GetInnerAngle() const;
+	float GetOuterAngle() const;
 
 protected:
 

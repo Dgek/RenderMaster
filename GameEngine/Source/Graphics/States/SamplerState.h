@@ -3,8 +3,8 @@
 class SamplerStateParams : public D3D11_SAMPLER_DESC
 {
 public:
-	__forceinline SamplerStateParams();
-	__forceinline bool Init(D3D11_FILTER Filter, D3D11_TEXTURE_ADDRESS_MODE AddressU,
+	SamplerStateParams();
+	bool Init(D3D11_FILTER Filter, D3D11_TEXTURE_ADDRESS_MODE AddressU,
 		D3D11_TEXTURE_ADDRESS_MODE AddressV, D3D11_TEXTURE_ADDRESS_MODE AddressW,
 		float MipLODBias, unsigned int MaxAnisotropy, D3D11_COMPARISON_FUNC ComparisonFunc,
 		float* BorderColor = nullptr, float MinLOD = 0, float MaxLOD = 0x7FFFFFFF);
@@ -48,11 +48,11 @@ protected:
 	ID3D11SamplerState*	m_pState;
 
 public:
-	__forceinline SamplerState();
-	__forceinline ~SamplerState();
+	SamplerState();
+	~SamplerState();
 
-	__forceinline bool Create(const D3D11_SAMPLER_DESC * pParams);
-	__forceinline void Bind(unsigned int slot, ShaderType type) const;
+	bool Create(const D3D11_SAMPLER_DESC * pParams);
+	void Bind(unsigned int slot, ShaderType type) const;
 };
 
 __forceinline SamplerState::SamplerState() 

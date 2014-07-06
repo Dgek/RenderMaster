@@ -5,8 +5,8 @@
 class RenderTargetBlendParams : public D3D11_RENDER_TARGET_BLEND_DESC
 {
 public:
-	__forceinline RenderTargetBlendParams();
-	__forceinline bool Init(bool blendEnable, unsigned int srcBlend, unsigned int destBlend,
+	RenderTargetBlendParams();
+	bool Init(bool blendEnable, unsigned int srcBlend, unsigned int destBlend,
 		unsigned int blendOp, unsigned int srcBlendAlpha, unsigned int destBlendAlpha, unsigned int blendOpAlpha,
 		unsigned int renderTargetWriteMask);
 };
@@ -36,8 +36,8 @@ __forceinline bool RenderTargetBlendParams::Init(bool blendEnable, unsigned int 
 class BlendStateParams : public D3D11_BLEND_DESC
 {
 public:
-	__forceinline BlendStateParams();
-	__forceinline bool Init(bool alphaToCoverageEnable, bool independantBlendEnable,
+	BlendStateParams();
+	bool Init(bool alphaToCoverageEnable, bool independantBlendEnable,
 		RenderTargetBlendParams* targets, unsigned int numParams);
 };
 
@@ -72,11 +72,11 @@ protected:
 	ID3D11BlendState*	m_pState;
 
 public:
-	__forceinline BlendState();
-	__forceinline ~BlendState();
+	BlendState();
+	~BlendState();
 
-	__forceinline bool Create(const D3D11_BLEND_DESC * pParams);
-	__forceinline void Bind(float blendFactor[4], unsigned int sampleMask = 0xffffffff);
+	bool Create(const D3D11_BLEND_DESC * pParams);
+	void Bind(float blendFactor[4], unsigned int sampleMask = 0xffffffff);
 };
 
 __forceinline BlendState::BlendState() 

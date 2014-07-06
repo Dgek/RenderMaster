@@ -3,23 +3,23 @@
 struct BufferParams : public D3D11_BUFFER_DESC
 {
 public:
-	__forceinline bool FillVertexBufferParams(unsigned int vertexSize, unsigned int count,
+	bool FillVertexBufferParams(unsigned int vertexSize, unsigned int count,
 		bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream);
 
-	__forceinline bool FillIndexBufferParams(unsigned int indexSize, unsigned int count,
+	bool FillIndexBufferParams(unsigned int indexSize, unsigned int count,
 		bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream);
 
-	__forceinline bool FillConstantBufferParams(unsigned int size,
+	bool FillConstantBufferParams(unsigned int size,
 		bool gpuWrite, bool cpuRead, bool cpuWrite);
 
-	__forceinline bool FillStructredBufferParams(unsigned int structsize, unsigned int count, bool CPUWritable,
+	bool FillStructredBufferParams(unsigned int structsize, unsigned int count, bool CPUWritable,
 		bool GPUWritable);
 
 	/** ================
 	==	Mutators  ==
 	================
 	**/
-	__forceinline void SetSize(unsigned int size);
+	void SetSize(unsigned int size);
 };
 
 __forceinline bool BufferParams::FillVertexBufferParams(unsigned int vertexSize, unsigned int count,

@@ -5,8 +5,8 @@ struct Point
 	int x;
 	int y;
 
-	__forceinline Point();
-	__forceinline Point(int _x, int _y);
+	Point();
+	Point(int _x, int _y);
 };
 
 __forceinline Point::Point()

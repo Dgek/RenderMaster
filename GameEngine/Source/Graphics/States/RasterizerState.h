@@ -5,8 +5,8 @@
 class RasterizerParams : public D3D11_RASTERIZER_DESC
 {
 public:
-	__forceinline RasterizerParams();
-	__forceinline bool Init(bool wireframe, bool cullFront, bool cullBack, bool frontCounterClockwise,
+	RasterizerParams();
+	bool Init(bool wireframe, bool cullFront, bool cullBack, bool frontCounterClockwise,
 		int depthBias, float depthBiasClamp, float slopeScaledDepthBias, 
 		bool depthClipEnable, bool scissorEnable, bool multiSampleEnable,
 		bool antialiasedLineEnable);
@@ -54,11 +54,11 @@ protected:
 	ID3D11RasterizerState*	m_pState;
 
 public:
-	__forceinline RasterizerState();
-	__forceinline ~RasterizerState();
+	RasterizerState();
+	~RasterizerState();
 
-	__forceinline bool Create(const D3D11_RASTERIZER_DESC * pParams);
-	__forceinline void Bind();
+	bool Create(const D3D11_RASTERIZER_DESC * pParams);
+	void Bind();
 };
 
 __forceinline RasterizerState::RasterizerState() 

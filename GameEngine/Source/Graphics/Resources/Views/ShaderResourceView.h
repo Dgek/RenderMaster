@@ -5,15 +5,15 @@
 struct ShaderResourceViewParams : public D3D11_SHADER_RESOURCE_VIEW_DESC
 {
 public:
-	__forceinline ShaderResourceViewParams();
+	ShaderResourceViewParams();
 
-	__forceinline void InitForTexture2D(DXGI_FORMAT format, int miplevels, int mostdetailedmip, bool multiSampled);
+	void InitForTexture2D(DXGI_FORMAT format, int miplevels, int mostdetailedmip, bool multiSampled);
 
-	__forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int miplevels, int mostdetailedmip, bool multiSampled);
+	void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int miplevels, int mostdetailedmip, bool multiSampled);
 
-	__forceinline void InitForCubeTexture(DXGI_FORMAT format, int miplevels, int mostdetailedmip);
+	void InitForCubeTexture(DXGI_FORMAT format, int miplevels, int mostdetailedmip);
 	
-	__forceinline void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int elementWidth);
+	void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int elementWidth);
 };
 
 __forceinline ShaderResourceViewParams::ShaderResourceViewParams()
@@ -70,19 +70,19 @@ private:
 
 public:
 
-	__forceinline explicit ShaderResourceView(int numViews = 1);
+	explicit ShaderResourceView(int numViews = 1);
 
-	__forceinline ~ShaderResourceView();
+	~ShaderResourceView();
 
 
 	/*** Getters ***/
-	__forceinline ID3D11ShaderResourceView** GetView(int index = 0) const;
+	ID3D11ShaderResourceView** GetView(int index = 0) const;
 
 	/* ==
 	Bind Unordered Access Views to the pipeline
 	== */
-	__forceinline void Bind(int slot, ShaderType type) const;
-	__forceinline void BindView(int index, int slot, ShaderType type) const;
+	void Bind(int slot, ShaderType type) const;
+	void BindView(int index, int slot, ShaderType type) const;
 };
 
 __forceinline ShaderResourceView::ShaderResourceView(int numViews)

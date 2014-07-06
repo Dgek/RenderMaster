@@ -11,7 +11,7 @@ class StateMachine
 public:
 
 	//Constructor
-	__forceinline StateMachine();
+	StateMachine();
 
 	void Release(Game * pGame);
 

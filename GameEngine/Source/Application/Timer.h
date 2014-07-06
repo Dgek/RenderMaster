@@ -30,10 +30,10 @@ public:
 	//Getters
 	***/
 
-	__forceinline float GetGameTime() const;
-	__forceinline float GetGameTimeSeconds() const;
-	__forceinline float GetDeltaTime() const;
-	__forceinline float GetDeltaTimeSeconds() const;
+	float GetGameTime() const;
+	float GetGameTimeSeconds() const;
+	float GetDeltaTime() const;
+	float GetDeltaTimeSeconds() const;
 };
 
 __forceinline float Timer::GetGameTime() const	

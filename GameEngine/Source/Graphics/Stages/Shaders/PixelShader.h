@@ -9,10 +9,10 @@ protected:
 	ID3D11PixelShader*	m_pShader;
 
 public:
-	__forceinline PixelShader();
-	__forceinline ~PixelShader();
+	PixelShader();
+	~PixelShader();
 
-	__forceinline void Bind() const;
+	void Bind() const;
 
 	bool Create(Blob & shaderbuffer);
 	bool CreateFromFile(const char * filename);

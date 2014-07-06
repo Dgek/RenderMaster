@@ -6,7 +6,7 @@ class PointLight : public Light
 {
 public:
 
-	__forceinline PointLight(const Vec & color, const Vec & pos, float range);
+	PointLight(const Vec & color, const Vec & pos, float range);
 
 	virtual LightType VGetType() const override;
 };

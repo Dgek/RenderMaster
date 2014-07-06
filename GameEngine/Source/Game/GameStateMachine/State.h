@@ -24,7 +24,7 @@ protected:
 public:
 
 	//Constructor and Destructor
-	__forceinline State();
+	State();
 
 	//=========================================
 	//Methods//

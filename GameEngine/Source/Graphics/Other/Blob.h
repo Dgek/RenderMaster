@@ -7,8 +7,8 @@ public:
 
 public:
 
-	__forceinline Blob();
-	__forceinline ~Blob();
+	Blob();
+	~Blob();
 
 	bool CompileShader(const wstring & fileName, const string & entrypoint,
 		ShaderType type, const string & target, Blob * pErrors) const;

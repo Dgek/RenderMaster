@@ -12,47 +12,47 @@ public:
 
 	static const Mat4x4 Identity;
 
-	__forceinline static Mat4x4 CreateViewMatrixLH(const Vec & pos, const Vec & lookDir, const Vec & up);
-	__forceinline static Mat4x4 CreatePerspectiveProjectionLH(float fov, float aspect, float nearZ, float farZ);
-	__forceinline static Mat4x4 CreateOrthoProjectionLH(float width, float height, float nearZ, float farZ);
-	__forceinline static Mat4x4 CreateTranslation(const Vec & vec);
-	__forceinline static Mat4x4 CreateRotationX(float angleInRadians);
-	__forceinline static Mat4x4 CreateRotationY(float angleInRadians);
-	__forceinline static Mat4x4 CreateRotationZ(float angleInRadians);
-	__forceinline static Mat4x4 CreateScaling(const Vec & scale);
-	__forceinline static Mat4x4 CreateScaling(float x, float y, float z);
-	__forceinline static Mat4x4 CreateRollPitchYaw(float rollInRadians, float pitchInRadians, float yawInRadians);
+	static Mat4x4 CreateViewMatrixLH(const Vec & pos, const Vec & lookDir, const Vec & up);
+	static Mat4x4 CreatePerspectiveProjectionLH(float fov, float aspect, float nearZ, float farZ);
+	static Mat4x4 CreateOrthoProjectionLH(float width, float height, float nearZ, float farZ);
+	static Mat4x4 CreateTranslation(const Vec & vec);
+	static Mat4x4 CreateRotationX(float angleInRadians);
+	static Mat4x4 CreateRotationY(float angleInRadians);
+	static Mat4x4 CreateRotationZ(float angleInRadians);
+	static Mat4x4 CreateScaling(const Vec & scale);
+	static Mat4x4 CreateScaling(float x, float y, float z);
+	static Mat4x4 CreateRollPitchYaw(float rollInRadians, float pitchInRadians, float yawInRadians);
 
 
 	/*
 	*Default Constructor
 	*/
-	__forceinline Mat4x4();
+	Mat4x4();
 
-	__forceinline Mat4x4(float m11, float m12, float m13, float m14,
+	Mat4x4(float m11, float m12, float m13, float m14,
 		float m21, float m22, float m23, float m24,
 		float m31, float m32, float m33, float m34,
 		float m41, float m42, float m43, float m44);
 
-	__forceinline Mat4x4(const Vec & v1, const Vec & v2, const Vec & v3, const Vec & v4);
+	Mat4x4(const Vec & v1, const Vec & v2, const Vec & v3, const Vec & v4);
 
-	__forceinline void SetIdentity();
+	void SetIdentity();
 
-	__forceinline Mat4x4 GetTransposed() const;
+	Mat4x4 GetTransposed() const;
 
-	__forceinline void Transpose();
+	void Transpose();
 
-	__forceinline Mat4x4 & operator*=(const Mat4x4 & other);
+	Mat4x4 & operator*=(const Mat4x4 & other);
 
-	__forceinline Mat4x4 & operator*=(float other);
+	Mat4x4 & operator*=(float other);
 
-	__forceinline Mat4x4 & operator+=(const Mat4x4 & other);
+	Mat4x4 & operator+=(const Mat4x4 & other);
 
-	__forceinline Mat4x4 & operator-=(const Mat4x4 & other);
+	Mat4x4 & operator-=(const Mat4x4 & other);
 
-	__forceinline bool operator==(const Mat4x4 & other) const;
+	bool operator==(const Mat4x4 & other) const;
 
-	__forceinline bool operator!=(const Mat4x4 & other) const;
+	bool operator!=(const Mat4x4 & other) const;
 };
 
 __forceinline Mat4x4::Mat4x4()

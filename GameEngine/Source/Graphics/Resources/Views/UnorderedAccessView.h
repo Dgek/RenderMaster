@@ -5,13 +5,13 @@
 struct UnorderedAccessViewParams : public D3D11_UNORDERED_ACCESS_VIEW_DESC
 {
 public:
-	__forceinline UnorderedAccessViewParams();
+	UnorderedAccessViewParams();
 
-	__forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice);
+	void InitForTexture2D(DXGI_FORMAT format, int mipslice);
 
-	__forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice);
+	void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice);
 
-	__forceinline void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int numElements, D3D11_BUFFER_UAV_FLAG flag);
+	void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int numElements, D3D11_BUFFER_UAV_FLAG flag);
 };
 
 __forceinline UnorderedAccessViewParams::UnorderedAccessViewParams()
@@ -54,21 +54,21 @@ private:
 	int m_numViews;
 
 public:
-	__forceinline explicit UnorderedAccessView(int numViews = 1);
+	explicit UnorderedAccessView(int numViews = 1);
 
 	//__forceinline explicit UnorderedAccessView(ID3D11RenderTargetView * View);
 
-	__forceinline ~UnorderedAccessView();
+	~UnorderedAccessView();
 
 
 	/*** Getters ***/
-	__forceinline ID3D11UnorderedAccessView** GetView(int index = 0) const;
+	ID3D11UnorderedAccessView** GetView(int index = 0) const;
 
 	/* ==
 	Bind Unordered Access Views to the pipeline
 	== */
-	__forceinline void Bind(int slot, ShaderType type) const;
-	__forceinline void BindView(int index, int slot, ShaderType type) const;
+	void Bind(int slot, ShaderType type) const;
+	void BindView(int index, int slot, ShaderType type) const;
 };
 
 

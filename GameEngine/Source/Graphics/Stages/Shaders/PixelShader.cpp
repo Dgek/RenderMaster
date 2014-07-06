@@ -14,12 +14,7 @@ bool PixelShader::Create(Blob & shaderbuffer)
 
 bool PixelShader::CreateFromFile(const char * filename)
 {
-	ifstream fin{ filename, ios::binary };
-	fin.seekg(0, ios_base::end);
-	int size = static_cast<int>(fin.tellg());
-	fin.seekg(0, ios_base::beg);
-	vector<char> compiledShader(size);
-	fin.read(&compiledShader[0], size);
+	SHADER_LOAD_FROM_FILE()
 
 	auto hr = DX11API::D3D11Device()->CreatePixelShader(&compiledShader[0], size, nullptr, &m_pShader);
 	VALID(hr);

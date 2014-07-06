@@ -14,7 +14,7 @@ public:
 	static const Vec g_forward4;
 	static const Vec g_back4;
 
-	__forceinline static Vec Normalize(const Vec & v);
+	static Vec Normalize(const Vec & v);
 
 public:
 	/*
@@ -30,7 +30,7 @@ public:
 	* @param inZ z
 	* @param inW w
 	*/
-	__forceinline Vec(float inX, float inY, float inZ, float inW);
+	Vec(float inX, float inY, float inZ, float inW);
 
 	/*
 	*Constructor
@@ -38,40 +38,40 @@ public:
 	* @param v gives xyz
 	* @param w gives w
 	*/
-	__forceinline Vec(const Vec & v, float w);
+	Vec(const Vec & v, float w);
 
-	__forceinline float & operator[](int index);
+	float & operator[](int index);
 
-	__forceinline float operator[](int index) const;
+	float operator[](int index) const;
 
-	__forceinline void Set(float inX, float inY, float inZ, float inW);
+	void Set(float inX, float inY, float inZ, float inW);
 
-	__forceinline Vec operator-() const;
+	Vec operator-() const;
 
-	__forceinline Vec & operator+=(const Vec & v);
+	Vec & operator+=(const Vec & v);
 
-	__forceinline Vec & operator-=(const Vec & v);
+	Vec & operator-=(const Vec & v);
 
-	__forceinline Vec & operator*=(const Vec & v);
+	Vec & operator*=(const Vec & v);
 
-	__forceinline Vec & operator/=(const Vec & v);
+	Vec & operator/=(const Vec & v);
 
-	__forceinline Vec operator*(float scale) const;
+	Vec operator*(float scale) const;
 
-	__forceinline Vec & operator*=(float scale);
+	Vec & operator*=(float scale);
 
-	__forceinline Vec operator/(float scale) const;
+	Vec operator/(float scale) const;
 
 
-	__forceinline bool operator==(const Vec & v) const;
+	bool operator==(const Vec & v) const;
 
-	__forceinline bool operator!=(const Vec & v) const;
+	bool operator!=(const Vec & v) const;
 
-	__forceinline const Vec & Normalize();
+	const Vec & Normalize();
 
-	__forceinline float Length() const;
+	float Length() const;
 
-	__forceinline Vec Reflect(const Vec & normal) const;
+	Vec Reflect(const Vec & normal) const;
 };
 
 const Vec g_up4 = Vec{ 0.0f, 1.0f, 0.0f, 0.0f };

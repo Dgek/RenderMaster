@@ -33,12 +33,7 @@ bool VertexShader::Create(Blob & shaderbuffer, INPUT_LAYOUT* layout, unsigned in
 
 bool VertexShader::CreateFromFile(const char * filename)
 {
-	ifstream fin{ filename, ios::binary };
-	fin.seekg(0, ios_base::end);
-	m_size = static_cast<int>(fin.tellg());
-	fin.seekg(0, ios_base::beg);
-	m_pBuffer = make_unique<char[]>(m_size);
-	fin.read(m_pBuffer.get(), m_size);
+	SHADER_LOAD_FROM_FILE()
 
 	auto hr = DX11API::D3D11Device()->CreateVertexShader(m_pBuffer.get(), m_size, nullptr, &m_pShader);
 	VALID(hr);

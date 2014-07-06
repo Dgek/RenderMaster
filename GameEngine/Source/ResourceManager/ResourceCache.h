@@ -43,11 +43,11 @@ public:
 	//Global resource cache methods
 	static shared_ptr<ResHandle> SafeGetHandle(Resource *pResource);
 
-	__forceinline ResourceCache();
+	ResourceCache();
 	ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
-	__forceinline ~ResourceCache();
+	~ResourceCache();
 
-	__forceinline bool Init(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
+	bool Init(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
 	void RegisterLoader(shared_ptr<IResourceLoader> pLoader);
 
 	shared_ptr<ResHandle> GetHandle(Resource *pResource);

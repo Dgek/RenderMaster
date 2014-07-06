@@ -48,7 +48,7 @@ public:
 	// Initializing
 	//============================
 
-	__forceinline Game();
+	Game();
 	virtual ~Game();
 
 	virtual bool VInitialize() = 0 { return true; };
@@ -84,7 +84,7 @@ public:
 
 	//Update entity transform matrix
 	virtual void VUpdateEntity(EntityId id, const Mat4x4 & transform, double currentTime);
-	__forceinline EntityId GetNewEntityId();
+	EntityId GetNewEntityId();
 
 	/*==
 	//States management

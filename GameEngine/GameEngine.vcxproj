@@ -129,6 +129,7 @@
     <ClInclude Include="Source\Help\Strings\Strings.h" />
     <ClInclude Include="Source\Input\Controllers.h" />
     <ClInclude Include="Source\Input\Devices.h" />
+    <ClInclude Include="Source\Math\Collision.h" />
     <ClInclude Include="Source\Math\float2.h" />
     <ClInclude Include="Source\Math\float3.h" />
     <ClInclude Include="Source\Math\Geometry\Frustum.h" />
@@ -199,7 +200,9 @@
     <ClCompile Include="Source\Graphics\Resources\Textures\Texture2D.cpp" />
     <ClCompile Include="Source\Graphics\Resources\Views\RenderTargetView.cpp" />
     <ClCompile Include="Source\Graphics\Stages\Shaders\ComputeShader.cpp" />
+    <ClCompile Include="Source\Graphics\Stages\Shaders\DomainShader.cpp" />
     <ClCompile Include="Source\Graphics\Stages\Shaders\GeometryShader.cpp" />
+    <ClCompile Include="Source\Graphics\Stages\Shaders\HullShader.cpp" />
     <ClCompile Include="Source\Graphics\Stages\Shaders\PixelShader.cpp" />
     <ClCompile Include="Source\Graphics\Stages\Shaders\VertexShader.cpp" />
     <ClCompile Include="Source\Help\Strings\Strings.cpp" />

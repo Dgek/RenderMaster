@@ -15,8 +15,8 @@ protected:
 	int m_size;
 
 public:
-	__forceinline VertexShader();
-	__forceinline ~VertexShader();
+	VertexShader();
+	~VertexShader();
 
 	bool Create(Blob & shaderbuffer, INPUT_LAYOUT* layout, unsigned int num, unsigned int topology);
 	bool CreateFromFile(const char * filename);
@@ -25,9 +25,9 @@ public:
 
 	bool SetInputAssemblerState(INPUT_LAYOUT* pLayout, unsigned int num, D3D11_PRIMITIVE_TOPOLOGY);
 
-	__forceinline void ClearBuffer();
+	void ClearBuffer();
 
-	__forceinline void Bind() const;
+	void Bind() const;
 };
 
 __forceinline VertexShader::VertexShader()

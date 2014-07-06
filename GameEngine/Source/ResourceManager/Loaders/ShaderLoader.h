@@ -15,7 +15,7 @@ class VertexShaderResourceExtraData : public IResourceExtraData
 public:
 	shared_ptr<VertexShader> m_pShader;
 
-	__forceinline VertexShaderResourceExtraData();
+	VertexShaderResourceExtraData();
 	virtual string VToString() override;
 };
 
@@ -29,7 +29,7 @@ class HullShaderResourceExtraData : public IResourceExtraData
 public:
 	shared_ptr<HullShader> m_pShader;
 
-	__forceinline HullShaderResourceExtraData();
+	HullShaderResourceExtraData();
 	virtual string VToString() override;
 };
 
@@ -43,7 +43,7 @@ class DomainShaderResourceExtraData : public IResourceExtraData
 public:
 	shared_ptr<DomainShader> m_pShader;
 
-	__forceinline DomainShaderResourceExtraData();
+	DomainShaderResourceExtraData();
 	virtual string VToString() override;
 };
 
@@ -57,7 +57,7 @@ class GeometryShaderResourceExtraData : public IResourceExtraData
 public:
 	shared_ptr<GeometryShader> m_pShader;
 
-	__forceinline GeometryShaderResourceExtraData();
+	GeometryShaderResourceExtraData();
 	virtual string VToString() override;
 };
 
@@ -71,7 +71,7 @@ class PixelShaderResourceExtraData : public IResourceExtraData
 public:
 	shared_ptr<PixelShader> m_pShader;
 
-	__forceinline PixelShaderResourceExtraData();
+	PixelShaderResourceExtraData();
 	virtual string VToString() override;
 };
 
@@ -85,7 +85,7 @@ class ComputeShaderResourceExtraData : public IResourceExtraData
 public:
 	shared_ptr<ComputeShader> m_pShader;
 
-	__forceinline ComputeShaderResourceExtraData();
+	ComputeShaderResourceExtraData();
 	virtual string VToString() override;
 };
 
@@ -98,10 +98,10 @@ __forceinline ComputeShaderResourceExtraData::ComputeShaderResourceExtraData()
 class VertexShaderLoader : public IResourceLoader
 {
 public:
-	__forceinline virtual string VGetPattern() override;
-	__forceinline virtual bool VUseRawFile() override;
-	__forceinline  virtual bool VNeedFile() override;
-	__forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+	virtual string VGetPattern() override;
+	virtual bool VUseRawFile() override;
+	virtual bool VNeedFile() override;
+	virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
 	virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 };
 
@@ -129,10 +129,10 @@ __forceinline int VertexShaderLoader::VGetLoadedResourceSize(char* pRawBuffer, u
 class HullShaderLoader : public IResourceLoader
 {
 public:
-	__forceinline virtual string VGetPattern() override;
-	__forceinline virtual bool VUseRawFile() override;
-	__forceinline  virtual bool VNeedFile() override;
-	__forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+	virtual string VGetPattern() override;
+	virtual bool VUseRawFile() override;
+	virtual bool VNeedFile() override;
+	virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
 	virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 };
 
@@ -159,10 +159,10 @@ __forceinline int HullShaderLoader::VGetLoadedResourceSize(char* pRawBuffer, uns
 class DomainShaderLoader : public IResourceLoader
 {
 public:
-	__forceinline virtual string VGetPattern() override;
-	__forceinline virtual bool VUseRawFile() override;
-	__forceinline  virtual bool VNeedFile() override;
-	__forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+	virtual string VGetPattern() override;
+	virtual bool VUseRawFile() override;
+	virtual bool VNeedFile() override;
+	virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
 	virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 };
 
@@ -189,10 +189,10 @@ __forceinline int DomainShaderLoader::VGetLoadedResourceSize(char* pRawBuffer, u
 class GeometryShaderLoader : public IResourceLoader
 {
 public:
-	__forceinline virtual string VGetPattern() override;
-	__forceinline virtual bool VUseRawFile() override;
-	__forceinline  virtual bool VNeedFile() override;
-	__forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+	virtual string VGetPattern() override;
+	virtual bool VUseRawFile() override;
+	virtual bool VNeedFile() override;
+	virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
 	virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 };
 
@@ -219,10 +219,10 @@ __forceinline int GeometryShaderLoader::VGetLoadedResourceSize(char* pRawBuffer,
 class ComputeShaderLoader : public IResourceLoader
 {
 public:
-	__forceinline virtual string VGetPattern() override;
-	__forceinline virtual bool VUseRawFile() override;
-	__forceinline  virtual bool VNeedFile() override;
-	__forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+	virtual string VGetPattern() override;
+	virtual bool VUseRawFile() override;
+	virtual bool VNeedFile() override;
+	virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
 	virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 };
 
@@ -249,10 +249,10 @@ __forceinline int ComputeShaderLoader::VGetLoadedResourceSize(char* pRawBuffer, 
 class PixelShaderLoader : public IResourceLoader
 {
 public:
-	__forceinline virtual string VGetPattern() override;
-	__forceinline virtual bool VUseRawFile() override;
-	__forceinline  virtual bool VNeedFile() override;
-	__forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+	virtual string VGetPattern() override;
+	virtual bool VUseRawFile() override;
+	virtual bool VNeedFile() override;
+	virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
 	virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 };
 

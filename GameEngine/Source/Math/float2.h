@@ -6,14 +6,14 @@ public:
 	float x, y;
 
 	/** default constructor **/
-	__forceinline float2();
+	float2();
 
 	/*
 	#Constructor
 	*
 	* @param value to set for all components
 	*/
-	explicit __forceinline float2(float value);
+	explicit float2(float value);
 
 	/*
 	#Constructor
@@ -21,7 +21,7 @@ public:
 	* @param inX - x
 	* @param inY - y
 	*/
-	__forceinline float2(float inX, float inY);
+	float2(float inX, float inY);
 
 	/*
 	*Dot Product of two vectors

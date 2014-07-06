@@ -195,7 +195,7 @@ public:
 	void PrepareForShadingPass();
 	void VFinishPass();
 
-	__forceinline static void SetGlobalIllumination(bool flag);
+	static void SetGlobalIllumination(bool flag);
 };
 
 __forceinline void TiledRenderer::SetGlobalIllumination(bool flag)

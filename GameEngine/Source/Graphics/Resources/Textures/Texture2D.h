@@ -14,15 +14,15 @@ class RenderTargetView;
 struct Texture2DParams : public D3D11_TEXTURE2D_DESC
 {
 public:
-	__forceinline Texture2DParams();
+	Texture2DParams();
 
-	__forceinline void Init(unsigned int width, unsigned int height, unsigned int arraySize,
+	void Init(unsigned int width, unsigned int height, unsigned int arraySize,
 		unsigned int format, bool shaderResource, bool unorderedAccess, bool renderTarget,
 		bool depthStencil, unsigned int sampleCount, unsigned int sampleQuality,
 		unsigned int miplevels, bool gpuWrite, bool cpuRead, bool cpuWrite,
 		bool generateMipMaps = false);
 
-	__forceinline void InitCubeTexture(unsigned int width, unsigned int height,
+	void InitCubeTexture(unsigned int width, unsigned int height,
 		unsigned int arraySize, unsigned int format, bool shaderResource, bool unorderedAccess,
 		bool renderTarget, bool depthStencil, unsigned int sampleCount, unsigned int sampleQuality,
 		unsigned int miplevels, bool gpuWrite, bool	cpuRead, bool cpuWrite,

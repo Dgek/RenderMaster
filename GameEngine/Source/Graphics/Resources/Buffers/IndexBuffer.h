@@ -11,12 +11,12 @@ protected:
 
 public:
 
-	__forceinline void Bind(unsigned int offset) const;
+	void Bind(unsigned int offset) const;
 
-	__forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
+	bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
 		unsigned int numElements, unsigned int elementSize);
 
-	__forceinline unsigned int Count() const;
+	unsigned int Count() const;
 };
 
 __forceinline void IndexBuffer::Bind(unsigned int offset) const

@@ -87,3 +87,11 @@ public:
 	*/
 	static void PresentBackBuffer();
 };
+
+#define SHADER_LOAD_FROM_FILE() \
+	ifstream fin{ filename, ios::binary }; \
+	fin.seekg(0, ios_base::end); \
+	int size = static_cast<int>(fin.tellg()); \
+	fin.seekg(0, ios_base::beg); \
+	vector<char> compiledShader(size); \
+	fin.read(&compiledShader[0], size);
