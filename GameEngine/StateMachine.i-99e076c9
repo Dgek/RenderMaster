@@ -1,10 +1,10 @@
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/StateMachine.cpp"
 #line 1 "<built-in>"
 #line 1 "<built-in>"
 #line 176 "<built-in>"
 #line 1 "<command line>"
 #line 1 "<built-in>"
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/StateMachine.cpp"
 #line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source\\Core.h"
 
 
@@ -153103,259 +153103,63 @@ enum LightType
  LT_Spot = 2,
  LT_Directional = 3,
 };
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/StateMachine.cpp"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/StateMachine.h"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../Resource.h"
 
 
-class Resource
+
+class Game;
+class State;
+class Renderer;
+class StateMachine
 {
 public:
- string m_name;
 
-public:
- __forceinline explicit Resource(const string & name);
+
+ StateMachine();
+
+ void Release(Game * pGame);
+
+
+
+
+ bool SetState(Game * pGame, State * pState, int stateId);
+ bool ReleaseCurrentState(Game * pGame);
+
+
+
+
+ void VUpdate(Game * pGame, double time, double elapsedTime);
+ void VRender(Game * pGame, Renderer * pRenderer, double r64Time, double r64ElapsedTime);
+
+private:
+
+
+ State * m_pCurrentState;
 };
 
-__forceinline Resource::Resource(const string & name)
- : m_name{ name }
+__forceinline StateMachine::StateMachine()
+ : m_pCurrentState{ nullptr }
 {}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/StateMachine.cpp"
 
-class IResourceExtraData
-{
-public:
- virtual string VToString() = 0;
-};
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/State.h"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../ResourceCache.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/Scene.h"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../ResourceFile.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Math/Matrix.h"
 
 
-class Resource;
-class IResourceFile
-{
-public:
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Math/Vector.h"
 
- virtual ~IResourceFile() = 0;
 
- virtual bool VOpen() = 0;
- virtual int VGetRawResourceSize(const Resource & resource) = 0;
- virtual int VGetRawResource(const Resource & resource, char* pBuffer) = 0;
- virtual int VGetNumResources() const = 0;
- virtual string VGetResourceName(int num) const = 0;
-
- virtual wstring VGetDirectory() const = 0;
-};
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../ResourceCache.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../ResourceLoader.h"
-
-
-class ResHandle;
-class IResourceLoader
-{
-public:
-
- __forceinline IResourceLoader() =default;
-
- virtual string VGetPattern() = 0;
- virtual bool VUseRawFile() = 0;
- virtual bool VNeedFile() = 0;
- virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) = 0;
- virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) = 0;
-};
-
-class DefaultResourceLoader : public IResourceLoader
-{
-public:
- __forceinline virtual string VGetPattern() override;
- __forceinline virtual bool VUseRawFile() override;
- __forceinline virtual bool VNeedFile() override;
- __forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
- __forceinline virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, std::shared_ptr<ResHandle> pHandle) override;
-};
-
-__forceinline string DefaultResourceLoader::VGetPattern()
-{
- return "*";
-}
-
-__forceinline bool DefaultResourceLoader::VUseRawFile()
-{
- return true;
-}
-
-__forceinline bool DefaultResourceLoader::VNeedFile()
-{
- return false;
-}
-
-__forceinline int DefaultResourceLoader::VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize)
-{
- return uRawSize;
-}
-
-__forceinline bool DefaultResourceLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, std::shared_ptr<ResHandle> pHandle)
-{
- return true;
-}
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../ResourceCache.h"
-
-
-class Resource;
-class IResourceLoader;
-class ResourceCache
-{
- friend class ResHandle;
-
-protected:
-
- unique_ptr<IResourceFile> m_pFile;
-
- typedef std::list< std::shared_ptr<ResHandle>> ResHandleList;
- typedef std::map<string, std::shared_ptr<ResHandle>> ResHandleMap;
- typedef std::list< std::shared_ptr<IResourceLoader>> ResourceLoaders;
-
- ResHandleList m_lru;
- ResHandleMap m_resources;
- ResourceLoaders m_resourceLoaders;
-
-
-
- unsigned int m_uCacheSize;
- unsigned int m_uAllocated;
-
- shared_ptr<ResHandle> Find(Resource* pResource);
- void Update(shared_ptr<ResHandle> pHandle);
- shared_ptr<ResHandle> Load(Resource *pResource);
- void Free(shared_ptr<ResHandle> pFreeMe);
-
- bool MakeRoom(unsigned int uSize);
- char* Allocate(unsigned int uSize);
- void FreeOneResource();
- void MemoryHasBeenFreed(unsigned int uSize);
-
-public:
-
- static ResourceCache * const Get();
-
-
- static shared_ptr<ResHandle> SafeGetHandle(Resource *pResource);
-
- __forceinline ResourceCache();
- ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
- __forceinline ~ResourceCache();
-
- __forceinline bool Init(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
- void RegisterLoader(shared_ptr<IResourceLoader> pLoader);
-
- shared_ptr<ResHandle> GetHandle(Resource *pResource);
- int Preload(const string & pattern, void(*progressCallback)(int, bool &));
- void Flush();
-};
-__forceinline ResourceCache::ResourceCache()
-{}
-
-__forceinline ResourceCache::~ResourceCache()
-{}
-
-__forceinline bool ResourceCache::Init(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile)
-{
- m_uCacheSize = sizeInMb * 1024 * 1024;
- m_uAllocated = 0;
-
- m_pFile = move(pFile);
-
- bool bResult = false;
- if (m_pFile->VOpen())
- {
-  RegisterLoader(make_shared<DefaultResourceLoader>());
-  bResult = true;
- }
-
- return bResult;
-}
-
-namespace Global
-{
- extern shared_ptr<ResourceCache> g_pCache;
-}
-#line 22 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../Resource.h"
-
-
-class ResHandle
-{
- friend class ResourceCache;
-
-protected:
- Resource m_resource;
- char* m_pBuffer;
- unsigned int m_size;
- shared_ptr<IResourceExtraData> m_pExtra;
-
- ResourceCache* m_pCache;
-
-public:
- __forceinline ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache);
- __forceinline ~ResHandle();
-
- __forceinline const string & GetName() const;
- __forceinline unsigned int Size() const;
- __forceinline char* Buffer() const;
-
- __forceinline shared_ptr<IResourceExtraData> GetExtra() const;
- __forceinline void SetExtra(shared_ptr<IResourceExtraData> pExtra);
-};
-
-__forceinline ResHandle::ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache)
- : m_resource{ resource }, m_pBuffer{ pbuffer }, m_size{ uSize }, m_pCache{ pCache }
-{}
-
-__forceinline ResHandle::~ResHandle()
-{
- if (m_pBuffer) delete [] m_pBuffer; m_pBuffer=0;;
- m_pCache->MemoryHasBeenFreed(m_size);
-}
-
-__forceinline const string & ResHandle::GetName() const
-{
- return m_resource.m_name;
-}
-
-__forceinline unsigned int ResHandle::Size() const
-{
- return m_size;
-}
-
-__forceinline char* ResHandle::Buffer() const
-{
- return m_pBuffer;
-}
-
-__forceinline shared_ptr<IResourceExtraData> ResHandle::GetExtra() const
-{
- return m_pExtra;
-}
-
-__forceinline void ResHandle::SetExtra(shared_ptr<IResourceExtraData> pExtra)
-{
- m_pExtra = pExtra;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
-
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/Vector.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/Math.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Math/Math.h"
 
 
 struct Math
@@ -153364,6 +153168,9 @@ struct Math
  static __forceinline float Cos(float value) { return cosf(value); }
  static __forceinline float Tan(float value) { return tanf(value); }
  static __forceinline float Atan(float value) { return atanf(value); }
+ static __forceinline float Atan2(float y, float x) { return atan2f(y, x); }
+ static __forceinline float ASin(float value) { return asinf((value < -1.f) ? -1.f : ((value < 1.f) ? value : 1.f)); }
+ static __forceinline float ACos(float value) { return acosf((value < -1.f) ? -1.f : ((value < 1.f) ? value : 1.f)); }
  static __forceinline float Sqrt(float value) { return sqrtf(value); }
  static __forceinline float Pow(float a, float b) { return powf(a, b); }
 
@@ -153424,7 +153231,7 @@ __forceinline float Math::random(float min, float max, float seed)
  int diff = max - min;
  return (rand() % diff) + min;
 }
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/Vector.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Math/Vector.h"
 
 
 class Vec
@@ -153439,15 +153246,15 @@ public:
  static const Vec g_forward4;
  static const Vec g_back4;
 
- __forceinline static Vec Normalize(const Vec & v);
+ static Vec Normalize(const Vec & v);
 
 public:
 
 
 
  __forceinline Vec() = default;
-#line 33 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/Vector.h"
- __forceinline Vec(float inX, float inY, float inZ, float inW);
+#line 33 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Math/Vector.h"
+ Vec(float inX, float inY, float inZ, float inW);
 
 
 
@@ -153455,40 +153262,40 @@ public:
 
 
 
- __forceinline Vec(const Vec & v, float w);
+ Vec(const Vec & v, float w);
 
- __forceinline float & operator[](int index);
+ float & operator[](int index);
 
- __forceinline float operator[](int index) const;
+ float operator[](int index) const;
 
- __forceinline void Set(float inX, float inY, float inZ, float inW);
+ void Set(float inX, float inY, float inZ, float inW);
 
- __forceinline Vec operator-() const;
+ Vec operator-() const;
 
- __forceinline Vec & operator+=(const Vec & v);
+ Vec & operator+=(const Vec & v);
 
- __forceinline Vec & operator-=(const Vec & v);
+ Vec & operator-=(const Vec & v);
 
- __forceinline Vec & operator*=(const Vec & v);
+ Vec & operator*=(const Vec & v);
 
- __forceinline Vec & operator/=(const Vec & v);
+ Vec & operator/=(const Vec & v);
 
- __forceinline Vec operator*(float scale) const;
+ Vec operator*(float scale) const;
 
- __forceinline Vec & operator*=(float scale);
+ Vec & operator*=(float scale);
 
- __forceinline Vec operator/(float scale) const;
+ Vec operator/(float scale) const;
 
 
- __forceinline bool operator==(const Vec & v) const;
+ bool operator==(const Vec & v) const;
 
- __forceinline bool operator!=(const Vec & v) const;
+ bool operator!=(const Vec & v) const;
 
- __forceinline const Vec & Normalize();
+ const Vec & Normalize();
 
- __forceinline float Length() const;
+ float Length() const;
 
- __forceinline Vec Reflect(const Vec & normal) const;
+ Vec Reflect(const Vec & normal) const;
 };
 
 const Vec g_up4 = Vec{ 0.0f, 1.0f, 0.0f, 0.0f };
@@ -153672,808 +153479,7 @@ __forceinline float Dot4(const Vec & v1, const Vec & v2)
 {
  return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
 }
-#line 6 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/VertexBuffer.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/Buffers.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../General.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/RenderTargetView.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/DepthStencilView.h"
-
-
-struct DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
-{
-public:
- __forceinline DepthStencilViewParams();
-
- __forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
-
- __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
-};
-
-__forceinline DepthStencilViewParams::DepthStencilViewParams()
-{
- memset((this),0,(sizeof(DepthStencilViewParams)));
-}
-
-__forceinline void DepthStencilViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
-{
- Format = format;
- Texture2D.MipSlice = mipslice;
-
- ViewDimension = multiSampled ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
-}
-
-__forceinline void DepthStencilViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
-{
- Format = format;
-
- if (multiSampled)
- {
-  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
-  Texture2DMSArray.ArraySize = arraySize;
-  Texture2DMSArray.FirstArraySlice = firstArraySlice;
- }
- else
- {
-  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
-  Texture2DArray.ArraySize = arraySize;
-  Texture2DArray.MipSlice = mipslice;
-  Texture2DArray.FirstArraySlice = firstArraySlice;
- }
-}
-
-
-class DepthStencilView
-{
- friend class Renderer;
-
-private:
- ID3D11DepthStencilView* m_pView;
-
-public:
-
- __forceinline DepthStencilView();
-
- __forceinline ~DepthStencilView();
-
-
-
- __forceinline ID3D11DepthStencilView * GetView() const;
-};
-
-__forceinline DepthStencilView::DepthStencilView()
- : m_pView{ nullptr }
-{}
-
-__forceinline DepthStencilView::~DepthStencilView()
-{
- if(m_pView) m_pView->Release(); m_pView=0;;
-}
-
-__forceinline ID3D11DepthStencilView *DepthStencilView::GetView() const
-{
- return m_pView;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/RenderTargetView.h"
-
-
-struct RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
-{
-public:
- __forceinline RenderTargetViewParams();
-
- __forceinline void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
-
- __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
-};
-
-__forceinline RenderTargetViewParams::RenderTargetViewParams()
-{
- memset((this),0,(sizeof(RenderTargetViewParams)));
-}
-
-__forceinline void RenderTargetViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
-{
- Format = format;
- Texture2D.MipSlice = mipslice;
-
- ViewDimension = multiSampled ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
-}
-
-__forceinline void RenderTargetViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
-{
- Format = format;
-
- if (multiSampled)
- {
-  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY;
-  Texture2DMSArray.ArraySize = arraySize;
-  Texture2DMSArray.FirstArraySlice = firstArraySlice;
- }
- else
- {
-  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
-  Texture2DArray.ArraySize = arraySize;
-  Texture2DArray.MipSlice = mipslice;
-  Texture2DArray.FirstArraySlice = firstArraySlice;
- }
-}
-
-class RenderTargetView
-{
-private:
- ID3D11RenderTargetView** m_ppViews;
- int m_numViews;
-
-public:
- __forceinline explicit RenderTargetView(int numViews = 1);
-
- __forceinline explicit RenderTargetView(ID3D11RenderTargetView * View);
-
- __forceinline ~RenderTargetView();
-
-
-
- __forceinline ID3D11RenderTargetView** GetView(int index = 0) const;
-
-
-
-
-
-
- void Bind(DepthStencilView * pDepthView) const;
- void Bind(const DepthStencilView & depthview) const;
- void Bind() const;
- void BindOneView(int index);
- void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
-  ID3D11UnorderedAccessView * const *, const unsigned int *);
-
- void Clear(float bgColor[4]);
- void Clear();
-};
-
-__forceinline RenderTargetView::RenderTargetView(int numViews)
- : m_ppViews{ nullptr }, m_numViews{ numViews }
-{
- m_ppViews = new ID3D11RenderTargetView*[numViews];
-}
-
-__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
- : m_numViews{ 1 }
-{
- m_ppViews = new ID3D11RenderTargetView*[m_numViews];
- m_ppViews[0] = pView;
-}
-
-__forceinline ID3D11RenderTargetView** RenderTargetView::GetView(int index) const
-{
- return &m_ppViews[index];
-}
-
-__forceinline RenderTargetView::~RenderTargetView()
-{
- auto i = m_numViews - 1;
- for (; i > 0; i--)
-  if(m_ppViews[i]) m_ppViews[i]->Release(); m_ppViews[i]=0;;
-
- if (m_ppViews) delete [] m_ppViews; m_ppViews=0;;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../General.h"
-
-
-struct Viewport;
-class DepthStencilView;
-class DX11API
-{
-private:
-
- static ID3D11Device* g_d3d11Device;
- static ID3D11DeviceContext* g_d3d11DeviceContext;
- static IDXGISwapChain* g_pSwapChain;
-
- static RenderTargetView* g_pBackBufferRTV;
- static DepthStencilView* g_pDepthStencilView;
- static Viewport* g_pViewport;
-
-public:
-
-
-
-
-
-
- static bool InitializeGraphics(HWND hWnd);
-
- static void Dispatch(int groupCountX, int groupCountY, int groupCountZ);
- static void Draw(int vertexCount, int startVertexLocation);
- static void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation);
-
- static ID3D11Device* D3D11Device();
- static ID3D11DeviceContext* D3D11DeviceContext();
-
- static void BindGlobalRenderTargetView();
- static void BindGlobalRenderTargetView(DepthStencilView* pDepthStencilView);
- static void BindGlobalDepthStencilView(DepthStencilView * pDepthStencilView);
- static void BindGlobalViewport();
-
-
-
-
-
-
- static void ClearRenderTargetView(const float * color, RenderTargetView * pView);
-#line 55 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../../General.h"
- static void ClearDepthStencilView(bool depth, bool stencil, float depthValue,
-  unsigned int stencilValue, DepthStencilView * pView);
-
-
-
-
-
-
-
- static void UnbindShaderResourceViews(unsigned int slot, unsigned int numviews, ShaderType shadertype);
-
-
-
-
-
-
- static void UnbindUnorderedAccessViews(unsigned int slot, unsigned int numviews);
-
-
-
-
-
- static void UnbindRenderTargetViews(unsigned int numviews);
-
-
-
-
-
- static void UnbindGeometryShader();
-
-
-
-
- static void PresentBackBuffer();
-};
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/Buffers.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/../GraphicsResource.h"
-
-
-struct GraphicsBox : public D3D11_BOX
-{
-public:
-
- __forceinline GraphicsBox(unsigned int left, unsigned int top, unsigned int front,
-  unsigned int right, unsigned int bottom, unsigned int back);
-};
-
-__forceinline GraphicsBox::GraphicsBox(unsigned int left, unsigned int top, unsigned int front,
- unsigned int right, unsigned int bottom, unsigned int back)
-{
- this->left = left;
- this->top = top;
- this->front = front;
- this->right = right;
- this->bottom = bottom;
- this->back = back;
-}
-
-struct SubresourceData : public D3D11_SUBRESOURCE_DATA
-{
- __forceinline void SetData(const void* pData, unsigned int sysMemPitch = 0, unsigned int sysMemSlicePitch = 0);
-};
-
-__forceinline void SubresourceData::SetData(const void* pData, unsigned int sysMemPitch, unsigned int sysMemSlicePitch)
-{
- pSysMem = pData;
- sysMemPitch = sysMemPitch;
- sysMemSlicePitch = sysMemSlicePitch;
-}
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/Buffers.h"
-
-
-class Buffer
-{
-protected:
- ID3D11Buffer* m_pBuffer;
-
-public:
-
- __forceinline Buffer();
- virtual ~Buffer();
-
- __forceinline ID3D11Resource* GetResourcePointer() const;
-
- __forceinline void UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
-  const void * pSrcData, unsigned int srcRowPitch, unsigned int srcDepthPitch);
-
- __forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData *, unsigned int numElements = 0);
-};
-
-__forceinline Buffer::Buffer()
- : m_pBuffer{ nullptr }
-{}
-
-__forceinline ID3D11Resource* Buffer::GetResourcePointer() const
-{
- return static_cast<ID3D11Resource*>(m_pBuffer);
-}
-
-__forceinline void Buffer::UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
- const void * pSrcData, unsigned int srcRowPitch, unsigned int srcDepthPitch)
-{
- DX11API::D3D11DeviceContext()->UpdateSubresource(m_pBuffer, destSubresource, pBox, pSrcData, srcRowPitch, srcDepthPitch);
-}
-
-__forceinline bool Buffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements)
-{
- HRESULT hr = DX11API::D3D11Device()->CreateBuffer(&desc, pData, &m_pBuffer);
-
- if (hr == ((HRESULT)0L)) return true; else { switch (hr) { case ((HRESULT)0L): break; case ((HRESULT)1L): OutputDebugStringA("Completed without error, but only partial results were obtained. 							If a buffer is not large enough to hold the information that is returned 							to it, the returned information is often truncated to fit into the buffer 							and S_FALSE is returned from the method."); break; case ((HRESULT)0x80004005L): OutputDebugStringA("Operation couldn't be performed."); break; case ((HRESULT)0x80070057L): OutputDebugStringA("One of the arguments passed in was invalid."); break; case ((HRESULT)0x80004002L): OutputDebugStringA("The object searched for was not found."); break; case ((HRESULT)0x8007000EL): OutputDebugStringA("A memory allocation attempt failed."); break; case ((HRESULT)0x8000FFFFL): OutputDebugStringA("The target was not accessible, ot the engine was not in a state 							where the function or method could be processed."); break; case ((HRESULT)0x80004001L): OutputDebugStringA("Not implemented."); break; default: OutputDebugStringA("File not found."); break; }; __asm { int 3 };; return false; };;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/VertexBuffer.h"
-
-
-class VertexBuffer : public Buffer
-{
-protected:
- unsigned int m_vertexSize;
- unsigned int m_vertexCount;
-
-public:
- __forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize);
- __forceinline void Bind(unsigned int startSlot, unsigned int offset) const;
- __forceinline void Bind(unsigned int startSlot, unsigned int offset, unsigned int vertexSize) const;
- __forceinline unsigned int Count() const;
-};
-
-__forceinline bool VertexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize)
-{
- m_vertexCount = numElements;
- m_vertexSize = elementSize;
-
- return Buffer::Create(desc, pData, numElements);
-}
-
-__forceinline void VertexBuffer::Bind(unsigned int startSlot, unsigned int offset) const
-{
- DX11API::D3D11DeviceContext()->IASetVertexBuffers(startSlot, 1, &m_pBuffer, &m_vertexSize, &offset);
-}
-
-__forceinline void VertexBuffer::Bind(unsigned int startSlot, unsigned int offset, unsigned int vertexSize) const
-{
- DX11API::D3D11DeviceContext()->IASetVertexBuffers(startSlot, 1, &m_pBuffer, &vertexSize, &offset);
-}
-
-__forceinline unsigned int VertexBuffer::Count() const
-{
- return m_vertexCount;
-}
-#line 8 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/IndexBuffer.h"
-
-
-
-
-class IndexBuffer : public Buffer
-{
-protected:
- DXGI_FORMAT m_format;
- unsigned int m_indexSize;
- unsigned int m_indexCount;
-
-public:
-
- __forceinline void Bind(unsigned int offset) const;
-
- __forceinline bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
-  unsigned int numElements, unsigned int elementSize);
-
- __forceinline unsigned int Count() const;
-};
-
-__forceinline void IndexBuffer::Bind(unsigned int offset) const
-{
- DX11API::D3D11DeviceContext()->IASetIndexBuffer(m_pBuffer, m_format, offset);
-}
-
-__forceinline bool IndexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
- unsigned int numElements, unsigned int elementSize)
-{
- m_indexCount = numElements;
- m_indexSize = elementSize;
-
- if (elementSize == 4)
- {
-  m_format = DXGI_FORMAT_R32_UINT;
- }
- else if (elementSize == 2)
- {
-  m_format = DXGI_FORMAT_R16_UINT;
- }
- else
- {
-  (void)( (!!(0 && "Index size should be size of 2 or 4 bytes!")) || (_wassert(L"0 && \"Index size should be size of 2 or 4 bytes!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/IndexBuffer.h", 43), 0) );
- }
-
- return Buffer::Create(desc, pData, numElements);
-}
-
-__forceinline unsigned int IndexBuffer::Count() const
-{
- return m_indexCount;
-}
-#line 9 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.h"
-
-
-class IndexedMesh;
-class MeshResourceExtraData : public IResourceExtraData
-{
-public:
- unsigned int m_uNumMeshes;
- Vec m_vExtents;
-
- shared_ptr<IndexedMesh> m_pMesh;
-
-
-
-
-
-
-
- __forceinline MeshResourceExtraData();
-
- __forceinline unsigned int GetNumMeshes() const;
- __forceinline const Vec & GetExtents() const;
-
- virtual string VToString() override;
-};
-
-__forceinline MeshResourceExtraData::MeshResourceExtraData()
- : m_uNumMeshes{ 0 }
-{
-
-
-
-
-
-}
-
-__forceinline unsigned int MeshResourceExtraData::GetNumMeshes() const
-{
- return m_uNumMeshes;
-}
-
-__forceinline const Vec & MeshResourceExtraData::GetExtents() const
-{
- return m_vExtents;
-}
-
-class MeshLoader : public IResourceLoader
-{
-public:
- __forceinline virtual string VGetPattern() override;
- __forceinline virtual bool VUseRawFile() override;
- __forceinline virtual bool VNeedFile() override;
- __forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
- virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
-};
-
-__forceinline string MeshLoader::VGetPattern()
-{
- return "*.mesh";
-}
-
-__forceinline bool MeshLoader::VUseRawFile()
-{
- return false;
-}
-
-__forceinline bool MeshLoader::VNeedFile()
-{
- return true;
-}
-
-__forceinline int MeshLoader::VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize)
-{
- return 10;
-}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/BufferParams.h"
-
-
-struct BufferParams : public D3D11_BUFFER_DESC
-{
-public:
- __forceinline bool FillVertexBufferParams(unsigned int vertexSize, unsigned int count,
-  bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream);
-
- __forceinline bool FillIndexBufferParams(unsigned int indexSize, unsigned int count,
-  bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream);
-
- __forceinline bool FillConstantBufferParams(unsigned int size,
-  bool gpuWrite, bool cpuRead, bool cpuWrite);
-
- __forceinline bool FillStructredBufferParams(unsigned int structsize, unsigned int count, bool CPUWritable,
-  bool GPUWritable);
-
-
-
-
-
- __forceinline void SetSize(unsigned int size);
-};
-
-__forceinline bool BufferParams::FillVertexBufferParams(unsigned int vertexSize, unsigned int count,
- bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream)
-{
- memset((this),0,(sizeof(D3D11_BUFFER_DESC)));
- ByteWidth = vertexSize * count;
-
- if (cpuRead && cpuWrite && gpuWrite)
- {
-  Usage = D3D11_USAGE_STAGING;
-  CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
- }
- else if (gpuWrite && !cpuRead && !cpuWrite)
- {
-  Usage = D3D11_USAGE_DEFAULT;
- }
- else if (cpuWrite && !cpuRead && !gpuWrite)
- {
-  Usage = D3D11_USAGE_DYNAMIC;
-  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- }
- else
- {
-  Usage = D3D11_USAGE_IMMUTABLE;
- }
-
- if (stream)
-  BindFlags = D3D11_BIND_VERTEX_BUFFER | D3D11_BIND_STREAM_OUTPUT;
- else
-  BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
- return true;
-}
-
-__forceinline bool BufferParams::FillIndexBufferParams(unsigned int indexSize, unsigned int count,
- bool gpuWrite, bool cpuRead, bool cpuWrite, bool stream)
-{
- memset((this),0,(sizeof(D3D11_BUFFER_DESC)));
- ByteWidth = indexSize * count;
-
- if (cpuRead && cpuWrite && gpuWrite)
- {
-  Usage = D3D11_USAGE_STAGING;
-  CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
- }
- else if (gpuWrite && !cpuRead && !cpuWrite)
- {
-  Usage = D3D11_USAGE_DEFAULT;
- }
- else if (cpuWrite && !cpuRead && !gpuWrite)
- {
-  Usage = D3D11_USAGE_DYNAMIC;
-  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- }
- else
- {
-  Usage = D3D11_USAGE_IMMUTABLE;
- }
-
- if (stream)
-  BindFlags = D3D11_BIND_INDEX_BUFFER | D3D11_BIND_STREAM_OUTPUT;
- else
-  BindFlags = D3D11_BIND_INDEX_BUFFER;
-
- return true;
-}
-
-__forceinline bool BufferParams::FillConstantBufferParams(unsigned int size,
- bool gpuWrite, bool cpuRead, bool cpuWrite)
-{
- memset((this),0,(sizeof(D3D11_BUFFER_DESC)));
- ByteWidth = size;
-
- if (cpuRead && cpuWrite && gpuWrite)
- {
-  Usage = D3D11_USAGE_STAGING;
-  CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
- }
- else if (gpuWrite && !cpuRead && !cpuWrite)
- {
-  Usage = D3D11_USAGE_DEFAULT;
- }
- else if (cpuWrite && !cpuRead && !gpuWrite)
- {
-  Usage = D3D11_USAGE_DYNAMIC;
-  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- }
- else
- {
-  Usage = D3D11_USAGE_IMMUTABLE;
- }
-
- BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-
- return true;
-}
-
-__forceinline bool BufferParams::FillStructredBufferParams(unsigned int structsize, unsigned int count, bool CPUWritable,
- bool GPUWritable)
-{
- memset((this),0,(sizeof(D3D11_BUFFER_DESC)));
- ByteWidth = structsize * count;
- MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
- StructureByteStride = structsize;
-
- if (!CPUWritable && !GPUWritable)
- {
-  BindFlags = D3D11_BIND_SHADER_RESOURCE;
-  Usage = D3D11_USAGE_IMMUTABLE;
-  CPUAccessFlags = 0;
- }
- else if (CPUWritable && !GPUWritable)
- {
-  BindFlags = D3D11_BIND_SHADER_RESOURCE;
-  Usage = D3D11_USAGE_DYNAMIC;
-  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
- }
- else if (!CPUWritable && GPUWritable)
- {
-  BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
-  Usage = D3D11_USAGE_DEFAULT;
-  CPUAccessFlags = 0;
- }
- else if (CPUWritable && GPUWritable)
- {
-  (void)( (!!(0 && "Error: Resource cannot be simultanuously writable by CPU and GPU")) || (_wassert(L"0 && \"Error: Resource cannot be simultanuously writable by CPU and GPU\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Graphics/Resources/Buffers/BufferParams.h", 149), 0) );
- }
-
- return true;
-}
-
-__forceinline void BufferParams::SetSize(unsigned int size)
-{
- ByteWidth = size;
-}
-#line 5 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float2.h"
-
-
-class float2 final
-{
-public:
- float x, y;
-
-
- __forceinline float2();
-
-
-
-
-
-
- explicit __forceinline float2(float value);
-
-
-
-
-
-
-
- __forceinline float2(float inX, float inY);
-#line 35 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float2.h"
-};
-
-__forceinline float2::float2()
- : x{ 0 }, y{ 0 }
-{}
-
-__forceinline float2::float2(float value)
- : x{ value }, y{ value }
-{}
-
-__forceinline float2::float2(float inX, float inY)
- : x{ inX }, y{ inY }
-{}
-#line 8 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float3.h"
-
-
-class float2;
-class float3 final
-{
-public:
- float x, y, z;
-
-
- __forceinline float3();
-
-
-
-
-
-
- explicit __forceinline float3(float value);
-#line 26 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float3.h"
- __forceinline float3(float inX, float inY, float inZ);
-
-
-
-
-
-
-
- explicit float3(const float2 & v, float inZ);
-#line 44 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float3.h"
- __forceinline static float3 cross(const float3 & v1, const float3 & v2);
-#line 54 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Math/float3.h"
- __forceinline static float dot(const float3 & v1, const float3 & v2);
-};
-
-__forceinline float3 operator^(float3 v1, const float3 & v2)
-{
- return float3
- {
- v1.y * v2.z - v1.z * v2.y,
- v1.z * v2.x - v1.x * v2.z,
- v1.x * v2.y - v1.y * v2.x,
-};
-}
-
-__forceinline float3::float3()
-{}
-
-__forceinline float3::float3(float value)
- : x{ value }
-{}
-
-__forceinline float3::float3(float inX, float inY, float inZ)
- : x{ inX }, y{ inY }, z{ inZ }
-{}
-
-__forceinline float3 float3::cross(const float3 & v1, const float3 & v2)
-{
- return v1 ^ v2;
-}
-#line 9 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/IndexedMesh.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/Mesh.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Objects/IMovable.h"
-
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Objects/../../Math/Matrix.h"
-
-
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Math/Matrix.h"
 
 
 class Mat4x4
@@ -154486,47 +153492,47 @@ public:
 
  static const Mat4x4 Identity;
 
- __forceinline static Mat4x4 CreateViewMatrixLH(const Vec & pos, const Vec & lookDir, const Vec & up);
- __forceinline static Mat4x4 CreatePerspectiveProjectionLH(float fov, float aspect, float nearZ, float farZ);
- __forceinline static Mat4x4 CreateOrthoProjectionLH(float width, float height, float nearZ, float farZ);
- __forceinline static Mat4x4 CreateTranslation(const Vec & vec);
- __forceinline static Mat4x4 CreateRotationX(float angleInRadians);
- __forceinline static Mat4x4 CreateRotationY(float angleInRadians);
- __forceinline static Mat4x4 CreateRotationZ(float angleInRadians);
- __forceinline static Mat4x4 CreateScaling(const Vec & scale);
- __forceinline static Mat4x4 CreateScaling(float x, float y, float z);
- __forceinline static Mat4x4 CreateRollPitchYaw(float rollInRadians, float pitchInRadians, float yawInRadians);
+ static Mat4x4 CreateViewMatrixLH(const Vec & pos, const Vec & lookDir, const Vec & up);
+ static Mat4x4 CreatePerspectiveProjectionLH(float fov, float aspect, float nearZ, float farZ);
+ static Mat4x4 CreateOrthoProjectionLH(float width, float height, float nearZ, float farZ);
+ static Mat4x4 CreateTranslation(const Vec & vec);
+ static Mat4x4 CreateRotationX(float angleInRadians);
+ static Mat4x4 CreateRotationY(float angleInRadians);
+ static Mat4x4 CreateRotationZ(float angleInRadians);
+ static Mat4x4 CreateScaling(const Vec & scale);
+ static Mat4x4 CreateScaling(float x, float y, float z);
+ static Mat4x4 CreateRollPitchYaw(float rollInRadians, float pitchInRadians, float yawInRadians);
 
 
 
 
 
- __forceinline Mat4x4();
+ Mat4x4();
 
- __forceinline Mat4x4(float m11, float m12, float m13, float m14,
+ Mat4x4(float m11, float m12, float m13, float m14,
   float m21, float m22, float m23, float m24,
   float m31, float m32, float m33, float m34,
   float m41, float m42, float m43, float m44);
 
- __forceinline Mat4x4(const Vec & v1, const Vec & v2, const Vec & v3, const Vec & v4);
+ Mat4x4(const Vec & v1, const Vec & v2, const Vec & v3, const Vec & v4);
 
- __forceinline void SetIdentity();
+ void SetIdentity();
 
- __forceinline Mat4x4 GetTransposed() const;
+ Mat4x4 GetTransposed() const;
 
- __forceinline void Transpose();
+ void Transpose();
 
- __forceinline Mat4x4 & operator*=(const Mat4x4 & other);
+ Mat4x4 & operator*=(const Mat4x4 & other);
 
- __forceinline Mat4x4 & operator*=(float other);
+ Mat4x4 & operator*=(float other);
 
- __forceinline Mat4x4 & operator+=(const Mat4x4 & other);
+ Mat4x4 & operator+=(const Mat4x4 & other);
 
- __forceinline Mat4x4 & operator-=(const Mat4x4 & other);
+ Mat4x4 & operator-=(const Mat4x4 & other);
 
- __forceinline bool operator==(const Mat4x4 & other) const;
+ bool operator==(const Mat4x4 & other) const;
 
- __forceinline bool operator!=(const Mat4x4 & other) const;
+ bool operator!=(const Mat4x4 & other) const;
 };
 
 __forceinline Mat4x4::Mat4x4()
@@ -154850,7 +153856,22 @@ __forceinline void MatrixStack::PushTransform(const Mat4x4 & mat)
  m_matrices.push_back(m_matrices.back() * mat);
  ++m_count;
 }
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Objects/IMovable.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/Scene.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/Root.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/Representation.h"
+
+
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Lights/Light.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Lights/../Objects/IMovable.h"
+
+
 
 
 class IMovable
@@ -154862,25 +153883,535 @@ protected:
 public:
 
  virtual void SetWorldTransform(const Mat4x4 & transform) = 0;
- __forceinline const Mat4x4 & GetWorldTransform() const;
+ const Mat4x4 & GetWorldTransform() const;
 };
 
 __forceinline const Mat4x4 & IMovable::GetWorldTransform() const
 {
  return m_worldTransform;
 }
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/Mesh.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Lights/Light.h"
 
 
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/Material.h"
+
+class Light : public IMovable
+{
+public:
+
+ Light(const Vec & color, const Vec & pos,
+  const Vec & dir, float range);
+
+ virtual void SetWorldTransform(const Mat4x4 & transform) override;
+ virtual LightType VGetType() const = 0;
+
+ const Vec & GetColor() const;
+ const Vec & GetPos() const;
+ const Vec & GetDir() const;
+ const float GetRange() const;
+
+ Mat4x4 GetShadowViewProj() const;
+
+protected:
+ Vec m_color;
+ Vec m_pos;
+ Vec m_dir;
+
+ float m_range;
+};
+
+__forceinline Light::Light(const Vec & color, const Vec & pos, const Vec & dir, float range)
+ : m_color{ color }, m_pos{ pos }, m_dir{ dir }, m_range{ range }
+{}
+
+__forceinline const Vec & Light::GetColor() const
+{
+ return m_color;
+}
+
+__forceinline const Vec & Light::GetPos() const
+{
+ return m_pos;
+}
+
+__forceinline const Vec & Light::GetDir() const
+{
+ return m_dir;
+}
+
+__forceinline const float Light::GetRange() const
+{
+ return m_range;
+
+}
+
+__forceinline Mat4x4 Light::GetShadowViewProj() const
+{
+ Mat4x4 view = Mat4x4::CreateViewMatrixLH(m_pos, m_dir, Vec(0.0f, 1.0f, 0.0f, 0.0f));
+ Mat4x4 ortho = Mat4x4::CreateOrthoProjectionLH(1280, 720, 0.5f, m_range);
+
+ return view * ortho;
+}
+#line 5 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/Representation.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/Mesh.h"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture2D.h"
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/VertexBuffer.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/Buffers.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/../../General.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/RenderTargetView.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/DepthStencilView.h"
+
+
+struct DepthStencilViewParams : public D3D11_DEPTH_STENCIL_VIEW_DESC
+{
+public:
+ DepthStencilViewParams();
+
+ void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
+
+ void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
+};
+
+__forceinline DepthStencilViewParams::DepthStencilViewParams()
+{
+ memset((this),0,(sizeof(DepthStencilViewParams)));
+}
+
+__forceinline void DepthStencilViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
+{
+ Format = format;
+ Texture2D.MipSlice = mipslice;
+
+ ViewDimension = multiSampled ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+}
+
+__forceinline void DepthStencilViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
+{
+ Format = format;
+
+ if (multiSampled)
+ {
+  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
+  Texture2DMSArray.ArraySize = arraySize;
+  Texture2DMSArray.FirstArraySlice = firstArraySlice;
+ }
+ else
+ {
+  ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
+  Texture2DArray.ArraySize = arraySize;
+  Texture2DArray.MipSlice = mipslice;
+  Texture2DArray.FirstArraySlice = firstArraySlice;
+ }
+}
+
+
+class DepthStencilView
+{
+ friend class Renderer;
+
+private:
+ ID3D11DepthStencilView* m_pView;
+
+public:
+
+ DepthStencilView();
+
+ ~DepthStencilView();
+
+
+
+ ID3D11DepthStencilView * GetView() const;
+};
+
+__forceinline DepthStencilView::DepthStencilView()
+ : m_pView{ nullptr }
+{}
+
+__forceinline DepthStencilView::~DepthStencilView()
+{
+ if(m_pView) m_pView->Release(); m_pView=0;;
+}
+
+__forceinline ID3D11DepthStencilView *DepthStencilView::GetView() const
+{
+ return m_pView;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/../../../Graphics/Resources/Views/RenderTargetView.h"
+
+
+struct RenderTargetViewParams : public D3D11_RENDER_TARGET_VIEW_DESC
+{
+public:
+ RenderTargetViewParams();
+
+ void InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled);
+
+ void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled);
+};
+
+__forceinline RenderTargetViewParams::RenderTargetViewParams()
+{
+ memset((this),0,(sizeof(RenderTargetViewParams)));
+}
+
+__forceinline void RenderTargetViewParams::InitForTexture2D(DXGI_FORMAT format, int mipslice, bool multiSampled)
+{
+ Format = format;
+ Texture2D.MipSlice = mipslice;
+
+ ViewDimension = multiSampled ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
+}
+
+__forceinline void RenderTargetViewParams::InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int mipslice, bool multiSampled)
+{
+ Format = format;
+
+ if (multiSampled)
+ {
+  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY;
+  Texture2DMSArray.ArraySize = arraySize;
+  Texture2DMSArray.FirstArraySlice = firstArraySlice;
+ }
+ else
+ {
+  ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
+  Texture2DArray.ArraySize = arraySize;
+  Texture2DArray.MipSlice = mipslice;
+  Texture2DArray.FirstArraySlice = firstArraySlice;
+ }
+}
+
+class RenderTargetView
+{
+private:
+ ID3D11RenderTargetView** m_ppViews;
+ int m_numViews;
+
+public:
+ explicit RenderTargetView(int numViews = 1);
+
+ explicit RenderTargetView(ID3D11RenderTargetView * View);
+
+ ~RenderTargetView();
+
+
+
+ ID3D11RenderTargetView** GetView(int index = 0) const;
+
+
+
+
+
+
+ void Bind(DepthStencilView * pDepthView) const;
+ void Bind(const DepthStencilView & depthview) const;
+ void Bind() const;
+ void BindOneView(int index);
+ void BindWithUAV(unsigned int uavStartSlot, unsigned int uavNum,
+  ID3D11UnorderedAccessView * const *, const unsigned int *);
+
+ void Clear(float bgColor[4]);
+ void Clear();
+};
+
+__forceinline RenderTargetView::RenderTargetView(int numViews)
+ : m_ppViews{ nullptr }, m_numViews{ numViews }
+{
+ m_ppViews = new ID3D11RenderTargetView*[numViews];
+}
+
+__forceinline RenderTargetView::RenderTargetView(ID3D11RenderTargetView * pView)
+ : m_numViews{ 1 }
+{
+ m_ppViews = new ID3D11RenderTargetView*[m_numViews];
+ m_ppViews[0] = pView;
+}
+
+__forceinline ID3D11RenderTargetView** RenderTargetView::GetView(int index) const
+{
+ return &m_ppViews[index];
+}
+
+__forceinline RenderTargetView::~RenderTargetView()
+{
+ auto i = m_numViews - 1;
+ for (; i > 0; i--)
+  if(m_ppViews[i]) m_ppViews[i]->Release(); m_ppViews[i]=0;;
+
+ if (m_ppViews) delete [] m_ppViews; m_ppViews=0;;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/../../General.h"
+
+
+struct Viewport;
+class DepthStencilView;
+class DX11API
+{
+private:
+
+ static ID3D11Device* g_d3d11Device;
+ static ID3D11DeviceContext* g_d3d11DeviceContext;
+ static IDXGISwapChain* g_pSwapChain;
+
+ static RenderTargetView* g_pBackBufferRTV;
+ static DepthStencilView* g_pDepthStencilView;
+ static Viewport* g_pViewport;
+
+public:
+
+
+
+
+
+
+ static bool InitializeGraphics(HWND hWnd);
+
+ static void Dispatch(int groupCountX, int groupCountY, int groupCountZ);
+ static void Draw(int vertexCount, int startVertexLocation);
+ static void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation);
+
+ static ID3D11Device* D3D11Device();
+ static ID3D11DeviceContext* D3D11DeviceContext();
+
+ static void BindGlobalRenderTargetView();
+ static void BindGlobalRenderTargetView(DepthStencilView* pDepthStencilView);
+ static void BindGlobalDepthStencilView(DepthStencilView * pDepthStencilView);
+ static void BindGlobalViewport();
+
+
+
+
+
+
+ static void ClearRenderTargetView(const float * color, RenderTargetView * pView);
+#line 55 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/../../General.h"
+ static void ClearDepthStencilView(bool depth, bool stencil, float depthValue,
+  unsigned int stencilValue, DepthStencilView * pView);
+
+
+
+
+
+
+
+ static void UnbindShaderResourceViews(unsigned int slot, unsigned int numviews, ShaderType shadertype);
+
+
+
+
+
+
+ static void UnbindUnorderedAccessViews(unsigned int slot, unsigned int numviews);
+
+
+
+
+
+ static void UnbindRenderTargetViews(unsigned int numviews);
+
+
+
+
+
+ static void UnbindGeometryShader();
+
+
+
+
+ static void PresentBackBuffer();
+};
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/Buffers.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/../GraphicsResource.h"
+
+
+struct GraphicsBox : public D3D11_BOX
+{
+public:
+
+ GraphicsBox(unsigned int left, unsigned int top, unsigned int front,
+  unsigned int right, unsigned int bottom, unsigned int back);
+};
+
+__forceinline GraphicsBox::GraphicsBox(unsigned int left, unsigned int top, unsigned int front,
+ unsigned int right, unsigned int bottom, unsigned int back)
+{
+ this->left = left;
+ this->top = top;
+ this->front = front;
+ this->right = right;
+ this->bottom = bottom;
+ this->back = back;
+}
+
+struct SubresourceData : public D3D11_SUBRESOURCE_DATA
+{
+ void SetData(const void* pData, unsigned int sysMemPitch = 0, unsigned int sysMemSlicePitch = 0);
+};
+
+__forceinline void SubresourceData::SetData(const void* pData, unsigned int sysMemPitch, unsigned int sysMemSlicePitch)
+{
+ pSysMem = pData;
+ sysMemPitch = sysMemPitch;
+ sysMemSlicePitch = sysMemSlicePitch;
+}
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/Buffers.h"
+
+
+class Buffer
+{
+protected:
+ ID3D11Buffer* m_pBuffer;
+
+public:
+
+ Buffer();
+ virtual ~Buffer();
+
+ ID3D11Resource* GetResourcePointer() const;
+
+ void UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
+  const void * pSrcData, unsigned int srcRowPitch, unsigned int srcDepthPitch);
+
+ bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData *, unsigned int numElements = 0);
+};
+
+__forceinline Buffer::Buffer()
+ : m_pBuffer{ nullptr }
+{}
+
+__forceinline ID3D11Resource* Buffer::GetResourcePointer() const
+{
+ return static_cast<ID3D11Resource*>(m_pBuffer);
+}
+
+__forceinline void Buffer::UpdateSubresource(unsigned int destSubresource, const GraphicsBox * pBox,
+ const void * pSrcData, unsigned int srcRowPitch, unsigned int srcDepthPitch)
+{
+ DX11API::D3D11DeviceContext()->UpdateSubresource(m_pBuffer, destSubresource, pBox, pSrcData, srcRowPitch, srcDepthPitch);
+}
+
+__forceinline bool Buffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements)
+{
+ HRESULT hr = DX11API::D3D11Device()->CreateBuffer(&desc, pData, &m_pBuffer);
+
+ if (hr == ((HRESULT)0L)) return true; else { switch (hr) { case ((HRESULT)0L): break; case ((HRESULT)1L): OutputDebugStringA("Completed without error, but only partial results were obtained. 							If a buffer is not large enough to hold the information that is returned 							to it, the returned information is often truncated to fit into the buffer 							and S_FALSE is returned from the method."); break; case ((HRESULT)0x80004005L): OutputDebugStringA("Operation couldn't be performed."); break; case ((HRESULT)0x80070057L): OutputDebugStringA("One of the arguments passed in was invalid."); break; case ((HRESULT)0x80004002L): OutputDebugStringA("The object searched for was not found."); break; case ((HRESULT)0x8007000EL): OutputDebugStringA("A memory allocation attempt failed."); break; case ((HRESULT)0x8000FFFFL): OutputDebugStringA("The target was not accessible, ot the engine was not in a state 							where the function or method could be processed."); break; case ((HRESULT)0x80004001L): OutputDebugStringA("Not implemented."); break; default: OutputDebugStringA("File not found."); break; }; __asm { int 3 };; return false; };;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/VertexBuffer.h"
+
+
+class VertexBuffer : public Buffer
+{
+protected:
+ unsigned int m_vertexSize;
+ unsigned int m_vertexCount;
+
+public:
+ bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize);
+ void Bind(unsigned int startSlot, unsigned int offset) const;
+ void Bind(unsigned int startSlot, unsigned int offset, unsigned int vertexSize) const;
+ unsigned int Count() const;
+};
+
+__forceinline bool VertexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData, unsigned int numElements, unsigned int elementSize)
+{
+ m_vertexCount = numElements;
+ m_vertexSize = elementSize;
+
+ return Buffer::Create(desc, pData, numElements);
+}
+
+__forceinline void VertexBuffer::Bind(unsigned int startSlot, unsigned int offset) const
+{
+ DX11API::D3D11DeviceContext()->IASetVertexBuffers(startSlot, 1, &m_pBuffer, &m_vertexSize, &offset);
+}
+
+__forceinline void VertexBuffer::Bind(unsigned int startSlot, unsigned int offset, unsigned int vertexSize) const
+{
+ DX11API::D3D11DeviceContext()->IASetVertexBuffers(startSlot, 1, &m_pBuffer, &vertexSize, &offset);
+}
+
+__forceinline unsigned int VertexBuffer::Count() const
+{
+ return m_vertexCount;
+}
+#line 5 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/Mesh.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/IndexBuffer.h"
+
+
+
+
+class IndexBuffer : public Buffer
+{
+protected:
+ DXGI_FORMAT m_format;
+ unsigned int m_indexSize;
+ unsigned int m_indexCount;
+
+public:
+
+ void Bind(unsigned int offset) const;
+
+ bool Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
+  unsigned int numElements, unsigned int elementSize);
+
+ unsigned int Count() const;
+};
+
+__forceinline void IndexBuffer::Bind(unsigned int offset) const
+{
+ DX11API::D3D11DeviceContext()->IASetIndexBuffer(m_pBuffer, m_format, offset);
+}
+
+__forceinline bool IndexBuffer::Create(const D3D11_BUFFER_DESC & desc, const SubresourceData * pData,
+ unsigned int numElements, unsigned int elementSize)
+{
+ m_indexCount = numElements;
+ m_indexSize = elementSize;
+
+ if (elementSize == 4)
+ {
+  m_format = DXGI_FORMAT_R32_UINT;
+ }
+ else if (elementSize == 2)
+ {
+  m_format = DXGI_FORMAT_R16_UINT;
+ }
+ else
+ {
+  (void)( (!!(0 && "Index size should be size of 2 or 4 bytes!")) || (_wassert(L"0 && \"Index size should be size of 2 or 4 bytes!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../Graphics/Resources/Buffers/IndexBuffer.h", 43), 0) );
+ }
+
+ return Buffer::Create(desc, pData, numElements);
+}
+
+__forceinline unsigned int IndexBuffer::Count() const
+{
+ return m_indexCount;
+}
+#line 6 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/Mesh.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../Materials/Material.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture2D.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture.h"
 
 
 struct ShaderResourceViewParams;
@@ -154944,7 +154475,7 @@ public:
   const DepthStencilViewParams & params) const = 0;
 
 };
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture2D.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../Materials/../../Graphics/Resources/Textures/Texture2D.h"
 
 
 struct ShaderResourceViewParams;
@@ -154959,15 +154490,15 @@ class RenderTargetView;
 struct Texture2DParams : public D3D11_TEXTURE2D_DESC
 {
 public:
- __forceinline Texture2DParams();
+ Texture2DParams();
 
- __forceinline void Init(unsigned int width, unsigned int height, unsigned int arraySize,
+ void Init(unsigned int width, unsigned int height, unsigned int arraySize,
   unsigned int format, bool shaderResource, bool unorderedAccess, bool renderTarget,
   bool depthStencil, unsigned int sampleCount, unsigned int sampleQuality,
   unsigned int miplevels, bool gpuWrite, bool cpuRead, bool cpuWrite,
   bool generateMipMaps = false);
 
- __forceinline void InitCubeTexture(unsigned int width, unsigned int height,
+ void InitCubeTexture(unsigned int width, unsigned int height,
   unsigned int arraySize, unsigned int format, bool shaderResource, bool unorderedAccess,
   bool renderTarget, bool depthStencil, unsigned int sampleCount, unsigned int sampleQuality,
   unsigned int miplevels, bool gpuWrite, bool cpuRead, bool cpuWrite,
@@ -155089,9 +154620,9 @@ protected:
 __forceinline Texture2D::Texture2D()
  : m_pTexture{ nullptr }
 {}
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/Material.h"
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../Materials/Material.h"
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/../../Graphics/Resources/Views/ShaderResourceView.h"
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../Materials/../../Graphics/Resources/Views/ShaderResourceView.h"
 
 
 
@@ -155099,15 +154630,15 @@ __forceinline Texture2D::Texture2D()
 struct ShaderResourceViewParams : public D3D11_SHADER_RESOURCE_VIEW_DESC
 {
 public:
- __forceinline ShaderResourceViewParams();
+ ShaderResourceViewParams();
 
- __forceinline void InitForTexture2D(DXGI_FORMAT format, int miplevels, int mostdetailedmip, bool multiSampled);
+ void InitForTexture2D(DXGI_FORMAT format, int miplevels, int mostdetailedmip, bool multiSampled);
 
- __forceinline void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int miplevels, int mostdetailedmip, bool multiSampled);
+ void InitForTexture2DArray(int arraySize, DXGI_FORMAT format, int firstArraySlice, int miplevels, int mostdetailedmip, bool multiSampled);
 
- __forceinline void InitForCubeTexture(DXGI_FORMAT format, int miplevels, int mostdetailedmip);
+ void InitForCubeTexture(DXGI_FORMAT format, int miplevels, int mostdetailedmip);
 
- __forceinline void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int elementWidth);
+ void InitForStructuredBuffer(DXGI_FORMAT format, int elementOffset, int elementWidth);
 };
 
 __forceinline ShaderResourceViewParams::ShaderResourceViewParams()
@@ -155164,19 +154695,19 @@ private:
 
 public:
 
- __forceinline explicit ShaderResourceView(int numViews = 1);
+ explicit ShaderResourceView(int numViews = 1);
 
- __forceinline ~ShaderResourceView();
-
-
-
- __forceinline ID3D11ShaderResourceView** GetView(int index = 0) const;
+ ~ShaderResourceView();
 
 
 
+ ID3D11ShaderResourceView** GetView(int index = 0) const;
 
- __forceinline void Bind(int slot, ShaderType type) const;
- __forceinline void BindView(int index, int slot, ShaderType type) const;
+
+
+
+ void Bind(int slot, ShaderType type) const;
+ void BindView(int index, int slot, ShaderType type) const;
 };
 
 __forceinline ShaderResourceView::ShaderResourceView(int numViews)
@@ -155243,7 +154774,7 @@ __forceinline void ShaderResourceView::BindView(int index, int slot, ShaderType 
   break;
  };
 }
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../Materials/Material.h"
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../Materials/Material.h"
 
 
 class Material
@@ -155275,28 +154806,28 @@ protected:
 
 public:
 
- __forceinline Material();
+ Material();
 
  virtual bool VInitialize(const string & name);
 
 
- __forceinline void SetDiffuse(shared_ptr<Texture2D> pDiffuse);
- __forceinline void SetSpecular(shared_ptr<Texture2D> pSpecular);
- __forceinline void SetNormal(shared_ptr<Texture2D> pNormal);
+ void SetDiffuse(shared_ptr<Texture2D> pDiffuse);
+ void SetSpecular(shared_ptr<Texture2D> pSpecular);
+ void SetNormal(shared_ptr<Texture2D> pNormal);
 
 
 
- __forceinline void BindDiffuse(unsigned int slot);
- __forceinline void BindSpecular(unsigned int slot);
- __forceinline void BindNormal(unsigned int slot);
+ void BindDiffuse(unsigned int slot);
+ void BindSpecular(unsigned int slot);
+ void BindNormal(unsigned int slot);
 
  virtual void VBind(unsigned int slot);
 
 
 
- __forceinline void UnbindDiffuse();
- __forceinline void UnbindSpecular();
- __forceinline void UnbindNormal();
+ void UnbindDiffuse();
+ void UnbindSpecular();
+ void UnbindNormal();
 
  virtual void VUnbind();
 };
@@ -155364,13 +154895,253 @@ __forceinline void Material::UnbindNormal()
  DX11API::UnbindShaderResourceViews(m_normalSlot, 1, ST_Pixel);
  m_normalSlot = -1;
 }
-#line 7 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/Mesh.h"
+#line 7 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/Mesh.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../ResourceManager/Resource.h"
+
+
+class Resource
+{
+public:
+ string m_name;
+
+public:
+ explicit Resource(const string & name);
+};
+
+__forceinline Resource::Resource(const string & name)
+ : m_name{ name }
+{}
+
+class IResourceExtraData
+{
+public:
+ virtual string VToString() = 0;
+};
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../ResourceManager/ResourceCache.h"
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../ResourceManager/ResourceFile.h"
+
+
+class Resource;
+class IResourceFile
+{
+public:
+
+ virtual ~IResourceFile() = 0;
+
+ virtual bool VOpen() = 0;
+ virtual int VGetRawResourceSize(const Resource & resource) = 0;
+ virtual int VGetRawResource(const Resource & resource, char* pBuffer) = 0;
+ virtual int VGetNumResources() const = 0;
+ virtual string VGetResourceName(int num) const = 0;
+
+ virtual wstring VGetDirectory() const = 0;
+};
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../ResourceManager/ResourceCache.h"
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../ResourceManager/ResourceLoader.h"
+
+
+class ResHandle;
+class IResourceLoader
+{
+public:
+
+ IResourceLoader() =default;
+
+ virtual string VGetPattern() = 0;
+ virtual bool VUseRawFile() = 0;
+ virtual bool VNeedFile() = 0;
+ virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) = 0;
+ virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) = 0;
+};
+
+class DefaultResourceLoader : public IResourceLoader
+{
+public:
+ virtual string VGetPattern() override;
+ virtual bool VUseRawFile() override;
+ virtual bool VNeedFile() override;
+ virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+ virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, std::shared_ptr<ResHandle> pHandle) override;
+};
+
+__forceinline string DefaultResourceLoader::VGetPattern()
+{
+ return "*";
+}
+
+__forceinline bool DefaultResourceLoader::VUseRawFile()
+{
+ return true;
+}
+
+__forceinline bool DefaultResourceLoader::VNeedFile()
+{
+ return false;
+}
+
+__forceinline int DefaultResourceLoader::VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize)
+{
+ return uRawSize;
+}
+
+__forceinline bool DefaultResourceLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, std::shared_ptr<ResHandle> pHandle)
+{
+ return true;
+}
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../ResourceManager/ResourceCache.h"
+
+
+class Resource;
+class IResourceLoader;
+class ResourceCache
+{
+ friend class ResHandle;
+
+protected:
+
+ unique_ptr<IResourceFile> m_pFile;
+
+ typedef std::list< std::shared_ptr<ResHandle>> ResHandleList;
+ typedef std::map<string, std::shared_ptr<ResHandle>> ResHandleMap;
+ typedef std::list< std::shared_ptr<IResourceLoader>> ResourceLoaders;
+
+ ResHandleList m_lru;
+ ResHandleMap m_resources;
+ ResourceLoaders m_resourceLoaders;
 
 
 
+ unsigned int m_uCacheSize;
+ unsigned int m_uAllocated;
+
+ shared_ptr<ResHandle> Find(Resource* pResource);
+ void Update(shared_ptr<ResHandle> pHandle);
+ shared_ptr<ResHandle> Load(Resource *pResource);
+ void Free(shared_ptr<ResHandle> pFreeMe);
+
+ bool MakeRoom(unsigned int uSize);
+ char* Allocate(unsigned int uSize);
+ void FreeOneResource();
+ void MemoryHasBeenFreed(unsigned int uSize);
+
+public:
+
+ static ResourceCache * const Get();
 
 
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/../../ResourceManager/Loaders/MaterialLoader.h"
+ static shared_ptr<ResHandle> SafeGetHandle(Resource *pResource);
+
+ ResourceCache();
+ ResourceCache(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
+ ~ResourceCache();
+
+ bool Init(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile);
+ void RegisterLoader(shared_ptr<IResourceLoader> pLoader);
+
+ shared_ptr<ResHandle> GetHandle(Resource *pResource);
+ int Preload(const string & pattern, void(*progressCallback)(int, bool &));
+ void Flush();
+};
+__forceinline ResourceCache::ResourceCache()
+{}
+
+__forceinline ResourceCache::~ResourceCache()
+{}
+
+__forceinline bool ResourceCache::Init(unsigned int sizeInMb, unique_ptr<IResourceFile> pFile)
+{
+ m_uCacheSize = sizeInMb * 1024 * 1024;
+ m_uAllocated = 0;
+
+ m_pFile = move(pFile);
+
+ bool bResult = false;
+ if (m_pFile->VOpen())
+ {
+  RegisterLoader(make_shared<DefaultResourceLoader>());
+  bResult = true;
+ }
+
+ return bResult;
+}
+
+namespace Global
+{
+ extern shared_ptr<ResourceCache> g_pCache;
+}
+#line 22 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../ResourceManager/Resource.h"
+
+
+class ResHandle
+{
+ friend class ResourceCache;
+
+protected:
+ Resource m_resource;
+ char* m_pBuffer;
+ unsigned int m_size;
+ shared_ptr<IResourceExtraData> m_pExtra;
+
+ ResourceCache* m_pCache;
+
+public:
+ ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache);
+ ~ResHandle();
+
+ const string & GetName() const;
+ unsigned int Size() const;
+ char* Buffer() const;
+
+ shared_ptr<IResourceExtraData> GetExtra() const;
+ void SetExtra(shared_ptr<IResourceExtraData> pExtra);
+};
+
+__forceinline ResHandle::ResHandle(const Resource & resource, char* pbuffer, unsigned int uSize, ResourceCache* pCache)
+ : m_resource{ resource }, m_pBuffer{ pbuffer }, m_size{ uSize }, m_pCache{ pCache }
+{}
+
+__forceinline ResHandle::~ResHandle()
+{
+ if (m_pBuffer) delete [] m_pBuffer; m_pBuffer=0;;
+ m_pCache->MemoryHasBeenFreed(m_size);
+}
+
+__forceinline const string & ResHandle::GetName() const
+{
+ return m_resource.m_name;
+}
+
+__forceinline unsigned int ResHandle::Size() const
+{
+ return m_size;
+}
+
+__forceinline char* ResHandle::Buffer() const
+{
+ return m_pBuffer;
+}
+
+__forceinline shared_ptr<IResourceExtraData> ResHandle::GetExtra() const
+{
+ return m_pExtra;
+}
+
+__forceinline void ResHandle::SetExtra(shared_ptr<IResourceExtraData> pExtra)
+{
+ m_pExtra = pExtra;
+}
+#line 9 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/Mesh.h"
+
+
+
+#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/../../ResourceManager/Loaders/MaterialLoader.h"
 
 
 
@@ -155383,7 +155154,7 @@ class MaterialResourceExtraData : public IResourceExtraData
 public:
  shared_ptr<Material> m_pMaterial;
 
- __forceinline MaterialResourceExtraData();
+ MaterialResourceExtraData();
  virtual string VToString() override;
 };
 
@@ -155396,10 +155167,10 @@ __forceinline MaterialResourceExtraData::MaterialResourceExtraData()
 class MaterialLoader : public IResourceLoader
 {
 public:
- __forceinline virtual string VGetPattern() override;
- __forceinline virtual bool VUseRawFile() override;
- __forceinline virtual bool VNeedFile() override;
- __forceinline virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
+ virtual string VGetPattern() override;
+ virtual bool VUseRawFile() override;
+ virtual bool VNeedFile() override;
+ virtual int VGetLoadedResourceSize(char* pRawBuffer, unsigned int uRawSize) override;
  virtual bool VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle) override;
 
 private:
@@ -155427,7 +155198,7 @@ __forceinline int MaterialLoader::VGetLoadedResourceSize(char* pRawBuffer, unsig
 {
  return 10;
 }
-#line 12 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/Mesh.h"
+#line 12 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/../Renderer/Meshes/Mesh.h"
 
 
 class Mesh : public IMovable
@@ -155444,16 +155215,16 @@ protected:
 
 public:
 
- __forceinline Mesh();
+ Mesh();
  virtual ~Mesh();
 
- __forceinline void SetMaterial(const string & materialName);
+ void SetMaterial(const string & materialName);
 
- __forceinline void BindMaterial();
- __forceinline void BindVertices(unsigned int startSlot, unsigned int offset);
- __forceinline void BindTexCoords(unsigned int startSlot, unsigned int offset);
- __forceinline void BindNormals(unsigned int startSlot, unsigned int offset);
- __forceinline void BindTangents(unsigned int startSlot, unsigned int offset);
+ void BindMaterial();
+ void BindVertices(unsigned int startSlot, unsigned int offset);
+ void BindTexCoords(unsigned int startSlot, unsigned int offset);
+ void BindNormals(unsigned int startSlot, unsigned int offset);
+ void BindTangents(unsigned int startSlot, unsigned int offset);
 
  virtual void SetWorldTransform(const Mat4x4 & transform) override;
 };
@@ -155494,298 +155265,302 @@ __forceinline void Mesh::BindTangents(unsigned int startSlot, unsigned int offse
 {
  m_pTangents->Bind(startSlot, offset);
 }
-#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/IndexedMesh.h"
-
-#line 1 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/SubMesh.h"
+#line 6 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/Representation.h"
 
 
-
-
-class SubMesh
+class Scene;
+class Renderer;
+class EntityRepresentation
 {
+protected:
+
+ typedef vector<shared_ptr<EntityRepresentation>> Representations;
+
+ double m_lastUpdate;
+
+ EntityRepresentationId m_id;
+
+
+ Mat4x4 m_currentWorldMatrix;
+ Vec m_size;
+
+ Representations m_children;
+
+
+ vector<shared_ptr<Mesh>> m_meshes;
+ vector<shared_ptr<Light>> m_lights;
+
 public:
 
- shared_ptr<Material> m_pMaterial;
- int m_firstIndex;
- int m_numIndices;
+ EntityRepresentation(EntityRepresentationId id);
 
- __forceinline SubMesh();
+ EntityRepresentation(EntityRepresentationId id, const Vec & size);
 
- __forceinline void SetMaterial(const string & materialName);
+ EntityRepresentation(EntityRepresentationId id, const string & resourceMeshName);
 
- __forceinline void BindMaterial(unsigned int slot);
- __forceinline void BindMaterialDiffuse(unsigned int slot);
- __forceinline void BindMaterialNormal(unsigned int slot);
- __forceinline void BindMaterialSpecular(unsigned int slot);
+ virtual void VAddChild(shared_ptr<EntityRepresentation> pRep);
+ virtual void VRemoveChild(EntityRepresentation* pRep);
 
- __forceinline void DrawIndexed();
+ virtual void VAddMesh(shared_ptr<Mesh> pMesh);
+ virtual void VAddLight(shared_ptr<Light> pLight);
 
- __forceinline void UnbindMaterial();
- __forceinline void UnBindMaterialDiffuse();
- __forceinline void UnBindMaterialNormal();
- __forceinline void UnBindMaterialSpecular();
+ virtual shared_ptr<EntityRepresentation> VFindChild(EntityRepresentationId id);
+
+
+ virtual void VRender(Scene * pScene, Renderer * pRenderer, double currentTime);
+
+ EntityRepresentationId GetId() const;
+
+ void SetCurrentTransform(const Mat4x4 & mat, double currentTime);
+ void SetSize(float sizex, float sizey, float sizez);
+
+protected:
+
+
+ virtual void VPushParameters(Scene *pScene, double currentTime);
+
+
+ virtual void VSendRenderingData(Scene * pScene, Renderer * pRenderer);
+
+
+ virtual void VPullParameters(Scene * pScene);
 };
 
-__forceinline SubMesh::SubMesh()
- : m_firstIndex{ 0 }, m_numIndices{ 0 }
+__forceinline EntityRepresentation::EntityRepresentation(EntityRepresentationId id)
+ : m_size{ 0.0f, 0.0f, 0.0f, 0.0f }
 {}
 
-__forceinline void SubMesh::SetMaterial(const string & materialName)
-{
- Resource materialResource(materialName);
- shared_ptr<ResHandle> pMaterialHandle = ResourceCache::SafeGetHandle(&materialResource);
- std::shared_ptr<MaterialResourceExtraData> pData = static_pointer_cast<MaterialResourceExtraData>(pMaterialHandle->GetExtra());
+__forceinline EntityRepresentation::EntityRepresentation(EntityRepresentationId id, const Vec & size)
+ : m_size{ 0.0f, 0.0f, 0.0f, 0.0f }, m_id(id), m_lastUpdate{ 0.0 }
+{}
 
- m_pMaterial = pData->m_pMaterial;
+__forceinline EntityRepresentationId EntityRepresentation::GetId() const
+{
+ return m_id;
 }
 
-__forceinline void SubMesh::BindMaterial(unsigned int slot)
+__forceinline void EntityRepresentation::SetSize(float sizex, float sizey, float sizez)
 {
- m_pMaterial->VBind(slot);
+ m_size.x = sizex;
+ m_size.y = sizey;
+ m_size.z = sizez;
 }
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/Root.h"
 
-__forceinline void SubMesh::BindMaterialDiffuse(unsigned int slot)
+
+
+enum RenderPass : unsigned char
 {
- m_pMaterial->BindDiffuse(slot);
-}
-
-__forceinline void SubMesh::BindMaterialNormal(unsigned int slot)
-{
- m_pMaterial->BindNormal(slot);
-}
-
-__forceinline void SubMesh::BindMaterialSpecular(unsigned int slot)
-{
- m_pMaterial->BindSpecular(slot);
-}
-
-__forceinline void SubMesh::DrawIndexed()
-{
- DX11API::D3D11DeviceContext()->DrawIndexed(m_numIndices, m_firstIndex, 0);
-}
-
-__forceinline void SubMesh::UnbindMaterial()
-{
- m_pMaterial->VUnbind();
-}
-
-__forceinline void SubMesh::UnBindMaterialDiffuse()
-{
- m_pMaterial->UnbindDiffuse();
-}
-
-__forceinline void SubMesh::UnBindMaterialNormal()
-{
- m_pMaterial->UnbindNormal();
-}
-
-__forceinline void SubMesh::UnBindMaterialSpecular()
-{
- m_pMaterial->UnbindSpecular();
-}
-#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/../../Renderer/Meshes/IndexedMesh.h"
-
-
-class IndexedMesh : public Mesh
-{
- friend class MeshLoader;
-
-public:
- shared_ptr<IndexBuffer> m_pIndexBuffer;
- vector<shared_ptr<SubMesh>> m_subMeshes;
-
-public:
-
- __forceinline void SetIndexedBuffer();
-
- __forceinline void AddSubMesh(shared_ptr<SubMesh> pSubMesh);
-
- __forceinline void BindIndexBuffer(unsigned int offset);
+ RenderPass_Static,
+ RenderPass_Actors,
+ NUM_RENDER_PASSES,
 };
 
 
-__forceinline void IndexedMesh::AddSubMesh(shared_ptr<SubMesh> pSubMesh)
+class RootRepresentation : public EntityRepresentation
 {
- m_subMeshes.push_back(pSubMesh);
+protected:
+
+ Representations m_passes[NUM_RENDER_PASSES];
+
+public:
+
+ RootRepresentation();
+
+ virtual void VAddChild(shared_ptr<EntityRepresentation> pRep, RenderPass pass, EntityRepresentationId parentId);
+ virtual void VRemoveChild(EntityRepresentation* pRep) override;
+
+ virtual shared_ptr<EntityRepresentation> VFindChild(EntityRepresentationId id) override;
+ EntityRepresentation* FindChild(EntityRepresentationId id, RenderPass pass);
+
+ virtual void VRender(Scene * pScene, Renderer * pRenderer, double currentTime) override;
+
+};
+
+__forceinline RootRepresentation::RootRepresentation()
+ : EntityRepresentation{ 0 }
+{}
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/../../Scene/Scene.h"
+
+
+class Scene
+{
+protected:
+ MatrixStack m_transforms;
+
+ unique_ptr<RootRepresentation> m_pRoot;
+
+ typedef vector<shared_ptr<EntityRepresentation>> StaticObjects;
+ StaticObjects m_staticObjects;
+
+ float m_fixedTimeStep;
+
+public:
+
+ Scene();
+
+ virtual void VUpdate(double time, double elapsedTime);
+
+ virtual void VRender(Renderer * pRenderer, double currentTime);
+
+
+ shared_ptr<EntityRepresentation> GetRepresentation(EntityRepresentationId id);
+ void AddRepresentation(shared_ptr<EntityRepresentation> pRepresentation, RenderPass pass = RenderPass_Actors, EntityRepresentationId parentId = 0);
+
+ void AddStaticObject(shared_ptr<EntityRepresentation> pStatic);
+
+
+ void PushTransform(const Mat4x4 & mat);
+
+
+ const Mat4x4 & GetTransform() const;
+
+
+ void PopTransform();
+
+
+
+
+ double GetFixedTimeStep() const;
+};
+
+__forceinline Scene::Scene()
+{
+ m_pRoot = make_unique<RootRepresentation>();
+ m_fixedTimeStep = 0.0333f;
 }
 
-__forceinline void IndexedMesh::BindIndexBuffer(unsigned int offset)
+__forceinline shared_ptr<EntityRepresentation> Scene::GetRepresentation(EntityRepresentationId id)
 {
- m_pIndexBuffer->Bind(offset);
-}
-#line 11 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp"
-
-
-string MeshResourceExtraData::VToString()
-{
- return "MeshResourceExtraData";
+ return m_pRoot->VFindChild(id);
 }
 
-bool MeshLoader::VLoadResource(char* pRawBuffer, unsigned int uRawSize, shared_ptr<ResHandle> pHandle)
+__forceinline void Scene::AddRepresentation(shared_ptr<EntityRepresentation> pRepresentation, RenderPass pass, EntityRepresentationId parentId)
 {
- auto pExtra = make_shared<MeshResourceExtraData>();
- pHandle->SetExtra(pExtra);
+ m_pRoot->VAddChild(pRepresentation, pass, parentId);
+}
 
- pExtra->m_pMesh = make_shared<IndexedMesh>();
+__forceinline void Scene::AddStaticObject(shared_ptr<EntityRepresentation> pStatic)
+{
+ m_staticObjects.push_back(pStatic);
+}
 
- FILE *file;
- fopen_s(&file, pRawBuffer, "rb");
- if (!file)
+__forceinline void Scene::PushTransform(const Mat4x4 & mat)
+{
+ m_transforms.PushTransform(mat);
+}
+
+__forceinline const Mat4x4 & Scene::GetTransform() const
+{
+ return m_transforms.Get();
+}
+
+__forceinline void Scene::PopTransform()
+{
+ m_transforms.Pop();
+}
+
+__forceinline double Scene::GetFixedTimeStep() const
+{
+ return m_fixedTimeStep;
+}
+#line 3 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/State.h"
+
+
+
+
+
+class Game;
+class State
+{
+ friend class StateMachine;
+
+protected:
+
+
+ __int64 m_time;
+
+
+ int m_id;
+
+
+ shared_ptr<Scene> m_pScene;
+
+public:
+
+
+ State();
+
+
+
+
+
+ virtual void VInitialize(Game * pGame, UINT_PTR uptrData = 0) = 0;
+
+ virtual void VUpdate(Game * pGame, double time, double elapsedTime) = 0;
+
+ virtual void VRender(Game * pGame, Renderer * pRenderer, double r64Time, double r64ElapsedTime) = 0;
+};
+
+__forceinline State::State()
+{
+ m_pScene = make_unique<Scene>();
+}
+#line 4 "D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/Game/GameStateMachine/StateMachine.cpp"
+
+
+void StateMachine::Release(Game * pGame)
+{
+ ReleaseCurrentState(pGame);
+}
+
+bool StateMachine::SetState(Game * pGame, State * pState, int stateId)
+{
+
+ if (!ReleaseCurrentState(pGame))
   return false;
 
 
- char idString[5];
- memset(idString, 0, 5);
- fread(idString, sizeof(char), 4, file);
- if (strcmp(idString, "DMSH") != 0)
- {
-  fclose(file);
-  return false;
- }
+ m_pCurrentState = pState;
 
 
- int version;
- fread(&version, sizeof(int), 1, file);
- if (version != 1)
- {
-  fclose(file);
-  return false;
- }
+ if (!pState)
+  return true;
 
 
- int numVertices;
- fread(&numVertices, sizeof(int), 1, file);
- if (numVertices < 3)
- {
-  fclose(file);
-  return false;
- }
-
- struct GEOMETRY_VERTEX
- {
-  float3 position;
-  float2 texCoords;
-  float3 normal;
-  Vec tangent;
- };
-
- GEOMETRY_VERTEX *vertices = new GEOMETRY_VERTEX[numVertices];
- if (!vertices)
- {
-  fclose(file);
-  return false;
- }
- fread(vertices, sizeof(GEOMETRY_VERTEX), numVertices, file);
+ m_pCurrentState->m_id = stateId;
 
 
- float3* pos = new float3[numVertices];
- float2* texCoords = new float2[numVertices];
- float3* normals = new float3[numVertices];
- Vec* tangents = new Vec[numVertices];
-
- for (auto i = 0; i < numVertices; ++i)
- {
-  pos[i] = vertices[i].position;
-  texCoords[i] = vertices[i].texCoords;
-  normals[i] = vertices[i].normal;
-  tangents[i] = vertices[i].tangent;
- }
-
- BufferParams params;
- params.FillVertexBufferParams(sizeof(float3), numVertices, true, false, false, false);
-
- SubresourceData data;
- data.SetData(pos);
-
- pExtra->m_pMesh->m_pVertices = make_shared<VertexBuffer>();
- if (!pExtra->m_pMesh->m_pVertices->Create(params, &data, numVertices, sizeof(float3)))
- {
-  (void)( (!!(0 && "Error creating vertex buffer!")) || (_wassert(L"0 && \"Error creating vertex buffer!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp", 97), 0) );
- }
-
- params.FillVertexBufferParams(sizeof(float2), numVertices, true, false, false, false);
- data.SetData(texCoords);
-
- pExtra->m_pMesh->m_pTexCoords = make_shared<VertexBuffer>();
- if (!pExtra->m_pMesh->m_pTexCoords->Create(params, &data, numVertices, sizeof(float2)))
- {
-  (void)( (!!(0 && "Error creating vertex buffer!")) || (_wassert(L"0 && \"Error creating vertex buffer!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp", 106), 0) );
- }
-
- params.FillVertexBufferParams(sizeof(float3), numVertices, true, false, false, false);
- data.SetData(normals);
-
- pExtra->m_pMesh->m_pNormals = make_shared<VertexBuffer>();
- if (!pExtra->m_pMesh->m_pNormals->Create(params, &data, numVertices, sizeof(float3)))
- {
-  (void)( (!!(0 && "Error creating vertex buffer!")) || (_wassert(L"0 && \"Error creating vertex buffer!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp", 115), 0) );
- }
-
- params.FillVertexBufferParams(sizeof(Vec), numVertices, true, false, false, false);
- data.SetData(tangents);
-
- pExtra->m_pMesh->m_pTangents = make_shared<VertexBuffer>();
- if (!pExtra->m_pMesh->m_pTangents->Create(params, &data, numVertices, sizeof(Vec)))
- {
-  (void)( (!!(0 && "Error creating vertex buffer!")) || (_wassert(L"0 && \"Error creating vertex buffer!\"", L"D:/Users/Dgek/Desktop/Dgek/GameEngine/GameEngine/GameEngine/Source/ResourceManager/Loaders/MeshLoader.cpp", 124), 0) );
- }
-
- if (tangents) delete [] tangents; tangents=0;;
- if (normals) delete [] normals; normals=0;;
- if (texCoords) delete [] texCoords; texCoords=0;;
- if (pos) delete [] pos; pos=0;;
- if (vertices) delete [] vertices; vertices=0;;
-
-
- int numIndices;
- fread(&numIndices, sizeof(int), 1, file);
- if (numIndices<3)
- {
-  fclose(file);
-  return false;
- }
-
-
- int *indices = new int[numIndices];
- if (!indices)
- {
-  fclose(file);
-  return false;
- }
- fread(indices, sizeof(int), numIndices, file);
-
- params.FillIndexBufferParams(sizeof(int), numIndices, true, false, false, false);
- data.SetData(indices);
-
- pExtra->m_pMesh->m_pIndexBuffer = make_shared<IndexBuffer>();
- pExtra->m_pMesh->m_pIndexBuffer->Create(params, &data, numIndices, sizeof(int));
-
- if (indices) delete [] indices; indices=0;;
-
-
- int numSubMeshes;
- fread(&numSubMeshes, sizeof(int), 1, file);
- if (numSubMeshes<1)
- {
-  fclose(file);
-  return false;
- }
-
-
- pExtra->m_pMesh->m_subMeshes.reserve(numSubMeshes);
- pExtra->m_uNumMeshes = numSubMeshes;
- for (int i = 0; i < numSubMeshes; ++i)
- {
-  auto pMesh = make_shared<SubMesh>();
-  char materialName[256];
-  fread(materialName, sizeof(char), 256, file);
-  pMesh->SetMaterial(materialName);
-
-  fread(&pMesh->m_firstIndex, sizeof(int), 1, file);
-  fread(&pMesh->m_numIndices, sizeof(int), 1, file);
-
-  pExtra->m_pMesh->AddSubMesh(pMesh);
- }
+ m_pCurrentState->VInitialize(pGame);
 
  return true;
+}
+
+bool StateMachine::ReleaseCurrentState(Game * pGame)
+{
+
+ if (!m_pCurrentState)
+  return true;
+
+
+ delete m_pCurrentState;
+
+
+ m_pCurrentState = nullptr;
+
+ return true;
+}
+
+
+
+
+void StateMachine::VUpdate(Game * pGame, double time, double elapsedTime)
+{
+ if (m_pCurrentState)
+  m_pCurrentState->VUpdate(pGame, time, elapsedTime);
+}
+void StateMachine::VRender(Game * pGame, Renderer * pRenderer, double time, double elapsedTime)
+{
+ if (m_pCurrentState)
+  m_pCurrentState->VRender(pGame, pRenderer, time, elapsedTime);
 }

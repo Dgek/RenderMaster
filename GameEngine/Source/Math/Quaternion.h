@@ -18,6 +18,7 @@ public:
 	Quaternion(float3 axis, float angleInRad);
 
 	static Quaternion CreateFromEuler(const Vec & euler);
+	static Quaternion Slerp(const Quaternion & q0, Quaternion & q1, float t);
 
 	Vec Euler() const;
 
@@ -50,6 +51,8 @@ public:
 	bool operator==(const Quaternion & v) const;
 
 	bool operator!=(const Quaternion & v) const;
+
+	const Quaternion & operator=(const Quaternion & q);
 
 	const Quaternion & Normalize();
 
@@ -167,6 +170,19 @@ __forceinline bool Quaternion::operator!=(const Quaternion & v) const
 	return (x != v.x || y != v.y || z != v.z || w != v.w);
 }
 
+__forceinline const Quaternion & Quaternion::operator=(const Quaternion & q)
+{
+	if (this != &q)
+	{
+		x = q.x;
+		y = q.y;
+		z = q.z;
+		w = q.w;
+	}
+
+	return *this;
+}
+
 __forceinline const Quaternion & Quaternion::Inverse()
 {
 	return Quaternion{ -x, -y, -z, w };
@@ -197,4 +213,41 @@ __forceinline bool Quaternion::ContainsNan() const
 		|| _isnan(y) || _finite(y)
 		|| _isnan(z) || _finite(z)
 		|| _isnan(w) || _finite(w));
+}
+
+__forceinline float Dot4(const Quaternion & v1, const Quaternion & v2)
+{
+	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
+}
+
+__forceinline Quaternion Quaternion::Slerp(const Quaternion & q0, Quaternion & q1, float t)
+{
+	auto cosOmega = Dot4(q0, q1);
+
+	if (cosOmega < 0.0f)
+	{
+		q1 = -q1;
+		cosOmega *= -1;
+	}
+
+	//if very close just use linear interpolation
+	float k0, k1;
+	if (cosOmega > 0.9999f)
+	{
+		k0 = 1.0f - t;
+		k1 = t;
+	}
+	else
+	{
+		auto sinOmega = Math::Sqrt(1.0f - cosOmega * cosOmega);
+
+		auto omega = Math::Atan2(sinOmega, cosOmega);
+
+		auto invSinOmega = 1.0f / sinOmega;
+
+		k0 = Math::Sin((1.0f - t)*omega)*invSinOmega;
+		k1 = Math::Sin(t*omega) *invSinOmega;
+	}
+
+	return Quaternion{ q0.x*k0 + q1.x*k1, q0.y*k0 + q1.y*k1, q0.z*k0 + q1.z*k1, q0.w*k0 + q1.w*k1 };
 }

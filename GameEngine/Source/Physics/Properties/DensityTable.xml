@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DensityTable>
+  <!-- Common densities -->
+  <water>1.000</water>
+  <air>0.0013</air>
+
+  <!-- Metals and Stone -->
+  <aluminum>2.650</aluminum>
+  <silicon>2.400</silicon>
+
+  <!-- Biologic -->
+  <blood>1.060</blood>
+  <bone>1.800</bone>
+  
+  <!-- Woods -->
+  <balsa>0.00170</balsa>
+  <bamboo>0.3500</bamboo>
+  <pine>0.5000</pine>
+
+  <!-- Synthetics -->
+  <styrofoam>0.0100</styrofoam>
+
+</DensityTable>

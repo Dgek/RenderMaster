@@ -112,6 +112,12 @@
     <Filter Include="Renderer\Materials">
       <UniqueIdentifier>{9fd83022-f199-449a-865c-96ec75f20d6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics\Havok">
+      <UniqueIdentifier>{288538af-8e0d-487c-847f-61ca20828b2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Properties">
+      <UniqueIdentifier>{97f321d4-fd0d-4ac9-9b26-bd0c255e7596}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Math\float3.h">
@@ -389,6 +395,18 @@
     <ClInclude Include="Source\Math\Collision.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Physics\Havok\Havok.h">
+      <Filter>Physics\Havok</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Messenger\Message.h">
+      <Filter>Messenger</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Messenger\MessageHandler.h">
+      <Filter>Messenger</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Help\HashedString.h">
+      <Filter>Help\Strings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\App.cpp">
@@ -551,5 +569,22 @@
     <ClCompile Include="Source\Graphics\Stages\Shaders\HullShader.cpp">
       <Filter>Graphics\DX11\Stages\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Physics\Havok\Havok.cpp">
+      <Filter>Physics\Havok</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Help\HashedString.cpp">
+      <Filter>Help\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Messenger\Messenger.cpp">
+      <Filter>Messenger</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Source\Physics\Properties\DensityTable.xml">
+      <Filter>Physics\Properties</Filter>
+    </Xml>
+    <Xml Include="Source\Physics\Properties\Materials.xml">
+      <Filter>Physics\Properties</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

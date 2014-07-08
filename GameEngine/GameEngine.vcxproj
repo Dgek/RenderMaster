@@ -49,6 +49,7 @@
       <AdditionalIncludeDirectories>D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>Core.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>Core.pch</PrecompiledHeaderOutputFile>
+      <AdditionalUsingDirectories>D:\Users\Dgek\Desktop\Dgek\ThirdParty\havok\Source;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -67,6 +68,7 @@
       <PrecompiledHeaderFile>Core.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>Core.pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalUsingDirectories>D:\Users\Dgek\Desktop\Dgek\ThirdParty\havok\Source;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,6 +128,7 @@
     <ClInclude Include="Source\Graphics\States\DepthStencilState.h" />
     <ClInclude Include="Source\Graphics\States\RasterizerState.h" />
     <ClInclude Include="Source\Graphics\States\SamplerState.h" />
+    <ClInclude Include="Source\Help\HashedString.h" />
     <ClInclude Include="Source\Help\Strings\Strings.h" />
     <ClInclude Include="Source\Input\Controllers.h" />
     <ClInclude Include="Source\Input\Devices.h" />
@@ -140,7 +143,10 @@
     <ClInclude Include="Source\Math\Quaternion.h" />
     <ClInclude Include="Source\Math\SphericalHarmonics.h" />
     <ClInclude Include="Source\Math\Vector.h" />
+    <ClInclude Include="Source\Messenger\Message.h" />
+    <ClInclude Include="Source\Messenger\MessageHandler.h" />
     <ClInclude Include="Source\Messenger\Messenger.h" />
+    <ClInclude Include="Source\Physics\Havok\Havok.h" />
     <ClInclude Include="Source\Physics\NullPhysics.h" />
     <ClInclude Include="Source\Physics\PhysicsInterfaces.h" />
     <ClInclude Include="Source\Renderer\Cameras\Camera.h" />
@@ -205,10 +211,13 @@
     <ClCompile Include="Source\Graphics\Stages\Shaders\HullShader.cpp" />
     <ClCompile Include="Source\Graphics\Stages\Shaders\PixelShader.cpp" />
     <ClCompile Include="Source\Graphics\Stages\Shaders\VertexShader.cpp" />
+    <ClCompile Include="Source\Help\HashedString.cpp" />
     <ClCompile Include="Source\Help\Strings\Strings.cpp" />
     <ClCompile Include="Source\Math\Geometry\Frustum.cpp" />
     <ClCompile Include="Source\Math\Geometry\Plane.cpp" />
     <ClCompile Include="Source\Math\Vector.cpp" />
+    <ClCompile Include="Source\Messenger\Messenger.cpp" />
+    <ClCompile Include="Source\Physics\Havok\Havok.cpp" />
     <ClCompile Include="Source\Renderer\Cameras\Camera.cpp" />
     <ClCompile Include="Source\Renderer\Lights\DirectionalLight.cpp" />
     <ClCompile Include="Source\Renderer\Lights\Light.cpp" />
@@ -231,6 +240,16 @@
     <ClCompile Include="Source\Scene\Representation.cpp" />
     <ClCompile Include="Source\Scene\Root.cpp" />
     <ClCompile Include="Source\Scene\Scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Source\Physics\Properties\DensityTable.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Xml>
+    <Xml Include="Source\Physics\Properties\Materials.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Xml>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
