@@ -42,6 +42,8 @@ struct ps_input
 	float3 binormal : BINORMAL;
 };
 
+#define Pi 3.14159265f
+
 #define pixels_in_tile 16
 #define num_tiles 3600
 
@@ -82,8 +84,6 @@ float BlinnPhongSpecular(in float specPower, in float n_dot_h)
 
 float TrowbridgeReitzSpecular(in float smoothness, in float n_dot_h)
 {
-	const float Pi = 3.14159265f;
-
 	float roughness = 1.0f - smoothness;
 
 	return (roughness * roughness) / (Pi * pow((n_dot_h * n_dot_h * (roughness * roughness - 1) + 1), 2.0f));
@@ -91,9 +91,8 @@ float TrowbridgeReitzSpecular(in float smoothness, in float n_dot_h)
 
 float ShlickVisibility(in float specPower, in float n_dot_l, in float n_dot_v)
 {
-	const float Pi = 3.14159265f;
-	float PI_OVER_TWO = Pi / 2.0f;
-	float PI_OVER_FOUR = Pi / 4.0f;
+	const float PI_OVER_TWO = Pi * 0.5f;
+	const float PI_OVER_FOUR = Pi * 0.25f;
 
 	float alpha = 1 / sqrt(PI_OVER_FOUR * specPower + PI_OVER_TWO);
 	return 0.5f / ((n_dot_l * (1.0f - alpha) + alpha) * (n_dot_v * (1.0f - alpha) + alpha));
@@ -108,8 +107,6 @@ float3 PhysicallyBasedLightning(in float3 position,
 	in float smoothness,
 	in LightParams light)
 {
-	const float Pi = 3.14159265f;
-
 	//get inverse light direction
 	float3 l;
 	if (light.color.w == 3)
